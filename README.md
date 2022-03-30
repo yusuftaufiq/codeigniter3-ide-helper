@@ -1,0 +1,1 @@
+# codeigniter3-ide-helper
