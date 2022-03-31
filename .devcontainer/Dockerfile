@@ -10,8 +10,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Install dependencies.
 RUN apt-get update \
-    && apt-get install -y sudo \
-    && apt-get install -y git
+    && apt-get install -y sudo git zip unzip
 
 # Create the user.
 RUN groupadd --gid $USER_GID $USERNAME \
