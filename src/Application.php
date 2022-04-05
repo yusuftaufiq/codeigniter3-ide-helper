@@ -2,6 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper;
 
+use DI\ContainerBuilder;
+use Haemanthus\CodeIgniter3IdeHelper\Commands\Generate;
+use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
 use Silly\Application as SillyApplication;
 
 class Application
@@ -17,9 +20,21 @@ class Application
      */
     protected $app;
 
+    /**
+     * Undocumented variable
+     *
+     * @var \DI\Container
+     */
+    protected $container;
+
     public function __construct()
     {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions(AppServiceProvider::register());
+
         $this->app = new SillyApplication(static::APP_NAME, static::APP_VERSION);
+        $this->container = $builder->build();
+        $this->app->useContainer($this->container, true);
     }
 
     /**
@@ -29,6 +44,10 @@ class Application
      */
     public function registerCommands()
     {
+        $this->app
+            ->command(Generate::$expression, $this->container->call(Generate::class))
+            ->descriptions(Generate::$description, Generate::$options);
+
         return $this;
     }
 
