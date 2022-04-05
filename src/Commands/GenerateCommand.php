@@ -7,7 +7,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Services\ParserService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\WriterService;
 use League\Pipeline\Pipeline;
 
-class Generate
+class GenerateCommand
 {
     /**
      * Undocumented variable
