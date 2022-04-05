@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+switch (true) {
+    case isset($_composer_autoload_path):
+        $autoload = $_composer_autoload_path;
+        break;
+
+    case file_exists(__DIR__ . '/../vendor/autoload.php'):
+        $autoload = __DIR__ . '/../vendor/autoload.php';
+        break;
+
+    default:
+        $autoload = __DIR__ . '/../../vendor/autoload.php';
+        break;
+}
+
+require_once $autoload;

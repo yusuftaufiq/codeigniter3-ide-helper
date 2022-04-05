@@ -25,6 +25,9 @@
             "email": "dev.yusuftaufiq@gmail.com"
         }
     ],
+    "bin": [
+        "bin/ide-helper"
+    ],
     "minimum-stability": "stable",
     "homepage": "https://github.com/yusuftaufiq/codeigniter3-ide-helper"
 }
