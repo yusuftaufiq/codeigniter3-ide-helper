@@ -16,3 +16,7 @@ switch (true) {
 }
 
 require_once $autoload;
+
+(new \Haemanthus\CodeIgniter3IdeHelper\Application())
+    ->registerCommands()
+    ->run();
