@@ -89,5 +89,10 @@ class GenerateCommand
         $model = [],
         $output = './ide-helper.php'
     ) {
+        $this->readerService->setDirectory($dir);
+
+        $autoloadFile = $this->readerService->getAutoloadFile();
+        $controllerFiles = $this->readerService->getControllerFiles($controller);
+        $modelFiles = $this->readerService->getModelFiles($model);
     }
 }
