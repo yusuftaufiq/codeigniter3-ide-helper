@@ -45,7 +45,7 @@ class Application
     public function registerCommands()
     {
         $this->app
-            ->command(GenerateCommand::$expression, $this->container->call(GenerateCommand::class))
+            ->command(GenerateCommand::$expression, $this->container->make(GenerateCommand::class))
             ->descriptions(GenerateCommand::$description, GenerateCommand::$options);
 
         return $this;
