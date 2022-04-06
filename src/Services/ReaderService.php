@@ -53,7 +53,7 @@ class ReaderService
             ->setPattern($pattern)
             ->getFiles();
 
-        return iterator_to_array($files);
+        return iterator_to_array($files, false);
     }
 
     /**
