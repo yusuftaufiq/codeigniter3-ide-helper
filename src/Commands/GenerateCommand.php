@@ -5,7 +5,6 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Commands;
 use Haemanthus\CodeIgniter3IdeHelper\Services\ReaderService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\ParserService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\WriterService;
-use League\Pipeline\Pipeline;
 
 class GenerateCommand
 {
@@ -14,7 +13,7 @@ class GenerateCommand
      *
      * @var string $expression
      */
-    public static $expression = 'generate [--dir=] [--controllers=] [--models=] [--filename=]';
+    public static $expression = 'generate [-d|--dir=] [-c|--controller=]* [-m|--model=]* [-o|--output=]';
 
     /**
      * Undocumented variable
@@ -30,9 +29,9 @@ class GenerateCommand
      */
     public static $options = [
         '--dir' => 'CodeIgniter 3 root directory',
-        '--controllers' => 'Only generates IDE helper for the selected controllers',
-        '--models' => 'Only generates IDE helper for the selected models',
-        '--filename' => 'Output filename'
+        '--controller' => 'Pattern in string or regex to match controller files',
+        '--model' => 'Pattern in string or regex to match model files',
+        '--output' => 'Output filename'
     ];
 
     /**
@@ -73,29 +72,6 @@ class GenerateCommand
         $this->writerService = $writerService;
     }
 
-    protected function getParsedControllerClasses(array $controllers)
-    {
-        return (new Pipeline())
-            ->pipe([$this->readerService, 'getControllerClasses'])
-            ->pipe([$this->parserService, 'parseClasses'])
-            ->process($controllers);
-    }
-
-    protected function getParsedModelClasses(array $models)
-    {
-        return (new Pipeline())
-            ->pipe([$this->readerService, 'getModelClasses'])
-            ->pipe([$this->parserService, 'parseClasses'])
-            ->process($models);
-    }
-
-    protected function getParsedCoreClasses()
-    {
-        return (new Pipeline())
-            ->pipe([$this->parserService, 'parseClasses'])
-            ->process($this->readerService->getCoreClasses());
-    }
-
     /**
      * Undocumented function
      *
@@ -109,18 +85,9 @@ class GenerateCommand
      */
     public function __invoke(
         $dir = './',
-        $controllers = '*',
-        $models = '*',
-        $filename = './ide-helper.php'
+        $controller = [],
+        $model = [],
+        $output = './ide-helper.php'
     ) {
-        $this->readerService->setDirectory($dir);
-
-        $parsedCoreClasses = $this->getParsedCoreClasses();
-        $parsedControllerClasses = $this->getParsedControllerClasses($controllers);
-        $parsedModelClasses = $this->getParsedModelClasses($models);
-
-        $this->writerService
-            ->write($parsedCoreClasses, $parsedControllerClasses, $parsedModelClasses)
-            ->saveTo($filename);
     }
 }
