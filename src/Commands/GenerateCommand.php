@@ -84,10 +84,10 @@ class GenerateCommand
      * @return void
      */
     public function __invoke(
-        $dir = './',
+        $dir = '/./',
         $controller = [],
         $model = [],
-        $output = './ide-helper.php'
+        $output = '/./ide-helper.php'
     ) {
         $this->readerService->setDirectory($dir);
 
