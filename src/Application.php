@@ -30,7 +30,7 @@ class Application
     public function __construct()
     {
         $builder = new ContainerBuilder();
-        $builder->addDefinitions(AppServiceProvider::register());
+        $builder->addDefinitions(AppServiceProvider::definitions());
 
         $this->app = new SillyApplication(static::APP_NAME, static::APP_VERSION);
         $this->container = $builder->build();

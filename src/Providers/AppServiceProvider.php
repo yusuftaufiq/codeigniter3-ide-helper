@@ -7,7 +7,7 @@ use Symfony\Component\Finder\Finder;
 
 class AppServiceProvider
 {
-    public static function register()
+    public static function definitions()
     {
         return [
             Finder::class => \DI\object(Finder::class)->scope(Scope::PROTOTYPE),

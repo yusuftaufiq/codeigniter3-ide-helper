@@ -18,7 +18,7 @@ abstract class AbstractFileReader
      *
      * @var string $path
      */
-    protected $path = './application/';
+    protected $path = '/./application/';
 
     /**
      * Undocumented variable
@@ -39,7 +39,7 @@ abstract class AbstractFileReader
         return $this;
     }
 
-    public function getFullPath()
+    protected function getFullPath()
     {
         return getcwd() . $this->dir . $this->path;
     }
