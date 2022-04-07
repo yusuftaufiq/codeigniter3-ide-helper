@@ -2,31 +2,44 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper;
 
+use DI\Container;
 use DI\ContainerBuilder;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
 use Silly\Application as SillyApplication;
 
+/**
+ * Undocumented class
+ */
 class Application
 {
-    const APP_NAME = 'CodeIgniter 3 IDE Helper';
+    /**
+     * Undocumented constant
+     */
+    protected const APP_NAME = 'CodeIgniter 3 IDE Helper';
 
-    const APP_VERSION = '0.1.0';
+    /**
+     * Undocumented constant
+     */
+    protected const APP_VERSION = '0.1.0';
 
     /**
      * Undocumented variable
      *
      * @var \Silly\Application
      */
-    protected $app;
+    protected SillyApplication $app;
 
     /**
      * Undocumented variable
      *
      * @var \DI\Container
      */
-    protected $container;
+    protected Container $container;
 
+    /**
+     * Undocumented function
+     */
     public function __construct()
     {
         $builder = new ContainerBuilder();
@@ -42,7 +55,7 @@ class Application
      *
      * @return $this
      */
-    public function registerCommands()
+    public function registerCommands(): self
     {
         $this->app
             ->command(GenerateCommand::$expression, $this->container->make(GenerateCommand::class))
@@ -56,7 +69,7 @@ class Application
      *
      * @return $this
      */
-    public function run()
+    public function run(): self
     {
         $this->app->run();
 

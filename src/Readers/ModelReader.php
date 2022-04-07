@@ -2,6 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
+/**
+ * Undocumented class
+ */
 class ModelReader extends ControllerReader
 {
     /**
@@ -9,5 +12,5 @@ class ModelReader extends ControllerReader
      *
      * @var string $path
      */
-    protected $path = './application/models/';
+    protected string $path = './application/models/';
 }

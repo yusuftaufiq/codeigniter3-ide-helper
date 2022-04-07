@@ -2,6 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
+/**
+ * Undocumented class
+ */
 class AutoloadReader extends AbstractFileReader
 {
     /**
@@ -9,9 +12,14 @@ class AutoloadReader extends AbstractFileReader
      *
      * @var string $path
      */
-    protected $path = './application/config/';
+    protected string $path = './application/config/';
 
-    public function getFiles()
+    /**
+     * Undocumented function
+     *
+     * @return array<\Symfony\Component\Finder\SplFileInfo>
+     */
+    public function getFiles(): array
     {
         $this->finder
             ->files()

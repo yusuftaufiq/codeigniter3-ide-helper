@@ -2,15 +2,19 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Providers;
 
-use DI\Scope;
-use Symfony\Component\Finder\Finder;
-
+/**
+ * Undocumented class
+ */
 class AppServiceProvider
 {
-    public static function definitions()
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
+    public static function definitions(): array
     {
         return [
-            Finder::class => \DI\object(Finder::class)->scope(Scope::PROTOTYPE),
         ];
     }
 }

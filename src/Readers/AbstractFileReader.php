@@ -2,8 +2,12 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
+use Haemanthus\CodeIgniter3IdeHelper\Factories\FinderFactory;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Undocumented class
+ */
 abstract class AbstractFileReader
 {
     /**
@@ -11,38 +15,59 @@ abstract class AbstractFileReader
      *
      * @var string
      */
-    protected $dir = '/./';
+    protected string $dir = '/./';
 
     /**
      * Undocumented variable
      *
      * @var string $path
      */
-    protected $path = '/./application/';
+    protected string $path = '/./application/';
 
     /**
      * Undocumented variable
      *
      * @var \Symfony\Component\Finder\Finder
      */
-    protected $finder;
+    protected Finder $finder;
 
-    public function __construct(Finder $finder)
+    /**
+     * Undocumented function
+     *
+     * @param \Haemanthus\CodeIgniter3IdeHelper\Factories\FinderFactory $finder
+     */
+    public function __construct(FinderFactory $finder)
     {
-        $this->finder = $finder;
+        $this->finder = $finder->create();
     }
 
-    public function setDirectory($dir)
+    /**
+     * Undocumented function
+     *
+     * @param string $dir
+     * @return self
+     */
+    public function setDirectory(string $dir): self
     {
         $this->dir = $dir;
 
         return $this;
     }
 
-    protected function getFullPath()
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    protected function getFullPath(): string
     {
         return getcwd() . $this->dir . $this->path;
     }
 
-    abstract public function getFiles();
+    /**
+     * Undocumented function
+     *
+     * @return array<\Symfony\Component\Finder\SplFileInfo>
+     */
+    abstract public function getFiles(): array;
 }

@@ -6,6 +6,9 @@ use Haemanthus\CodeIgniter3IdeHelper\Services\ReaderService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\ParserService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\WriterService;
 
+/**
+ * Undocumented class
+ */
 class GenerateCommand
 {
     /**
@@ -13,21 +16,21 @@ class GenerateCommand
      *
      * @var string $expression
      */
-    public static $expression = 'generate [-d|--dir=] [-c|--controller=]* [-m|--model=]* [-o|--output=]';
+    public static string $expression = 'generate [-d|--dir=] [-c|--controller=]* [-m|--model=]* [-o|--output=]';
 
     /**
      * Undocumented variable
      *
      * @var string $expression
      */
-    public static $description = 'Generate IDE Helper files';
+    public static string $description = 'Generate IDE Helper files';
 
     /**
      * Undocumented variable
      *
      * @var array<string, string> $options
      */
-    public static $options = [
+    public static array $options = [
         '--dir' => 'CodeIgniter 3 root directory',
         '--controller' => 'Pattern in string or regex to match controller files',
         '--model' => 'Pattern in string or regex to match model files',
@@ -39,21 +42,21 @@ class GenerateCommand
      *
      * @var \Haemanthus\CodeIgniter3IdeHelper\Services\ReaderService $readerService
      */
-    protected $readerService;
+    protected ReaderService $readerService;
 
     /**
      * Undocumented variable
      *
-     * @var \Haemanthus\CodeIgniter3IdeHelper\Services\PraserService $parserService
+     * @var \Haemanthus\CodeIgniter3IdeHelper\Services\ParserService $parserService
      */
-    protected $parserService;
+    protected ParserService $parserService;
 
     /**
      * Undocumented variable
      *
      * @var \Haemanthus\CodeIgniter3IdeHelper\Services\WriterService $writerService
      */
-    protected $writerService;
+    protected WriterService $writerService;
 
     /**
      * Undocumented function
@@ -88,11 +91,15 @@ class GenerateCommand
         $controller = [],
         $model = [],
         $output = '/./ide-helper.php'
-    ) {
+    ): void {
         $this->readerService->setDirectory($dir);
 
         $autoloadFile = $this->readerService->getAutoloadFile();
         $controllerFiles = $this->readerService->getControllerFiles($controller);
         $modelFiles = $this->readerService->getModelFiles($model);
+
+        var_dump($autoloadFile->getFilename());
+        var_dump($controllerFiles[0]->getContents());
+        var_dump($modelFiles[0]->getContents());
     }
 }
