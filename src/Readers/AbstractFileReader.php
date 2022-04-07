@@ -4,21 +4,14 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
 use Symfony\Component\Finder\Finder;
 
-class FileReader
+abstract class AbstractFileReader
 {
     /**
      * Undocumented variable
      *
      * @var string
      */
-    protected $dir = './';
-
-    /**
-     * Undocumented variable
-     *
-     * @var array
-     */
-    protected $pattern = [];
+    protected $dir = '/./';
 
     /**
      * Undocumented variable
@@ -46,36 +39,10 @@ class FileReader
         return $this;
     }
 
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    public function setPattern($pattern)
-    {
-        $this->pattern = $pattern;
-
-        return $this;
-    }
-
     public function getFullPath()
     {
         return getcwd() . $this->dir . $this->path;
     }
 
-    public function getFiles()
-    {
-        array_walk($this->pattern, function ($pattern) {
-            $this->finder->path($pattern);
-        });
-
-        $this->finder
-            ->files()
-            ->name('*.php')
-            ->in($this->getFullPath());
-
-        return $this->finder;
-    }
+    abstract public function getFiles();
 }
