@@ -16,7 +16,7 @@ class GenerateCommand
      *
      * @var string $expression
      */
-    public static string $expression = 'generate [-d|--dir=] [-c|--controller=]* [-m|--model=]* [-o|--output=]';
+    public static string $expression = 'generate [--dir=] [--core=]* [--controller=]* [--model=]* [--output=]';
 
     /**
      * Undocumented variable
@@ -32,6 +32,7 @@ class GenerateCommand
      */
     public static array $options = [
         '--dir' => 'CodeIgniter 3 root directory',
+        '--core' => 'Pattern in string or regex to match core files',
         '--controller' => 'Pattern in string or regex to match controller files',
         '--model' => 'Pattern in string or regex to match model files',
         '--output' => 'Output filename'
@@ -78,16 +79,17 @@ class GenerateCommand
     /**
      * Undocumented function
      *
-     * @param bool $write
-     * @param bool $writeMixin
      * @param string $dir
-     * @param string $controllers
-     * @param string $models
+     * @param string $core
+     * @param string $controller
+     * @param string $model
+     * @param string $output
      *
      * @return void
      */
     public function __invoke(
         $dir = '/./',
+        $core = [],
         $controller = [],
         $model = [],
         $output = '/./ide-helper.php'
@@ -95,10 +97,12 @@ class GenerateCommand
         $this->readerService->setDirectory($dir);
 
         $autoloadFile = $this->readerService->getAutoloadFile();
+        $coreFiles = $this->readerService->getCoreFiles($core);
         $controllerFiles = $this->readerService->getControllerFiles($controller);
         $modelFiles = $this->readerService->getModelFiles($model);
 
         var_dump($autoloadFile->getFilename());
+        var_dump($coreFiles[0]->getContents());
         var_dump($controllerFiles[0]->getContents());
         var_dump($modelFiles[0]->getContents());
     }

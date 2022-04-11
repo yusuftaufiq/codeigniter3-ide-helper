@@ -5,7 +5,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 /**
  * Undocumented class
  */
-class ModelReader extends ControllerReader
+class ModelReader extends CoreReader
 {
     /**
      * Undocumented variable

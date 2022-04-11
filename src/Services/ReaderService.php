@@ -4,6 +4,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Services;
 
 use Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader;
 use Haemanthus\CodeIgniter3IdeHelper\Readers\ControllerReader;
+use Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader;
 use Haemanthus\CodeIgniter3IdeHelper\Readers\ModelReader;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -18,6 +19,13 @@ class ReaderService
      * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader
      */
     protected AutoloadReader $autoloadReader;
+
+    /**
+     * Undocumented variable
+     *
+     * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader
+     */
+    protected CoreReader $coreReader;
 
     /**
      * Undocumented variable
@@ -37,15 +45,18 @@ class ReaderService
      * Undocumented function
      *
      * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader $autoloadReader
+     * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader $coreReader
      * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\ControllerReader $controllerReader
      * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\ModelReader $modelReader
      */
     public function __construct(
         AutoloadReader $autoloadReader,
+        CoreReader $coreReader,
         ControllerReader $controllerReader,
         ModelReader $modelReader
     ) {
         $this->autoloadReader = $autoloadReader;
+        $this->coreReader = $coreReader;
         $this->controllerReader = $controllerReader;
         $this->modelReader = $modelReader;
     }
@@ -59,6 +70,7 @@ class ReaderService
     public function setDirectory(string $dir): self
     {
         $this->autoloadReader->setDirectory($dir);
+        $this->coreReader->setDirectory($dir);
         $this->controllerReader->setDirectory($dir);
         $this->modelReader->setDirectory($dir);
 
@@ -73,6 +85,19 @@ class ReaderService
     public function getAutoloadFile(): SplFileInfo
     {
         return $this->autoloadReader->getFiles()[0];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $patterns
+     * @return array<\Symfony\Component\Finder\SplFileInfo>
+     */
+    public function getCoreFiles(array $patterns): array
+    {
+        return $this->coreReader
+            ->setPatterns($patterns)
+            ->getFiles();
     }
 
     /**
