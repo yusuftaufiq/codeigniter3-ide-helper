@@ -2,6 +2,23 @@
     "name": "haemanthus/codeigniter3-ide-helper",
     "description": "Dynamically add type hints to your CodeIgniter 3 controllers and models",
     "type": "library",
+    "homepage": "https://github.com/yusuftaufiq/codeigniter3-ide-helper",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yusuf T.",
+            "email": "dev.yusuftaufiq@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "bin": [
+        "bin/ide-helper"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Haemanthus\\CodeIgniter3IdeHelper\\": "src/"
+        }
+    },
     "require": {
         "php": ">=7.4",
         "nikic/php-parser": "^4.13",
@@ -9,21 +26,7 @@
         "php-di/php-di": "^6.3",
         "symfony/finder": "^5.4"
     },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Haemanthus\\CodeIgniter3IdeHelper\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Yusuf T.",
-            "email": "dev.yusuftaufiq@gmail.com"
-        }
-    ],
-    "bin": [
-        "bin/ide-helper"
-    ],
-    "minimum-stability": "stable",
-    "homepage": "https://github.com/yusuftaufiq/codeigniter3-ide-helper"
+    "require-dev": {
+        "psy/psysh": "@stable"
+    }
 }
