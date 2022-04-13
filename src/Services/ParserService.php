@@ -2,27 +2,19 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Services;
 
+use Haemanthus\CodeIgniter3IdeHelper\Parsers\CoreFileParser;
+
 class ParserService
 {
-    public $autoloadParser;
+    public CoreFileParser $coreParser;
 
-    public $coreParser;
-
-    public function __construct(
-        $autoloadParser,
-        $coreParser
-    ) {
-        $this->autoloadParser = $autoloadParser;
-        $this->coreParser = $coreParser;
-    }
-
-    public function parseAutoload(string $content)
+    public function __construct(CoreFileParser $coreParser)
     {
-        $this->autoloadParser->parse($content);
+        $this->coreParser = $coreParser;
     }
 
     public function parseCore(string $content)
     {
-        $this->coreParser->parse($content);
+        return $this->coreParser->parse($content);
     }
 }

@@ -104,6 +104,7 @@ class GenerateCommand
         var_dump($autoloadFile->getFilename());
         var_dump($coreFiles[0]->getContents());
         var_dump($controllerFiles[0]->getContents());
-        var_dump($modelFiles[0]->getContents());
+
+        var_dump($this->parserService->parseCore($coreFiles[0]->getContents()));
     }
 }
