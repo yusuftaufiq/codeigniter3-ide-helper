@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
-use Haemanthus\CodeIgniter3IdeHelper\Factories\FinderFactory;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -34,9 +34,9 @@ abstract class AbstractFileReader
     /**
      * Undocumented function
      *
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Factories\FinderFactory $finder
+     * @param \Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory $finder
      */
-    public function __construct(FinderFactory $finder)
+    public function __construct(FileFinderFactory $finder)
     {
         $this->finder = $finder->create();
     }

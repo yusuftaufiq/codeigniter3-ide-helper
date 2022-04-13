@@ -7,7 +7,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Undocumented class
  */
-class FinderFactory
+class FileFinderFactory
 {
     /**
      * Undocumented function
