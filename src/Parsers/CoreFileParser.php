@@ -23,8 +23,8 @@ class CoreFileParser extends AbstractFileParser
         $this->traverser->traverse($this->parser->parse($contents));
 
         return array_merge(
-            $this->visitor->getFoundLibraryNodes(),
-            $this->visitor->getFoundModelNodes(),
+            $this->visitor->getFoundLoadLibraryNodes(),
+            $this->visitor->getFoundLoadModelNodes(),
         );
     }
 }

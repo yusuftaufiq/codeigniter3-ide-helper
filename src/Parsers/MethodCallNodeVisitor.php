@@ -12,7 +12,7 @@ class MethodCallNodeVisitor extends NodeVisitorAbstract
 
     protected array $models = [];
 
-    protected function isCallLoadMethod(Node $node): bool
+    protected function isMethodCallThisLoad(Node $node): bool
     {
         return $node instanceof Node\Expr\MethodCall
             && $node->var instanceof Node\Expr\PropertyFetch
@@ -22,13 +22,13 @@ class MethodCallNodeVisitor extends NodeVisitorAbstract
             && $node->var->name instanceof Node\Identifier;
     }
 
-    protected function isCallLoadLibraryMethod(Node $node): bool
+    protected function isMethodCallLoadLibrary(Node $node): bool
     {
         return $node instanceof Node\Expr\MethodCall
             && $node->name->toString() === 'library';
     }
 
-    protected function isCallLoadModelMethod(Node $node): bool
+    protected function isMethodCallLoadModel(Node $node): bool
     {
         return $node instanceof Node\Expr\MethodCall
             && $node->name->toString() === 'model';
@@ -37,27 +37,27 @@ class MethodCallNodeVisitor extends NodeVisitorAbstract
     public function enterNode(Node $node)
     {
         switch (true) {
-            case $this->isCallLoadMethod($node) === false:
+            case $this->isMethodCallThisLoad($node) === false:
                 return parent::enterNode($node);
 
-            case $this->isCallLoadLibraryMethod($node):
+            case $this->isMethodCallLoadLibrary($node):
                 $this->libraries[] = $node;
 
                 return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
 
-            case $this->isCallLoadModelMethod($node):
+            case $this->isMethodCallLoadModel($node):
                 $this->models[] = $node;
 
                 return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
         }
     }
 
-    public function getFoundLibraryNodes()
+    public function getFoundLoadLibraryNodes()
     {
         return $this->libraries;
     }
 
-    public function getFoundModelNodes()
+    public function getFoundLoadModelNodes()
     {
         return $this->models;
     }
