@@ -6,6 +6,7 @@ use DI\Container;
 use DI\ContainerBuilder;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
+use Haemanthus\CodeIgniter3IdeHelper\Support\VarDumper;
 use Silly\Application as SillyApplication;
 
 /**
@@ -48,6 +49,18 @@ class Application
         $this->app = new SillyApplication(static::APP_NAME, static::APP_VERSION);
         $this->container = $builder->build();
         $this->app->useContainer($this->container, true);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return $this
+     */
+    public function registerDevTools(): self
+    {
+        (new VarDumper())->handle();
+
+        return $this;
     }
 
     /**

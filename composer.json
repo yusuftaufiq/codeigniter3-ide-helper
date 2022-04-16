@@ -19,6 +19,10 @@
             "Haemanthus\\CodeIgniter3IdeHelper\\": "src/"
         }
     },
+    "scripts": {
+        "dumper:start": "./vendor/bin/var-dump-server --format=html > dump.html",
+        "dumper:serve": "@php -S localhost:8000 dump.html"
+    },
     "require": {
         "php": ">=7.4",
         "nikic/php-parser": "^4.13",
@@ -27,6 +31,7 @@
         "symfony/finder": "^5.4"
     },
     "require-dev": {
-        "psy/psysh": "@stable"
+        "psy/psysh": "@stable",
+        "symfony/var-dumper": "^5.4"
     }
 }

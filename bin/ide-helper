@@ -2,21 +2,23 @@
 <?php
 
 switch (true) {
-    case isset($_composer_autoload_path):
-        $autoload = $_composer_autoload_path;
-        break;
-
     case file_exists(__DIR__ . '/../vendor/autoload.php'):
+        $environment = 'development';
         $autoload = __DIR__ . '/../vendor/autoload.php';
         break;
 
     default:
+        $environment = 'production';
         $autoload = __DIR__ . '/../../vendor/autoload.php';
         break;
 }
 
 require_once $autoload;
 
-(new \Haemanthus\CodeIgniter3IdeHelper\Application())
-    ->registerCommands()
-    ->run();
+$app = (new \Haemanthus\CodeIgniter3IdeHelper\Application());
+
+if ($environment === 'development') {
+    $app->registerDevTools();
+}
+
+$app->registerCommands()->run();
