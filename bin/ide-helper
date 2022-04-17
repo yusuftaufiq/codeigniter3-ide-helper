@@ -1,14 +1,18 @@
 #!/usr/bin/env php
 <?php
 
+define('ENVIRONMENT', getenv('ENVIRONMENT') ?: 'production');
+
 switch (true) {
+    case isset($_composer_autoload_path):
+        $autoload = $_composer_autoload_path;
+        break;
+
     case file_exists(__DIR__ . '/../vendor/autoload.php'):
-        $environment = 'development';
         $autoload = __DIR__ . '/../vendor/autoload.php';
         break;
 
     default:
-        $environment = 'production';
         $autoload = __DIR__ . '/../../vendor/autoload.php';
         break;
 }
@@ -17,7 +21,7 @@ require_once $autoload;
 
 $app = (new \Haemanthus\CodeIgniter3IdeHelper\Application());
 
-if ($environment === 'development') {
+if (strtolower(ENVIRONMENT) === 'development') {
     $app->registerDevTools();
 }
 

@@ -14,14 +14,19 @@ class VarDumper
 {
     protected const CLI_DUMPER = ['cli', 'phpdbg'];
 
-    protected const HOST = 'tcp://127.0.0.1:9912';
+    protected const DEFAULT_HOST = 'tcp://127.0.0.1:9912';
+
+    protected function getServerHost(): string
+    {
+        return getenv('VAR_DUMPER_SERVER_HOST') ?: self::DEFAULT_HOST;
+    }
 
     protected function serverHandler($var): void
     {
         $cloner = new VarCloner();
         $fallbackDumper = \in_array(\PHP_SAPI, self::CLI_DUMPER) ? new CliDumper() : new HtmlDumper();
 
-        $dumper = new ServerDumper(self::HOST, $fallbackDumper, [
+        $dumper = new ServerDumper($this->getServerHost(), $fallbackDumper, [
             'cli' => new CliContextProvider(),
             'source' => new SourceContextProvider(),
         ]);
