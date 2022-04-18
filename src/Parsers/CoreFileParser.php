@@ -13,16 +13,18 @@ class CoreFileParser extends AbstractFileParser
 {
     protected MethodCallNodeVisitor $visitor;
 
-    protected NodeLibraryCast $nodeLibraryCast;
+    protected NodeLibraryCast $libraryCast;
 
     public function __construct(
         ParserFactory $parser,
-        NodeTraverser $traverser
+        NodeTraverser $traverser,
+        MethodCallNodeVisitor $visitor,
+        NodeLibraryCast $libraryCast
     ) {
         parent::__construct($parser, $traverser);
-        $this->visitor = new MethodCallNodeVisitor();
+        $this->visitor = $visitor;
         $this->traverser->addVisitor($this->visitor);
-        $this->nodeLibraryCast = new NodeLibraryCast();
+        $this->libraryCast = $libraryCast;
     }
 
     public function parse(string $contents): array
@@ -30,7 +32,7 @@ class CoreFileParser extends AbstractFileParser
         $this->traverser->traverse($this->parser->parse($contents));
 
         $libraries = array_map(
-            fn (MethodCall $library): ?PropertyTagDTO => $this->nodeLibraryCast->cast($library),
+            fn (MethodCall $library): ?PropertyTagDTO => $this->libraryCast->cast($library),
             $this->visitor->getFoundLoadLibraryNodes(),
         );
 
