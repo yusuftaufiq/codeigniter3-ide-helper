@@ -1,6 +1,6 @@
 <?php
 
-namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
+namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
 use PhpParser\Node;
 use PhpParser\NodeTraverser;

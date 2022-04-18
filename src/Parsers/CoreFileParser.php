@@ -2,6 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
+use Haemanthus\CodeIgniter3IdeHelper\Visitors\MethodCallNodeVisitor;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
