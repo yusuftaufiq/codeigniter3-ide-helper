@@ -20,8 +20,14 @@
         }
     },
     "scripts": {
-        "dumper:start": "./vendor/bin/var-dump-server --format=html > dump.html",
-        "dumper:serve": "@php -S localhost:8000 dump.html"
+        "dumper:start": [
+            "Composer\\Config::disableProcessTimeout",
+            "./vendor/bin/var-dump-server --format=html > dump.html"
+        ],
+        "dumper:serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -S localhost:8000 dump.html"
+        ]
     },
     "require": {
         "php": ">=7.4",
