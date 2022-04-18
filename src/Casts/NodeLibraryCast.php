@@ -5,6 +5,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -34,6 +35,21 @@ class NodeLibraryCast extends AbstractNodeCast
         return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Identifier)
             && ($arg->value instanceof String_ || $arg->value instanceof ConstFetch)
+            && $carry
+        ), true);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array<Arg> $args
+     * @return bool
+     */
+    public function isArgsTypeExpressionArray(array $args): bool
+    {
+        return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
+            ($arg->name === null || $arg->name instanceof Identifier)
+            && ($arg->value instanceof Array_)
             && $carry
         ), true);
     }
@@ -75,7 +91,7 @@ class NodeLibraryCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return ?PropertyTagDTO
      */
-    protected function castScalarStringArg(array $args): ?PropertyTagDTO
+    protected function castScalarStringArgs(array $args): ?PropertyTagDTO
     {
         if (sizeof($args) === 0) {
             return null;
@@ -90,20 +106,34 @@ class NodeLibraryCast extends AbstractNodeCast
         );
     }
 
-    public function cast(Node $node): ?PropertyTagDTO
+    /**
+     * Undocumented function
+     *
+     * @param array<Arg> $args
+     * @return ?PropertyTagDTO
+     */
+    protected function castExpressionArrayArgs(array $args): ?PropertyTagDTO
+    {
+    }
+
+    public function cast(Node $node): array
     {
         $args = $node instanceof MethodCall ? $node->getArgs() : [];
 
         switch (true) {
             case $this->isArgsTypeScalarString($args):
-                $block = $this->castScalarStringArg($this->sortArgs($args));
+                $blocks = [$this->castScalarStringArgs($this->sortArgs($args))];
                 break;
 
+            case $this->isArgsTypeExpressionArray($args):
+                $blocks = null;
+                break;
+    
             default:
-                $block = null;
+                $blocks = [];
                 break;
         }
 
-        return $block;
+        return $blocks;
     }
 }

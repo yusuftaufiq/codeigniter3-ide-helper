@@ -49,5 +49,5 @@ abstract class AbstractNodeCast
         ],
     ];
 
-    abstract public function cast(Node $node): ?PropertyTagDTO;
+    abstract public function cast(Node $node): array;
 }
