@@ -2,6 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
+use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
+use PhpParser\Node;
+
 abstract class AbstractNodeCast
 {
     /**
@@ -45,4 +48,6 @@ abstract class AbstractNodeCast
             'zip' => 'CI_Zip',
         ],
     ];
+
+    abstract public function cast(Node $node): ?PropertyTagDTO;
 }

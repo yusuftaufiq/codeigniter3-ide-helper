@@ -2,7 +2,8 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
-use Haemanthus\CodeIgniter3IdeHelper\Objects\DocumentBlockDTO;
+use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
+use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
@@ -72,24 +73,30 @@ class NodeLibraryCast extends AbstractNodeCast
      * Undocumented function
      *
      * @param array<Arg> $args
-     * @return ?DocumentBlockDTO
+     * @return ?PropertyTagDTO
      */
-    protected function castScalarStringArg(array $args): ?DocumentBlockDTO
+    protected function castScalarStringArg(array $args): ?PropertyTagDTO
     {
+        if (sizeof($args) === 0) {
+            return null;
+        }
+
         $name = array_key_exists(2, $args) ? $args[2]->value->value : $args[0]->value->value;
         $type = $this->classType($args[0]->value->value);
 
-        return new DocumentBlockDTO(
+        return new PropertyTagDTO(
             $name,
             $type,
         );
     }
 
-    public function cast(MethodCall $node): ?DocumentBlockDTO
+    public function cast(Node $node): ?PropertyTagDTO
     {
+        $args = $node instanceof MethodCall ? $node->getArgs() : [];
+
         switch (true) {
-            case $this->isArgsTypeScalarString($node->args):
-                $block = $this->castScalarStringArg($this->sortArgs($node->args));
+            case $this->isArgsTypeScalarString($args):
+                $block = $this->castScalarStringArg($this->sortArgs($args));
                 break;
 
             default:
