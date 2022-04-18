@@ -3,7 +3,6 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
@@ -21,5 +20,5 @@ abstract class AbstractFileParser
         $this->traverser = $traverser;
     }
 
-    abstract public function parse(string $contents);
+    abstract public function parse(string $contents): array;
 }

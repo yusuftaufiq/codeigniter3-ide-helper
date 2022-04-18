@@ -3,7 +3,7 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Casts\NodeLibraryCast;
-use Haemanthus\CodeIgniter3IdeHelper\Objects\DocumentBlockDTO;
+use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\MethodCallNodeVisitor;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeTraverser;
@@ -30,7 +30,7 @@ class CoreFileParser extends AbstractFileParser
         $this->traverser->traverse($this->parser->parse($contents));
 
         $libraries = array_map(
-            fn (MethodCall $library): ?DocumentBlockDTO => $this->nodeLibraryCast->cast($library),
+            fn (MethodCall $library): ?PropertyTagDTO => $this->nodeLibraryCast->cast($library),
             $this->visitor->getFoundLoadLibraryNodes(),
         );
 

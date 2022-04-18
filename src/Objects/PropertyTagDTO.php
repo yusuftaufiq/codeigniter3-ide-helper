@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Objects;
 
-class DocumentBlockDTO
+class PropertyTagDTO
 {
     protected string $name;
 
