@@ -49,6 +49,9 @@ class MethodCallNodeVisitor extends NodeVisitorAbstract
                 $this->models[] = $node;
 
                 return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
+
+            default:
+                return parent::enterNode($node);
         }
     }
 
