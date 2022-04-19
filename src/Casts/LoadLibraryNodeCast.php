@@ -6,6 +6,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -15,7 +16,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
 {
     protected const KEY = 'libraries';
 
-    protected function classType(string $name): string
+    protected function classTypeOf(string $name): string
     {
         if (array_key_exists($name, $this->map[self::KEY]) === true) {
             return $this->map[self::KEY][$name];
@@ -93,27 +94,43 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      */
     protected function castScalarStringArgs(array $args): ?PropertyTagDTO
     {
-        if (sizeof($args) === 0) {
+        if (array_key_exists(0, $args) === false) {
             return null;
         }
 
         $name = array_key_exists(2, $args) ? $args[2]->value->value : $args[0]->value->value;
-        $type = $this->classType($args[0]->value->value);
+        $type = $this->classTypeOf($args[0]->value->value);
 
-        return new PropertyTagDTO(
-            $name,
-            $type,
-        );
+        return new PropertyTagDTO($name, $type);
+    }
+
+    protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDTO
+    {
+        if ($item->value instanceof String_ === false) {
+            return null;
+        }
+
+        $type = $this->classTypeOf($item->key instanceof String_ ? $item->key->value : $item->value->value);
+
+        return new PropertyTagDTO($item->value->value, $type);
     }
 
     /**
      * Undocumented function
      *
      * @param array<Arg> $args
-     * @return ?PropertyTagDTO
+     * @return array<?PropertyTagDTO>
      */
-    protected function castExpressionArrayArgs(array $args): ?PropertyTagDTO
+    protected function castExpressionArrayArgs(array $args): array
     {
+        if (array_key_exists(0, $args) === false) {
+            return [];
+        }
+
+        return array_map(
+            fn (ArrayItem $item) => $this->castExpressionArrayItem($item),
+            $args[0]->value->items,
+        );
     }
 
     public function cast(Node $node): array
@@ -126,7 +143,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
                 break;
 
             case $this->isArgsTypeExpressionArray($args):
-                $blocks = [];
+                $blocks = $this->castExpressionArrayArgs($this->sortArgs($args));
                 break;
 
             default:
