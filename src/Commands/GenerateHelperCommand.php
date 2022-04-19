@@ -94,6 +94,6 @@ class GenerateHelperCommand
 
         $coreFiles = $this->readerService->getCoreFiles($pattern);
 
-        dump($this->parserService->parseCore($coreFiles[0]->getContents()));
+        dump($this->parserService->parseCoreFiles($coreFiles));
     }
 }

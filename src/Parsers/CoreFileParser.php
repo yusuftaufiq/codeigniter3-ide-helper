@@ -16,23 +16,22 @@ class CoreFileParser extends AbstractFileParser
 
     protected MethodCallNodeVisitor $methodCallVisitor;
 
-    protected LoadLibraryNodeCast $libraryCast;
+    protected LoadLibraryNodeCast $loadLibraryNodeCast;
 
-    protected LoadModelNodeCast $modelCast;
+    protected LoadModelNodeCast $loadModelNodeCast;
 
     public function __construct(
         ParserFactory $parser,
         NodeTraverser $traverser,
-        ClassNodeVisitor $classVisitor,
-        MethodCallNodeVisitor $methodCallVisitor,
-        LoadLibraryNodeCast $libraryCast,
-        LoadModelNodeCast $modelCast
+        LoadLibraryNodeCast $loadLibraryNodeCast,
+        LoadModelNodeCast $loadModelNodeCast
     ) {
         parent::__construct($parser, $traverser);
-        $this->classVisitor = $classVisitor;
-        $this->methodCallVisitor = $methodCallVisitor;
-        $this->libraryCast = $libraryCast;
-        $this->modelCast = $modelCast;
+        $this->loadLibraryNodeCast = $loadLibraryNodeCast;
+        $this->loadModelNodeCast = $loadModelNodeCast;
+
+        $this->classVisitor = new ClassNodeVisitor();
+        $this->methodCallVisitor = new MethodCallNodeVisitor();
 
         $this->traverser->addVisitor($this->classVisitor);
         $this->traverser->addVisitor($this->methodCallVisitor);
@@ -42,24 +41,16 @@ class CoreFileParser extends AbstractFileParser
     {
         $this->traverser->traverse($this->parser->parse($contents));
 
-        $libraries = array_reduce(
-            $this->methodCallVisitor->getFoundLoadLibraryNodes(),
-            fn (array $carry, MethodCall $library): array => array_merge(
-                $carry,
-                $this->libraryCast->cast($library),
-            ),
-            [],
-        );
+        $loadLibraryNodes = $this->methodCallVisitor->getFoundLoadLibraryNodes();
+        $loadLibraryTags = array_reduce($loadLibraryNodes, fn (array $carry, MethodCall $node): array => (
+            array_merge($carry, $this->loadLibraryNodeCast->cast($node))
+        ), []);
 
-        $models = array_reduce(
-            $this->methodCallVisitor->getFoundLoadModelNodes(),
-            fn (array $carry, MethodCall $library): array => array_merge(
-                $carry,
-                $this->modelCast->cast($library),
-            ),
-            [],
-        );
+        $loadModelNodes = $this->methodCallVisitor->getFoundLoadModelNodes();
+        $loadModelTags = array_reduce($loadModelNodes, fn (array $carry, MethodCall $node): array => (
+            array_merge($carry, $this->loadModelNodeCast->cast($node))
+        ), []);
 
-        return array_merge($libraries, $models);
+        return array_merge($loadLibraryTags, $loadModelTags);
     }
 }

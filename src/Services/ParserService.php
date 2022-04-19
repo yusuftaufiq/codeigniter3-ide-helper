@@ -2,19 +2,22 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Services;
 
-use Haemanthus\CodeIgniter3IdeHelper\Parsers\CoreFileParser;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\CoreFileParserFactory;
+use Symfony\Component\Finder\SplFileInfo;
 
 class ParserService
 {
-    public CoreFileParser $coreParser;
+    public CoreFileParserFactory $coreParser;
 
-    public function __construct(CoreFileParser $coreParser)
+    public function __construct(CoreFileParserFactory $coreParser)
     {
         $this->coreParser = $coreParser;
     }
 
-    public function parseCore(string $content)
+    public function parseCoreFiles(array $files)
     {
-        return $this->coreParser->parse($content);
+        return array_map(fn (SplFileInfo $file) => (
+            $this->coreParser->create()->parse($file->getContents())
+        ), $files);
     }
 }
