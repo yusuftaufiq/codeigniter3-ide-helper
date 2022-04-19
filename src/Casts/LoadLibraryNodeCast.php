@@ -31,7 +31,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return bool
      */
-    protected function isArgsTypeScalarString(array $args): bool
+    protected function isArgumentsTypeScalarString(array $args): bool
     {
         return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Identifier)
@@ -46,7 +46,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return bool
      */
-    public function isArgsTypeExpressionArray(array $args): bool
+    public function isArgumentsTypeExpressionArray(array $args): bool
     {
         return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Identifier)
@@ -61,7 +61,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return array<Arg>
      */
-    protected function sortArgs(array $args): array
+    protected function sortArguments(array $args): array
     {
         $key = 0;
 
@@ -92,7 +92,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return ?PropertyTagDTO
      */
-    protected function castScalarStringArgs(array $args): ?PropertyTagDTO
+    protected function castScalarStringArguments(array $args): ?PropertyTagDTO
     {
         if (array_key_exists(0, $args) === false) {
             return null;
@@ -125,7 +125,7 @@ class LoadLibraryNodeCast extends AbstractNodeCast
      * @param array<Arg> $args
      * @return array<?PropertyTagDTO>
      */
-    protected function castExpressionArrayArgs(array $args): array
+    protected function castExpressionArrayArguments(array $args): array
     {
         if (array_key_exists(0, $args) === false) {
             return [];
@@ -142,12 +142,12 @@ class LoadLibraryNodeCast extends AbstractNodeCast
         $args = $node instanceof MethodCall ? $node->getArgs() : [];
 
         switch (true) {
-            case $this->isArgsTypeScalarString($args):
-                $blocks = [$this->castScalarStringArgs($this->sortArgs($args))];
+            case $this->isArgumentsTypeScalarString($args):
+                $blocks = [$this->castScalarStringArguments($this->sortArguments($args))];
                 break;
 
-            case $this->isArgsTypeExpressionArray($args):
-                $blocks = $this->castExpressionArrayArgs($this->sortArgs($args));
+            case $this->isArgumentsTypeExpressionArray($args):
+                $blocks = $this->castExpressionArrayArguments($this->sortArguments($args));
                 break;
 
             default:
