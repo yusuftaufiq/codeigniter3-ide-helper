@@ -21,6 +21,15 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 
     protected static $aliasParameterPosition = 2;
 
+    protected function classTypeOf(string $name): string
+    {
+        if (array_key_exists($name, $this->map[static::$classCategory] ?? []) === true) {
+            return $this->map[static::$classCategory][$name];
+        }
+
+        return $name;
+    }
+
     protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDTO
     {
         if ($item->value instanceof String_ === false) {

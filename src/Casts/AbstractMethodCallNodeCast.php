@@ -11,8 +11,6 @@ use PhpParser\Node\Scalar\String_;
 
 abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
 {
-    protected static $classCategory;
-
     protected static $classParameterName;
 
     protected static $aliasParameterName;
@@ -21,14 +19,7 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
 
     protected static $aliasParameterPosition;
 
-    protected function classTypeOf(string $name): string
-    {
-        if (array_key_exists($name, $this->map[static::$classCategory] ?? []) === true) {
-            return $this->map[static::$classCategory][$name];
-        }
-
-        return $name;
-    }
+    abstract protected function classTypeOf(string $name): string;
 
     /**
      * Undocumented function

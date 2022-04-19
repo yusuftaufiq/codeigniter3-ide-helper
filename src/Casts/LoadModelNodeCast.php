@@ -7,8 +7,6 @@ use PhpParser\Node\Expr\MethodCall;
 
 class LoadModelNodeCast extends AbstractMethodCallNodeCast
 {
-    protected static $classCategory = 'models';
-
     protected static $classParameterName = 'model';
 
     protected static $aliasParameterName = 'name';
