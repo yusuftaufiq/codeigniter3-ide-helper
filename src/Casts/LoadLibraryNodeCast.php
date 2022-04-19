@@ -98,10 +98,12 @@ class LoadLibraryNodeCast extends AbstractNodeCast
             return null;
         }
 
-        $name = array_key_exists(2, $args) ? $args[2]->value->value : $args[0]->value->value;
-        $type = $this->classTypeOf($args[0]->value->value);
+        $libraryClass = $args[0]->value->value;
+        $propertyAlias = array_key_exists(2, $args) ? $args[2]->value->value : null;
+        $propertyName = $propertyAlias ?? $libraryClass;
+        $propertyType = $this->classTypeOf($libraryClass);
 
-        return new PropertyTagDTO($name, $type);
+        return new PropertyTagDTO($propertyName, $propertyType);
     }
 
     protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDTO
@@ -110,9 +112,11 @@ class LoadLibraryNodeCast extends AbstractNodeCast
             return null;
         }
 
-        $type = $this->classTypeOf($item->key instanceof String_ ? $item->key->value : $item->value->value);
+        $propertyName = $item->value->value;
+        $libraryClass = $item->key instanceof String_ ? $item->key->value : $propertyName;
+        $propertyType = $this->classTypeOf($libraryClass);
 
-        return new PropertyTagDTO($item->value->value, $type);
+        return new PropertyTagDTO($propertyName, $propertyType);
     }
 
     /**

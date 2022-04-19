@@ -2,7 +2,6 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
-use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
 use PhpParser\Node;
 
 abstract class AbstractNodeCast
