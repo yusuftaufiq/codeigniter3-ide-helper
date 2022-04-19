@@ -3,7 +3,7 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Casts\NodeLibraryCast;
-use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
+use Haemanthus\CodeIgniter3IdeHelper\Visitors\ClassNodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\MethodCallNodeVisitor;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeTraverser;
@@ -11,20 +11,26 @@ use PhpParser\ParserFactory;
 
 class CoreFileParser extends AbstractFileParser
 {
-    protected MethodCallNodeVisitor $visitor;
+    protected ClassNodeVisitor $classVisitor;
+
+    protected MethodCallNodeVisitor $methodCallVisitor;
 
     protected NodeLibraryCast $libraryCast;
 
     public function __construct(
         ParserFactory $parser,
         NodeTraverser $traverser,
-        MethodCallNodeVisitor $visitor,
+        ClassNodeVisitor $classVisitor,
+        MethodCallNodeVisitor $methodCallVisitor,
         NodeLibraryCast $libraryCast
     ) {
         parent::__construct($parser, $traverser);
-        $this->visitor = $visitor;
-        $this->traverser->addVisitor($this->visitor);
+        $this->classVisitor = $classVisitor;
+        $this->methodCallVisitor = $methodCallVisitor;
         $this->libraryCast = $libraryCast;
+
+        $this->traverser->addVisitor($this->classVisitor);
+        $this->traverser->addVisitor($this->methodCallVisitor);
     }
 
     public function parse(string $contents): array
@@ -32,7 +38,7 @@ class CoreFileParser extends AbstractFileParser
         $this->traverser->traverse($this->parser->parse($contents));
 
         $libraries = array_reduce(
-            $this->visitor->getFoundLoadLibraryNodes(),
+            $this->methodCallVisitor->getFoundLoadLibraryNodes(),
             fn (array $carry, MethodCall $library): array => array_merge(
                 $carry,
                 $this->libraryCast->cast($library),
@@ -40,7 +46,7 @@ class CoreFileParser extends AbstractFileParser
             [],
         );
 
-        $models = $this->visitor->getFoundLoadModelNodes();
+        $models = $this->methodCallVisitor->getFoundLoadModelNodes();
 
         return array_merge($libraries);
     }
