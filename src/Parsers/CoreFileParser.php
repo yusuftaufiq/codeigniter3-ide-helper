@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
-use Haemanthus\CodeIgniter3IdeHelper\Casts\NodeLibraryCast;
+use Haemanthus\CodeIgniter3IdeHelper\Casts\LoadLibraryNodeCast;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\ClassNodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\MethodCallNodeVisitor;
 use PhpParser\Node\Expr\MethodCall;
@@ -15,14 +15,14 @@ class CoreFileParser extends AbstractFileParser
 
     protected MethodCallNodeVisitor $methodCallVisitor;
 
-    protected NodeLibraryCast $libraryCast;
+    protected LoadLibraryNodeCast $libraryCast;
 
     public function __construct(
         ParserFactory $parser,
         NodeTraverser $traverser,
         ClassNodeVisitor $classVisitor,
         MethodCallNodeVisitor $methodCallVisitor,
-        NodeLibraryCast $libraryCast
+        LoadLibraryNodeCast $libraryCast
     ) {
         parent::__construct($parser, $traverser);
         $this->classVisitor = $classVisitor;

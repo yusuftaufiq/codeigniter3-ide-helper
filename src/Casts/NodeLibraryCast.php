@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 
-class NodeLibraryCast extends AbstractNodeCast
+class LoadLibraryNodeCast extends AbstractNodeCast
 {
     protected const KEY = 'libraries';
 
@@ -126,9 +126,9 @@ class NodeLibraryCast extends AbstractNodeCast
                 break;
 
             case $this->isArgsTypeExpressionArray($args):
-                $blocks = null;
+                $blocks = [];
                 break;
-    
+
             default:
                 $blocks = [];
                 break;
