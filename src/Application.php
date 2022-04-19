@@ -4,7 +4,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper;
 
 use DI\Container;
 use DI\ContainerBuilder;
-use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateCommand;
+use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
 use Haemanthus\CodeIgniter3IdeHelper\Support\VarDumper;
 use Silly\Application as SillyApplication;
@@ -71,8 +71,8 @@ class Application
     public function registerCommands(): self
     {
         $this->app
-            ->command(GenerateCommand::$expression, $this->container->make(GenerateCommand::class))
-            ->descriptions(GenerateCommand::$description, GenerateCommand::$options);
+            ->command(GenerateHelperCommand::$expression, $this->container->make(GenerateHelperCommand::class))
+            ->descriptions(GenerateHelperCommand::$description, GenerateHelperCommand::$options);
 
         return $this;
     }

@@ -9,14 +9,14 @@ use Haemanthus\CodeIgniter3IdeHelper\Services\WriterService;
 /**
  * Undocumented class
  */
-class GenerateCommand
+class GenerateHelperCommand
 {
     /**
      * Undocumented variable
      *
      * @var string $expression
      */
-    public static string $expression = 'generate [--dir=] [--core=]* [--controller=]* [--model=]* [--output=]';
+    public static string $expression = 'generate [--dir=] [--pattern=]* [--output=]';
 
     /**
      * Undocumented variable
@@ -32,9 +32,7 @@ class GenerateCommand
      */
     public static array $options = [
         '--dir' => 'CodeIgniter 3 root directory',
-        '--core' => 'Pattern in string or regex to match core files',
-        '--controller' => 'Pattern in string or regex to match controller files',
-        '--model' => 'Pattern in string or regex to match model files',
+        '--pattern' => 'Pattern in string or regex to match files',
         '--output' => 'Output filename'
     ];
 
@@ -88,23 +86,14 @@ class GenerateCommand
      * @return void
      */
     public function __invoke(
-        $dir = '/./',
-        $core = [],
-        $controller = [],
-        $model = [],
-        $output = '/./ide-helper.php'
+        string $dir = '/./',
+        array $pattern = [],
+        string $output = '/./ide-helper.php'
     ): void {
         $this->readerService->setDirectory($dir);
 
-        $autoloadFile = $this->readerService->getAutoloadFile();
-        $coreFiles = $this->readerService->getCoreFiles($core);
-        $controllerFiles = $this->readerService->getControllerFiles($controller);
-        $modelFiles = $this->readerService->getModelFiles($model);
+        $coreFiles = $this->readerService->getCoreFiles($pattern);
 
-        var_dump($autoloadFile->getFilename());
-        var_dump($coreFiles[0]->getContents());
-        var_dump($controllerFiles[0]->getContents());
-
-        var_dump($this->parserService->parseCore($coreFiles[0]->getContents()));
+        dump($this->parserService->parseCore($coreFiles[0]->getContents()));
     }
 }
