@@ -7,13 +7,13 @@ use PhpParser\Node\Expr\MethodCall;
 
 class LoadModelNodeCast extends AbstractMethodCallNodeCast
 {
-    protected static $classParameterName = 'model';
+    protected static string $classParameterName = 'model';
 
-    protected static $aliasParameterName = 'name';
+    protected static string $aliasParameterName = 'name';
 
-    protected static $classParameterPosition = 0;
+    protected static int $classParameterPosition = 0;
 
-    protected static $aliasParameterPosition = 1;
+    protected static int $aliasParameterPosition = 1;
 
     protected function classTypeOf(string $name): string
     {

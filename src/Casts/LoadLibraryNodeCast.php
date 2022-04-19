@@ -11,15 +11,15 @@ use PhpParser\Node\Scalar\String_;
 
 class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 {
-    protected static $classCategory = 'libraries';
+    protected static string $classCategory = 'libraries';
 
-    protected static $classParameterName = 'library';
+    protected static string $classParameterName = 'library';
 
-    protected static $aliasParameterName = 'object_name';
+    protected static string $aliasParameterName = 'object_name';
 
-    protected static $classParameterPosition = 0;
+    protected static int $classParameterPosition = 0;
 
-    protected static $aliasParameterPosition = 2;
+    protected static int $aliasParameterPosition = 2;
 
     protected function classTypeOf(string $name): string
     {
@@ -51,13 +51,13 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
      */
     protected function castExpressionArrayArguments(array $args): array
     {
-        if (array_key_exists(0, $args) === false) {
+        if (array_key_exists(static::$classParameterPosition, $args) === false) {
             return [];
         }
 
         return array_map(
             fn (ArrayItem $item) => $this->castExpressionArrayItem($item),
-            $args[0]->value->items,
+            $args[static::$classParameterPosition]->value->items,
         );
     }
 

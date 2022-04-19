@@ -11,13 +11,13 @@ use PhpParser\Node\Scalar\String_;
 
 abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
 {
-    protected static $classParameterName;
+    protected static string $classParameterName;
 
-    protected static $aliasParameterName;
+    protected static string $aliasParameterName;
 
-    protected static $classParameterPosition;
+    protected static int $classParameterPosition;
 
-    protected static $aliasParameterPosition;
+    protected static int $aliasParameterPosition;
 
     abstract protected function classTypeOf(string $name): string;
 
