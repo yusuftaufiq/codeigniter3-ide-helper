@@ -5,106 +5,21 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 
-class LoadLibraryNodeCast extends AbstractNodeCast
+class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 {
-    protected const KEY = 'libraries';
+    protected static $classCategory = 'libraries';
 
-    protected function classTypeOf(string $name): string
-    {
-        if (array_key_exists($name, $this->map[self::KEY]) === true) {
-            return $this->map[self::KEY][$name];
-        }
+    protected static $classParameterName = 'library';
 
-        return $name;
-    }
+    protected static $aliasParameterName = 'object_name';
 
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return bool
-     */
-    protected function isArgumentsTypeScalarString(array $args): bool
-    {
-        return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Identifier)
-            && ($arg->value instanceof String_ || $arg->value instanceof ConstFetch)
-            && $carry
-        ), true);
-    }
+    protected static $classParameterPosition = 0;
 
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return bool
-     */
-    public function isArgumentsTypeExpressionArray(array $args): bool
-    {
-        return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Identifier)
-            && ($arg->value instanceof Array_)
-            && $carry
-        ), true);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return array<Arg>
-     */
-    protected function sortArguments(array $args): array
-    {
-        $key = 0;
-
-        return array_reduce($args, function (array $carry, Arg $arg) use (&$key): array {
-            switch (true) {
-                case $arg->name instanceof Identifier === false:
-                    $carry[$key] = $arg;
-                    break;
-
-                case $arg->name->name === 'library':
-                    $carry[0] = $arg;
-                    break;
-
-                case $arg->name->name === 'object_name':
-                    $carry[2] = $arg;
-                    break;
-            }
-
-            $key += 1;
-
-            return $carry;
-        }, []);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return ?PropertyTagDTO
-     */
-    protected function castScalarStringArguments(array $args): ?PropertyTagDTO
-    {
-        if (array_key_exists(0, $args) === false) {
-            return null;
-        }
-
-        $libraryClass = $args[0]->value->value;
-        $propertyAlias = array_key_exists(2, $args) ? $args[2]->value->value : null;
-        $propertyName = $propertyAlias ?? $libraryClass;
-        $propertyType = $this->classTypeOf($libraryClass);
-
-        return new PropertyTagDTO($propertyName, $propertyType);
-    }
+    protected static $aliasParameterPosition = 2;
 
     protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDTO
     {
