@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
-use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
+use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDto;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ArrayItem;
@@ -30,7 +30,7 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
         return $name;
     }
 
-    protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDTO
+    protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDto
     {
         if ($item->value instanceof String_ === false) {
             return null;
@@ -40,14 +40,14 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
         $libraryClass = $item->key instanceof String_ ? $item->key->value : $propertyName;
         $propertyType = $this->classTypeOf($libraryClass);
 
-        return new PropertyTagDTO($propertyName, $propertyType);
+        return new PropertyTagDto($propertyName, $propertyType);
     }
 
     /**
      * Undocumented function
      *
      * @param array<Arg> $args
-     * @return array<?PropertyTagDTO>
+     * @return array<?PropertyTagDto>
      */
     protected function castExpressionArrayArguments(array $args): array
     {

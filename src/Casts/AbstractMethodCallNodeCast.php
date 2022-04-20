@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
-use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDTO;
+use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDto;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Cast\Array_;
 use PhpParser\Node\Expr\ConstFetch;
@@ -86,9 +86,9 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
      * Undocumented function
      *
      * @param array<Arg> $args
-     * @return ?PropertyTagDTO
+     * @return ?PropertyTagDto
      */
-    protected function castScalarStringArguments(array $args): ?PropertyTagDTO
+    protected function castScalarStringArguments(array $args): ?PropertyTagDto
     {
         if (array_key_exists(static::$classParameterPosition, $args) === false) {
             return null;
@@ -100,6 +100,6 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
         $propertyName = $propertyAlias ?? $className;
         $propertyType = $this->classTypeOf($className);
 
-        return new PropertyTagDTO($propertyName, $propertyType);
+        return new PropertyTagDto($propertyName, $propertyType);
     }
 }
