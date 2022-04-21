@@ -52,6 +52,14 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
         }, []);
     }
 
+    protected function filterOnlyRequiredArguments(array $args): array
+    {
+        return array_filter($args, fn (int $key): bool => (
+            $key === static::$classParameterPosition
+            || $key === static::$aliasParameterPosition
+        ), \ARRAY_FILTER_USE_KEY);
+    }
+
     /**
      * Undocumented function
      *
@@ -62,7 +70,7 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
     {
         return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Identifier)
-            && ($arg->value instanceof String_ || $arg->value instanceof ConstFetch)
+            && $arg->value instanceof String_
             && $carry
         ), true);
     }
@@ -77,7 +85,7 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
     {
         return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Identifier)
-            && ($arg->value instanceof Array_)
+            && $arg->value instanceof Array_
             && $carry
         ), true);
     }

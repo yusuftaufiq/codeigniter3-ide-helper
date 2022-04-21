@@ -69,11 +69,11 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
         $args = $node instanceof MethodCall ? $node->getArgs() : [];
 
         switch (true) {
-            case $this->isArgumentsTypeScalarString($args):
+            case $this->isArgumentsTypeScalarString($this->filterOnlyRequiredArguments($args)):
                 $blocks = [$this->castScalarStringArguments($this->sortArguments($args))];
                 break;
 
-            case $this->isArgumentsTypeExpressionArray($args):
+            case $this->isArgumentsTypeExpressionArray($this->filterOnlyRequiredArguments($args)):
                 $blocks = $this->castExpressionArrayArguments($this->sortArguments($args));
                 break;
 
