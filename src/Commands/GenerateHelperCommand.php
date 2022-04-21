@@ -6,6 +6,8 @@ use Haemanthus\CodeIgniter3IdeHelper\Services\ReaderService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\ParserService;
 use Haemanthus\CodeIgniter3IdeHelper\Services\WriterService;
 
+use function Haemanthus\CodeIgniter3IdeHelper\Support\pipe;
+
 /**
  * Undocumented class
  */
@@ -92,8 +94,16 @@ class GenerateHelperCommand
     ): void {
         $this->readerService->setDirectory($dir);
 
-        $coreFiles = $this->readerService->getCoreFiles($pattern);
+        $autoloadFiles = pipe(
+            [$this->readerService, 'getAutoloadFile'],
+            [$this->parserService, 'parseAutoloadFile'],
+        )($pattern);
 
-        dump($this->parserService->parseCoreFiles($coreFiles));
+        // $coreFiles = pipe(
+        //     [$this->readerService, 'getCoreFiles'],
+        //     [$this->parserService, 'parseCoreFiles'],
+        // )($pattern);
+
+        // dump($coreFiles);
     }
 }

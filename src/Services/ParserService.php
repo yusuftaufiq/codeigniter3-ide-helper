@@ -27,7 +27,7 @@ class ParserService
 
     public function parseCoreFiles(array $files): array
     {
-        return array_map(fn (SplFileInfo $file) => (
+        return array_map(fn (SplFileInfo $file): array => (
             $this->coreParser->create()->parse($file->getContents())
         ), $files);
     }
