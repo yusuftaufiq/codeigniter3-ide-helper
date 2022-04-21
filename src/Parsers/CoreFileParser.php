@@ -4,6 +4,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Casts\LoadLibraryNodeCast;
 use Haemanthus\CodeIgniter3IdeHelper\Casts\LoadModelNodeCast;
+use Haemanthus\CodeIgniter3IdeHelper\Objects\ClassDto;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\ClassNodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors\MethodCallNodeVisitor;
 use PhpParser\Node\Expr\MethodCall;
@@ -12,9 +13,9 @@ use PhpParser\ParserFactory;
 
 class CoreFileParser extends AbstractFileParser
 {
-    protected ClassNodeVisitor $classVisitor;
+    protected ClassNodeVisitor $classNodeVisitor;
 
-    protected MethodCallNodeVisitor $methodCallVisitor;
+    protected MethodCallNodeVisitor $methodCallNodeVisitor;
 
     protected LoadLibraryNodeCast $loadLibraryNodeCast;
 
@@ -30,27 +31,30 @@ class CoreFileParser extends AbstractFileParser
         $this->loadLibraryNodeCast = $loadLibraryNodeCast;
         $this->loadModelNodeCast = $loadModelNodeCast;
 
-        $this->classVisitor = new ClassNodeVisitor();
-        $this->methodCallVisitor = new MethodCallNodeVisitor();
+        $this->classNodeVisitor = new ClassNodeVisitor();
+        $this->methodCallNodeVisitor = new MethodCallNodeVisitor();
 
-        $this->traverser->addVisitor($this->classVisitor);
-        $this->traverser->addVisitor($this->methodCallVisitor);
+        $this->traverser->addVisitor($this->classNodeVisitor);
+        $this->traverser->addVisitor($this->methodCallNodeVisitor);
     }
 
     public function parse(string $contents): array
     {
         $this->traverser->traverse($this->parser->parse($contents));
 
-        $loadLibraryNodes = $this->methodCallVisitor->getFoundLoadLibraryNodes();
+        $loadLibraryNodes = $this->methodCallNodeVisitor->getFoundLoadLibraryNodes();
         $loadLibraryTags = array_reduce($loadLibraryNodes, fn (array $carry, MethodCall $node): array => (
             array_merge($carry, $this->loadLibraryNodeCast->cast($node))
         ), []);
 
-        $loadModelNodes = $this->methodCallVisitor->getFoundLoadModelNodes();
+        $loadModelNodes = $this->methodCallNodeVisitor->getFoundLoadModelNodes();
         $loadModelTags = array_reduce($loadModelNodes, fn (array $carry, MethodCall $node): array => (
             array_merge($carry, $this->loadModelNodeCast->cast($node))
         ), []);
 
-        return array_merge($loadLibraryTags, $loadModelTags);
+        return [new ClassDto(
+            $this->classNodeVisitor->getFoundClassNode(),
+            array_merge($loadLibraryTags, $loadModelTags)
+        )];
     }
 }
