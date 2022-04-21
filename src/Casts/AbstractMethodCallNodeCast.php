@@ -90,7 +90,10 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
      */
     protected function castScalarStringArguments(array $args): ?PropertyTagDto
     {
-        if (array_key_exists(static::$classParameterPosition, $args) === false) {
+        if (
+            array_key_exists(static::$classParameterPosition, $args) === false
+            || $args[static::$classParameterPosition]->value instanceof String_ === false
+        ) {
             return null;
         }
 

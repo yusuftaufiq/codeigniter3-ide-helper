@@ -51,7 +51,10 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
      */
     protected function castExpressionArrayArguments(array $args): array
     {
-        if (array_key_exists(static::$classParameterPosition, $args) === false) {
+        if (
+            array_key_exists(static::$classParameterPosition, $args) === false
+            || $args[static::$classParameterPosition]->value instanceof String_ === false
+        ) {
             return [];
         }
 
