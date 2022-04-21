@@ -42,7 +42,7 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
                     break;
 
                 case $arg->name->name === static::$aliasParameterName:
-                    $carry[static::$classParameterPosition] = $arg;
+                    $carry[static::$aliasParameterPosition] = $arg;
                     break;
             }
 
