@@ -17,7 +17,7 @@ class AutoloadFileParser extends AbstractFileParser
     public function __construct(
         ParserFactory $parser,
         NodeTraverser $traverser,
-        AutoloadLibraryNodeCast $autoloadLibraryNodeCast,
+        AutoloadLibraryNodeCast $autoloadLibraryNodeCast
     ) {
         parent::__construct($parser, $traverser);
         $this->autoloadLibraryNodeCast = $autoloadLibraryNodeCast;

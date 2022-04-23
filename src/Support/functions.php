@@ -3,12 +3,12 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Support;
 
 if (!\function_exists('Haemanthus\\CodeIgniter3IdeHelper\\Support\\pipe')) {
-    function pipe(callable ...$functions): mixed
+    function pipe(callable ...$functions): callable
     {
-        return fn (mixed $value) => array_reduce(
-            $functions,
-            fn (mixed $carry, callable $function) => $function($carry),
-            $value
-        );
+        return function ($arg) use ($functions) {
+            return array_reduce($functions, fn ($carry, callable $function) => (
+                $function($carry)
+            ), $arg);
+        };
     }
 }
