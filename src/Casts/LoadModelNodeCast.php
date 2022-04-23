@@ -7,6 +7,8 @@ use PhpParser\Node\Expr\MethodCall;
 
 class LoadModelNodeCast extends AbstractMethodCallNodeCast
 {
+    use CastModelTrait;
+
     protected static string $classParameterName = 'model';
 
     protected static string $aliasParameterName = 'name';
@@ -14,14 +16,6 @@ class LoadModelNodeCast extends AbstractMethodCallNodeCast
     protected static int $classParameterPosition = 0;
 
     protected static int $aliasParameterPosition = 1;
-
-    protected function classTypeOf(string $name): string
-    {
-        $path = explode('/', $name);
-        $modelName = $path[array_key_last($path)];
-
-        return $modelName;
-    }
 
     /**
      * TODO: Reduce time complexity

@@ -4,8 +4,6 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
 
 use Haemanthus\CodeIgniter3IdeHelper\Objects\PropertyTagDto;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Cast\Array_;
-use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 
@@ -18,8 +16,6 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
     protected static int $classParameterPosition;
 
     protected static int $aliasParameterPosition;
-
-    abstract protected function classTypeOf(string $name): string;
 
     /**
      * Undocumented function
@@ -58,36 +54,6 @@ abstract class AbstractMethodCallNodeCast extends AbstractNodeCast
             $key === static::$classParameterPosition
             || $key === static::$aliasParameterPosition
         ), \ARRAY_FILTER_USE_KEY);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return bool
-     */
-    protected function isArgumentsTypeScalarString(array $args): bool
-    {
-        return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Identifier)
-            && $arg->value instanceof String_
-            && $carry
-        ), true);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array<Arg> $args
-     * @return bool
-     */
-    public function isArgumentsTypeExpressionArray(array $args): bool
-    {
-        return array_reduce($args, fn (bool $carry, Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Identifier)
-            && $arg->value instanceof Array_
-            && $carry
-        ), true);
     }
 
     /**

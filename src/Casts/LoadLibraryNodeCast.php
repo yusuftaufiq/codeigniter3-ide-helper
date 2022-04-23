@@ -11,6 +11,8 @@ use PhpParser\Node\Scalar\String_;
 
 class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 {
+    use CastLibraryTrait;
+
     protected static string $classParameterName = 'library';
 
     protected static string $aliasParameterName = 'object_name';
@@ -18,28 +20,6 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
     protected static int $classParameterPosition = 0;
 
     protected static int $aliasParameterPosition = 2;
-
-    protected function classTypeOf(string $name): string
-    {
-        if (array_key_exists($name, $this->mapLibraries) === true) {
-            return $this->mapLibraries[$name];
-        }
-
-        return $name;
-    }
-
-    protected function castExpressionArrayItem(ArrayItem $item): ?PropertyTagDto
-    {
-        if ($item->value instanceof String_ === false) {
-            return null;
-        }
-
-        $propertyName = $item->value->value;
-        $libraryClass = $item->key instanceof String_ ? $item->key->value : $propertyName;
-        $propertyType = $this->classTypeOf($libraryClass);
-
-        return new PropertyTagDto($propertyName, $propertyType);
-    }
 
     /**
      * Undocumented function
