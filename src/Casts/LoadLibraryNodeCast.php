@@ -11,8 +11,6 @@ use PhpParser\Node\Scalar\String_;
 
 class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 {
-    protected static string $classCategory = 'libraries';
-
     protected static string $classParameterName = 'library';
 
     protected static string $aliasParameterName = 'object_name';
@@ -23,8 +21,8 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
 
     protected function classTypeOf(string $name): string
     {
-        if (array_key_exists($name, $this->map[static::$classCategory] ?? []) === true) {
-            return $this->map[static::$classCategory][$name];
+        if (array_key_exists($name, $this->mapLibraries) === true) {
+            return $this->mapLibraries[$name];
         }
 
         return $name;
@@ -64,6 +62,9 @@ class LoadLibraryNodeCast extends AbstractMethodCallNodeCast
         );
     }
 
+    /**
+     * TODO: Reduce time complexity
+     */
     public function cast(Node $node): array
     {
         $args = $node instanceof MethodCall ? $node->getArgs() : [];

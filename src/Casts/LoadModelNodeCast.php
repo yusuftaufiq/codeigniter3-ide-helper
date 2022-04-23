@@ -23,6 +23,9 @@ class LoadModelNodeCast extends AbstractMethodCallNodeCast
         return $modelName;
     }
 
+    /**
+     * TODO: Reduce time complexity
+     */
     public function cast(Node $node): array
     {
         $args = $node instanceof MethodCall ? $node->getArgs() : [];
