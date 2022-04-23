@@ -26,6 +26,16 @@ class AutoloadFileParser extends AbstractFileParser
         $this->traverser->addVisitor($this->assignArrayNodeVisitor);
     }
 
+    /**
+     * TODO:
+     * - Create default loaded core class
+     * - Create AutoloadLibraryNodeCast
+     *   - Check if node is $autoload['libraries'] variable expression
+     *   - Create handler if node has alias
+     * - Create AutoloadModelNodeCast
+     * - Create ClassDto instance
+     * - Reduce space & time complexity
+     */
     public function parse(string $contents): array
     {
         $this->traverser->traverse($this->parser->parse($contents));
