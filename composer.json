@@ -35,7 +35,8 @@
         "nikic/php-parser": "^4.13",
         "mnapoli/silly": "^1.8",
         "php-di/php-di": "^6.3",
-        "symfony/finder": "^5.4"
+        "symfony/finder": "^5.4",
+        "spatie/enum": "^3.12"
     },
     "require-dev": {
         "psy/psysh": "@stable",
