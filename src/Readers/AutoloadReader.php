@@ -17,6 +17,16 @@ class AutoloadReader extends AbstractFileReader
     /**
      * Undocumented function
      *
+     * @return string
+     */
+    protected function getPath(): string
+    {
+        return $this->path;
+    }
+
+    /**
+     * Undocumented function
+     *
      * @return array<\Symfony\Component\Finder\SplFileInfo>
      */
     public function getFiles(): array

@@ -20,13 +20,6 @@ abstract class AbstractFileReader
     /**
      * Undocumented variable
      *
-     * @var string $path
-     */
-    protected string $path = '/./application/';
-
-    /**
-     * Undocumented variable
-     *
      * @var \Symfony\Component\Finder\Finder
      */
     protected Finder $finder;
@@ -61,8 +54,10 @@ abstract class AbstractFileReader
      */
     protected function getFullPath(): string
     {
-        return getcwd() . $this->dir . $this->path;
+        return getcwd() . $this->dir . $this->getPath();
     }
+
+    abstract protected function getPath(): string;
 
     /**
      * Undocumented function
