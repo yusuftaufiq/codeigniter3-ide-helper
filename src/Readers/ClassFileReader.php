@@ -5,7 +5,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 /**
  * Undocumented class
  */
-class CoreReader extends AbstractFileReader
+class ClassFileReader extends AbstractFileReader
 {
     /**
      * Undocumented variable
@@ -14,12 +14,19 @@ class CoreReader extends AbstractFileReader
      */
     protected array $patterns = [];
 
-    /**
-     * Undocumented variable
-     *
-     * @var string $path
-     */
-    protected string $path = './application/core/';
+    protected ?string $path = null;
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
 
     /**
      * Undocumented function

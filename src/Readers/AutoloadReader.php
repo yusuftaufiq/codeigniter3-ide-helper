@@ -19,7 +19,7 @@ class AutoloadReader extends AbstractFileReader
      *
      * @return string
      */
-    protected function getPath(): string
+    protected function getPath(): ?string
     {
         return $this->path;
     }

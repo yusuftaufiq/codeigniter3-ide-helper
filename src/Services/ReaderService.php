@@ -2,10 +2,10 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Services;
 
+use Haemanthus\CodeIgniter3IdeHelper\Enums\ClassTypeEnum;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\ClassFileReaderFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader;
-use Haemanthus\CodeIgniter3IdeHelper\Readers\ControllerReader;
-use Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader;
-use Haemanthus\CodeIgniter3IdeHelper\Readers\ModelReader;
+use Haemanthus\CodeIgniter3IdeHelper\Readers\ClassFileReader;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -20,45 +20,20 @@ class ReaderService
      */
     protected AutoloadReader $autoloadReader;
 
-    /**
-     * Undocumented variable
-     *
-     * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader
-     */
-    protected CoreReader $coreReader;
+    protected ClassFileReader $coreReader;
 
-    /**
-     * Undocumented variable
-     *
-     * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\ControllerReader
-     */
-    protected ControllerReader $controllerReader;
+    protected ClassFileReader $controllerReader;
 
-    /**
-     * Undocumented variable
-     *
-     * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\ModelReader
-     */
-    protected ModelReader $modelReader;
+    protected ClassFileReader $modelReader;
 
-    /**
-     * Undocumented function
-     *
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader $autoloadReader
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\CoreReader $coreReader
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\ControllerReader $controllerReader
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Readers\ModelReader $modelReader
-     */
     public function __construct(
         AutoloadReader $autoloadReader,
-        CoreReader $coreReader,
-        ControllerReader $controllerReader,
-        ModelReader $modelReader
+        ClassFileReaderFactory $classFileReader
     ) {
         $this->autoloadReader = $autoloadReader;
-        $this->coreReader = $coreReader;
-        $this->controllerReader = $controllerReader;
-        $this->modelReader = $modelReader;
+        $this->coreReader = $classFileReader->create(ClassTypeEnum::core());
+        $this->controllerReader = $classFileReader->create(ClassTypeEnum::controller());
+        $this->modelReader = $classFileReader->create(ClassTypeEnum::model());
     }
 
     /**

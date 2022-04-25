@@ -57,7 +57,7 @@ abstract class AbstractFileReader
         return getcwd() . $this->dir . $this->getPath();
     }
 
-    abstract protected function getPath(): string;
+    abstract protected function getPath(): ?string;
 
     /**
      * Undocumented function

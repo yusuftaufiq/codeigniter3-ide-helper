@@ -15,7 +15,7 @@ final class ClassTypeEnum extends Enum
     {
         switch (true) {
             case $this->equals(self::core()):
-                $dir = './application/cores/';
+                $dir = './application/core/';
                 break;
 
             case $this->equals(self::controller()):
