@@ -4,24 +4,27 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\NodeVisitorAbstract;
 
-class ClassNodeVisitor extends NodeVisitorAbstract
+class ClassNodeVisitor extends NodeVisitor
 {
-    protected ?Class_ $class;
-
     public function enterNode(Node $node)
     {
         if ($node instanceof Class_) {
-            $this->class = clone $node;
-            $this->class->stmts = [];
+            $classNode = clone $node;
+            $classNode->stmts = [];
+            $this->nodes[] = $classNode;
         }
 
         return parent::enterNode($node);
     }
 
-    public function getFoundClassNode(): ?Class_
+    public function getFoundFirstNode(): ?Node
     {
         return $this->class;
+    }
+
+    public function getFoundNodes(): array
+    {
+        return [$this->class];
     }
 }
