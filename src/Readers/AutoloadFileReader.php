@@ -5,7 +5,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 /**
  * Undocumented class
  */
-class AutoloadReader extends AbstractFileReader
+class AutoloadFileReader extends AbstractFileReader
 {
     /**
      * Undocumented variable
