@@ -18,7 +18,7 @@ class ClassNodeVisitor extends NodeVisitor
         return parent::enterNode($node);
     }
 
-    public function getFoundFirstNode(): ?Node
+    public function getFirstFoundNode(): ?Node
     {
         return $this->class;
     }

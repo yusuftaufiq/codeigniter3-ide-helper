@@ -10,7 +10,7 @@ class NodeVisitor extends NodeVisitorAbstract implements ContractNodeVisitor
 {
     protected array $nodes = [];
 
-    public function getFoundFirstNode(): ?Node
+    public function getFirstFoundNode(): ?Node
     {
         return $this->nodes[0] ?? null;
     }
