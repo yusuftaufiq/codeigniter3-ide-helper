@@ -2,10 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Services;
 
-use Haemanthus\CodeIgniter3IdeHelper\Enums\ClassTypeEnum;
-use Haemanthus\CodeIgniter3IdeHelper\Factories\ClassFileReaderFactory;
-use Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader;
-use Haemanthus\CodeIgniter3IdeHelper\Readers\ClassFileReader;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader;
+use Haemanthus\CodeIgniter3IdeHelper\Enums\FileType;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\FileReaderFactory;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -13,27 +12,20 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class ReaderService
 {
-    /**
-     * Undocumented variable
-     *
-     * @var \Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadReader
-     */
-    protected AutoloadReader $autoloadReader;
+    protected FileReader $autoloadReader;
 
-    protected ClassFileReader $coreReader;
+    protected FileReader $coreReader;
 
-    protected ClassFileReader $controllerReader;
+    protected FileReader $controllerReader;
 
-    protected ClassFileReader $modelReader;
+    protected FileReader $modelReader;
 
-    public function __construct(
-        AutoloadReader $autoloadReader,
-        ClassFileReaderFactory $classFileReader
-    ) {
-        $this->autoloadReader = $autoloadReader;
-        $this->coreReader = $classFileReader->create(ClassTypeEnum::core());
-        $this->controllerReader = $classFileReader->create(ClassTypeEnum::controller());
-        $this->modelReader = $classFileReader->create(ClassTypeEnum::model());
+    public function __construct(FileReaderFactory $fileReader)
+    {
+        $this->autoloadReader = $fileReader->create(FileType::autoload());
+        $this->coreReader = $fileReader->create(FileType::core());
+        $this->controllerReader = $fileReader->create(FileType::controller());
+        $this->modelReader = $fileReader->create(FileType::model());
     }
 
     /**
@@ -55,11 +47,11 @@ class ReaderService
     /**
      * Undocumented function
      *
-     * @return \Symfony\Component\Finder\SplFileInfo
+     * @return \Symfony\Component\Finder\SplFileInfo|null
      */
-    public function getAutoloadFile(): SplFileInfo
+    public function getAutoloadFile(): ?SplFileInfo
     {
-        return $this->autoloadReader->getFiles()[0];
+        return $this->autoloadReader->getFirstFile();
     }
 
     /**

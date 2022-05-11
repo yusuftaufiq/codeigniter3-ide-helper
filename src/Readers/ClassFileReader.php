@@ -5,47 +5,8 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 /**
  * Undocumented class
  */
-class ClassFileReader extends AbstractFileReader
+class ClassFileReader extends FileReader
 {
-    /**
-     * Undocumented variable
-     *
-     * @var array
-     */
-    protected array $patterns = [];
-
-    protected ?string $path = null;
-
-    public function setPath(?string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array $patterns
-     * @return self
-     */
-    public function setPatterns(array $patterns): self
-    {
-        $this->patterns = $patterns;
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return array<\Symfony\Component\Finder\SplFileInfo>
-     */
     public function getFiles(): array
     {
         array_walk($this->patterns, function ($pattern) {

@@ -3,36 +3,42 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Factories;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader;
-use Haemanthus\CodeIgniter3IdeHelper\Enums\FileReaderType;
+use Haemanthus\CodeIgniter3IdeHelper\Enums\FileType;
 use Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadFileReader;
 use Haemanthus\CodeIgniter3IdeHelper\Readers\ClassFileReader;
 
-final class FileReaderFactory
+class FileReaderFactory
 {
-    private FileFinderFactory $finder;
+    protected const APP_CORE_DIR = './application/core/';
+
+    protected const APP_CONTROLLER_DIR = './application/controllers/';
+
+    protected const APP_MODEL_DIR = './application/models/';
+
+    protected FileFinderFactory $finder;
 
     public function __construct(FileFinderFactory $finder)
     {
         $this->finder = $finder;
     }
 
-    public function create(FileReaderType $type): FileReader
+    public function create(FileType $type): FileReader
     {
         switch (true) {
-            case $type->equals(FileReaderType::autoload()):
+            case $type->equals(FileType::autoload()):
                 return new AutoloadFileReader($this->finder);
 
-            case $type->equals(FileReaderType::core()):
-                return (new ClassFileReader($this->finder))->setPath('./application/core/');
+            case $type->equals(FileType::core()):
+                return (new ClassFileReader($this->finder))->setPath(self::APP_CORE_DIR);
 
-            case $type->equals(FileReaderType::controller()):
-                return (new ClassFileReader($this->finder))->setPath('./application/controllers/');
+            case $type->equals(FileType::controller()):
+                return (new ClassFileReader($this->finder))->setPath(self::APP_CONTROLLER_DIR);
 
-            case $type->equals(FileReaderType::model()):
-                return (new ClassFileReader($this->finder))->setPath('./application/models/');
+            case $type->equals(FileType::model()):
+                return (new ClassFileReader($this->finder))->setPath(self::APP_MODEL_DIR);
 
             default:
-                throw new \InvalidArgumentException('Unknown FileReaderType');
+                throw new \InvalidArgumentException('Unknown FileType');
         }
     }
 }

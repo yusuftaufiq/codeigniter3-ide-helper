@@ -2,20 +2,21 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader as FileReaderContract;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Undocumented class
  */
-abstract class AbstractFileReader
+abstract class FileReader implements FileReaderContract
 {
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     */
-    protected string $dir = '/./';
+    protected ?string $dir = null;
+
+    protected array $patterns = [];
+
+    protected ?string $path = null;
 
     /**
      * Undocumented variable
@@ -54,15 +55,31 @@ abstract class AbstractFileReader
      */
     protected function getFullPath(): string
     {
-        return getcwd() . $this->dir . $this->getPath();
+        return getcwd() . $this->dir . $this->path;
     }
 
-    abstract protected function getPath(): ?string;
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
 
     /**
      * Undocumented function
      *
-     * @return array<\Symfony\Component\Finder\SplFileInfo>
+     * @param array $patterns
+     * @return self
      */
-    abstract public function getFiles(): array;
+    public function setPatterns(array $patterns): self
+    {
+        $this->patterns = $patterns;
+
+        return $this;
+    }
+
+    public function getFirstFile(): ?SplFileInfo
+    {
+        return $this->getFiles()[0] ?? null;
+    }
 }

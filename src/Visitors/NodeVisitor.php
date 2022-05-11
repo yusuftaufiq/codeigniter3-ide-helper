@@ -2,11 +2,11 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
-use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor as ContractNodeVisitor;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor as NodeVisitorContract;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 
-class NodeVisitor extends NodeVisitorAbstract implements ContractNodeVisitor
+class NodeVisitor extends NodeVisitorAbstract implements NodeVisitorContract
 {
     protected array $nodes = [];
 

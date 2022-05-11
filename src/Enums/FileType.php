@@ -10,6 +10,6 @@ use Spatie\Enum\Enum;
  * @method static self controller()
  * @method static self model()
  */
-final class FileReaderType extends Enum
+final class FileType extends Enum
 {
 }
