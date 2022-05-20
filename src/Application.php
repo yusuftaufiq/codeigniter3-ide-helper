@@ -2,77 +2,29 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper;
 
-use DI\Container;
-use DI\ContainerBuilder;
-use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
-use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
-use Haemanthus\CodeIgniter3IdeHelper\Support\VarDumper;
-use Silly\Application as SillyApplication;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\Command;
 
 /**
  * Undocumented class
  */
 class Application
 {
-    /**
-     * Undocumented constant
-     */
-    protected const APP_NAME = 'CodeIgniter 3 IDE Helper';
+    public const APP_NAME = 'CodeIgniter 3 IDE Helper';
 
-    /**
-     * Undocumented constant
-     */
-    protected const APP_VERSION = '0.1.0';
+    public const APP_VERSION = '0.1.0';
 
-    /**
-     * Undocumented variable
-     *
-     * @var \Silly\Application
-     */
-    protected SillyApplication $app;
+    protected array $commands;
 
-    /**
-     * Undocumented variable
-     *
-     * @var \DI\Container
-     */
-    protected Container $container;
+    protected \Silly\Application $silly;
 
-    /**
-     * Undocumented function
-     */
-    public function __construct()
+    public function __construct(\Silly\Application $silly)
     {
-        $builder = new ContainerBuilder();
-        $builder->addDefinitions(AppServiceProvider::definitions());
-
-        $this->app = new SillyApplication(static::APP_NAME, static::APP_VERSION);
-        $this->container = $builder->build();
-        $this->app->useContainer($this->container, true);
+        $this->silly = $silly;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return $this
-     */
-    public function registerDevTools(): self
+    public function addCommand(Command $command): self
     {
-        (new VarDumper())->handle();
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return $this
-     */
-    public function registerCommands(): self
-    {
-        $this->app
-            ->command(GenerateHelperCommand::$expression, $this->container->make(GenerateHelperCommand::class))
-            ->descriptions(GenerateHelperCommand::$description, GenerateHelperCommand::$options);
+        $this->commands[] = $command;
 
         return $this;
     }
@@ -84,7 +36,11 @@ class Application
      */
     public function run(): self
     {
-        $this->app->run();
+        array_walk($this->commands, function (Command $command): void {
+            $command->execute();
+        });
+
+        $this->silly->run();
 
         return $this;
     }

@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use Haemanthus\CodeIgniter3IdeHelper\Application;
+use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
+use Haemanthus\CodeIgniter3IdeHelper\Commands\StartVarDumperCommand;
+use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
+use Silly\Application as SillyApplication;
+
 define('ENVIRONMENT', getenv('ENVIRONMENT') ?: 'production');
 
 switch (true) {
@@ -19,10 +25,17 @@ switch (true) {
 
 require_once $autoload;
 
-$app = (new \Haemanthus\CodeIgniter3IdeHelper\Application());
+$container = AppServiceProvider::container();
+
+/** @var SillyApplication */
+$silly = $container->get(SillyApplication::class);
+
+/** @var Application */
+$app = $container->get(Application::class);
 
 if (strtolower(ENVIRONMENT) === 'development') {
-    $app->registerDevTools();
+    $app->addCommand($container->get(StartVarDumperCommand::class));
 }
 
-$app->registerCommands()->run();
+$app->addCommand($container->get(GenerateHelperCommand::class));
+$app->run();
