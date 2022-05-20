@@ -9,7 +9,7 @@ class ClassFileReader extends FileReader
 {
     public function getFiles(): array
     {
-        array_walk($this->patterns, function ($pattern) {
+        array_walk($this->patterns, function (string $pattern) {
             $this->finder->path($pattern);
         });
 
