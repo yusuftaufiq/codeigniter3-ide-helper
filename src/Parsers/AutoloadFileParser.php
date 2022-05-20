@@ -2,51 +2,99 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
-use Haemanthus\CodeIgniter3IdeHelper\Casts\AutoloadLibraryNodeCast;
-use Haemanthus\CodeIgniter3IdeHelper\Visitors\AssignArrayNodeVisitor;
-use PhpParser\Node\Expr\Assign;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeCaster;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor;
+use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
+use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeVisitorFactory;
+use PhpParser\BuilderFactory;
+use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
-class AutoloadFileParser extends AbstractFileParser
+class AutoloadFileParser extends FileParser
 {
-    protected AssignArrayNodeVisitor $assignArrayNodeVisitor;
+    protected NodeVisitor $autoloadLibraryNodeVisitor;
 
-    protected AutoloadLibraryNodeCast $autoloadLibraryNodeCast;
+    protected NodeVisitor $autoloadModelNodeVisitor;
+
+    protected NodeCaster $assignAutoloadLibraryNodeCaster;
+
+    protected NodeCaster $assignAutoloadModelNodeCaster;
+
+    protected BuilderFactory $nodeBuilder;
 
     public function __construct(
         ParserFactory $parser,
         NodeTraverser $traverser,
-        AutoloadLibraryNodeCast $autoloadLibraryNodeCast
+        NodeVisitorFactory $nodeVisitor,
+        NodeCasterFactory $nodeCaster,
+        BuilderFactory $nodeBuilder
     ) {
         parent::__construct($parser, $traverser);
-        $this->autoloadLibraryNodeCast = $autoloadLibraryNodeCast;
-        $this->assignArrayNodeVisitor = new AssignArrayNodeVisitor();
 
-        $this->traverser->addVisitor($this->assignArrayNodeVisitor);
+        $this->setNodeVisitor($nodeVisitor);
+        $this->setNodeCaster($nodeCaster);
+
+        $this->nodeBuilder = $nodeBuilder;
     }
 
-    /**
-     * TODO:
-     * - Create default loaded core class
-     * - Create AutoloadLibraryNodeCast
-     *   - Check if node is $autoload['libraries'] variable expression
-     *   - Create handler if node has alias
-     * - Create AutoloadModelNodeCast
-     * - Create ClassDto instance
-     * - Reduce space & time complexity
-     */
+    protected function setNodeVisitor(NodeVisitorFactory $nodeVisitor): self
+    {
+        $this->autoloadLibraryNodeVisitor = $nodeVisitor->create(NodeVisitorType::assignAutoloadLibrary());
+        $this->traverser->addVisitor($this->autoloadLibraryNodeVisitor);
+
+        $this->autoloadModelNodeVisitor = $nodeVisitor->create(NodeVisitorType::assignAutoloadModel());
+        $this->traverser->addVisitor($this->autoloadModelNodeVisitor);
+
+        return $this;
+    }
+
+    protected function setNodeCaster(NodeCasterFactory $nodeCaster): self
+    {
+        $this->assignAutoloadLibraryNodeCaster = $nodeCaster->create(NodeVisitorType::assignAutoloadLibrary());
+        $this->assignAutoloadModelNodeCaster = $nodeCaster->create(NodeVisitorType::assignAutoloadModel());
+
+        return $this;
+    }
+
+    protected function parseAutoloadLibraryNodes(array $nodes): array
+    {
+        return array_reduce($nodes, fn (array $carry, Node\Expr\Assign $node): array => (
+            array_merge($carry, $this->assignAutoloadLibraryNodeCaster->cast($node))
+        ), []);
+    }
+
+    protected function parseAutoloadModelNodes(array $nodes): array
+    {
+        return array_reduce($nodes, fn (array $carry, Node\Expr\Assign $node): array => (
+            array_merge($carry, $this->assignAutoloadModelNodeCaster->cast($node))
+        ), []);
+    }
+
     public function parse(string $contents): array
     {
         $this->traverser->traverse($this->parser->parse($contents));
 
-        $autoloadLibraryNodes = $this->assignArrayNodeVisitor->getFoundAutoloadLibraryNodes();
-        $autoloadLibraryTags = array_reduce($autoloadLibraryNodes, fn (array $carry, Assign $node): array => (
-            array_merge($carry, $this->autoloadLibraryNodeCast->cast($node))
-        ), []);
+        $loadLibraryStructuralElements = $this->parseAutoloadLibraryNodes(
+            $this->autoloadLibraryNodeVisitor->getFoundNodes()
+        );
 
-        dd($autoloadLibraryTags);
+        $loadModelStructuralElements = $this->parseAutoloadModelNodes(
+            $this->autoloadModelNodeVisitor->getFoundNodes()
+        );
 
-        dd($this->assignArrayNodeVisitor->getFoundAutoloadModelNodes());
+        $controllerClassStructuralElement = new ClassStructuralElement(
+            $this->nodeBuilder->class('CI_Controller')->getNode(),
+            array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
+        );
+
+        $modelClassStructuralElement = new ClassStructuralElement(
+            $this->nodeBuilder->class('CI_Model')->getNode(),
+            array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
+        );
+
+        return [$controllerClassStructuralElement, $modelClassStructuralElement];
     }
 }

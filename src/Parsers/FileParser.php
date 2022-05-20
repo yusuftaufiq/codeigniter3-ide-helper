@@ -2,11 +2,12 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileParser as FileParserContract;
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
-abstract class AbstractFileParser
+abstract class FileParser implements FileParserContract
 {
     protected Parser $parser;
 
@@ -19,6 +20,4 @@ abstract class AbstractFileParser
         $this->parser = $parser->create(ParserFactory::PREFER_PHP7);
         $this->traverser = $traverser;
     }
-
-    abstract public function parse(string $contents): array;
 }
