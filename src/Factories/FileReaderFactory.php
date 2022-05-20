@@ -38,7 +38,7 @@ class FileReaderFactory
                 return (new ClassFileReader($this->finder))->setPath(self::APP_MODEL_DIR);
 
             default:
-                throw new \InvalidArgumentException('Unknown FileType');
+                throw new \InvalidArgumentException("Unsupported file type for {$type->value}");
         }
     }
 }

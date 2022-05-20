@@ -6,7 +6,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 use Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
-final class NodeVisitorFactory
+class NodeVisitorFactory
 {
     public function create(NodeVisitorType $type): NodeVisitor
     {
@@ -23,8 +23,11 @@ final class NodeVisitorFactory
             case $type->equals(NodeVisitorType::methodCallLoadModel()):
                 return new Visitors\MethodCallLoadModelNodeVisitor();
 
+            case $type->equals(NodeVisitorType::class()):
+                return new Visitors\ClassNodeVisitor();
+
             default:
-                throw new \Exception("Unknown node visitor type: ${type}");
+                throw new \InvalidArgumentException("Unsupported node visitor type for {$type->value}");
         }
     }
 }
