@@ -1,8 +1,8 @@
 <?php
 
-namespace Haemanthus\CodeIgniter3IdeHelper\Objects;
+namespace Haemanthus\CodeIgniter3IdeHelper\Elements;
 
-class PropertyTagDto
+class PropertyStructuralElement
 {
     protected string $name;
 

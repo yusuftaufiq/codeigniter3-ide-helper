@@ -1,10 +1,10 @@
 <?php
 
-namespace Haemanthus\CodeIgniter3IdeHelper\Objects;
+namespace Haemanthus\CodeIgniter3IdeHelper\Elements;
 
 use PhpParser\Node\Stmt\Class_;
 
-class ClassDto
+class ClassStructuralElement
 {
     protected Class_ $node;
 
@@ -23,6 +23,11 @@ class ClassDto
         return $this->node;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array<PropertyStructuralElement>
+     */
     public function getProperties(): array
     {
         return $this->properties;
