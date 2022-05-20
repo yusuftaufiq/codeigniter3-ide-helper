@@ -20,11 +20,11 @@ class ClassNodeVisitor extends NodeVisitor
 
     public function getFirstFoundNode(): ?Node
     {
-        return $this->class;
+        return array_key_exists(0, $this->nodes) ? $this->nodes[0] : null;
     }
 
     public function getFoundNodes(): array
     {
-        return [$this->class];
+        return [$this->nodes];
     }
 }

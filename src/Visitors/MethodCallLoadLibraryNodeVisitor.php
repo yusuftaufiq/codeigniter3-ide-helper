@@ -8,7 +8,7 @@ use PhpParser\NodeTraverser;
 class MethodCallLoadLibraryNodeVisitor extends NodeVisitor
 {
     use MethodCallChecker {
-        isMethodCallThisLoadLibrary as protected;
+        isMethodCallThisLoad as protected;
     }
 
     protected function isMethodCallThisLoadLibrary(Node $node): bool
