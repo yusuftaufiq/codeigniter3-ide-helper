@@ -3,7 +3,7 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Commands;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\Command;
-use Haemanthus\CodeIgniter3IdeHelper\Services\GenerateHelperService;
+use Haemanthus\CodeIgniter3IdeHelper\Facades\GenerateHelperFacade;
 use Silly\Application as SillyApplication;
 
 /**
@@ -38,14 +38,14 @@ class GenerateHelperCommand implements Command
 
     protected SillyApplication $app;
 
-    protected GenerateHelperService $service;
+    protected GenerateHelperFacade $facade;
 
     public function __construct(
         SillyApplication $app,
-        GenerateHelperService $service
+        GenerateHelperFacade $facade
     ) {
         $this->app = $app;
-        $this->service = $service;
+        $this->facade = $facade;
     }
 
     public function execute(): void
@@ -60,7 +60,7 @@ class GenerateHelperCommand implements Command
         array $pattern = [],
         string $output = '/./ide-helper.php'
     ) {
-        $this->service
+        $this->facade
             ->withDirectory($dir)
             ->withPatterns($pattern)
             ->generate();
