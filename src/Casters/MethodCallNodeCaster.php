@@ -23,7 +23,7 @@ class MethodCallNodeCaster extends NodeCaster
 
         switch (true) {
             case $this->isArgumentsTypeScalarString($this->nodeManager->filter($args)):
-                $blocks = [$this->castScalarStringArguments(
+                $propertyStructuralElements = [$this->castScalarStringArguments(
                     $this->nodeManager->sort($args),
                     $this->nodeManager->getClassParameterPosition(),
                     $this->nodeManager->getAliasParameterPosition(),
@@ -31,17 +31,17 @@ class MethodCallNodeCaster extends NodeCaster
                 break;
 
             case $this->isArgumentsTypeExpressionArray($this->nodeManager->filter($args)):
-                $blocks = $this->castExpressionArrayArguments(
+                $propertyStructuralElements = $this->castExpressionArrayArguments(
                     $this->nodeManager->sort($args),
                     $this->nodeManager->getClassParameterPosition(),
                 );
                 break;
 
             default:
-                $blocks = [];
+                $propertyStructuralElements = [];
                 break;
         }
 
-        return $blocks;
+        return $propertyStructuralElements;
     }
 }
