@@ -29,13 +29,13 @@ class FileReaderFactory
                 return new AutoloadFileReader($this->finder);
 
             case $type->equals(FileType::core()):
-                return (new ClassFileReader($this->finder))->setPath(self::APP_CORE_DIR);
+                return (new ClassFileReader($this->finder))->setFileDirectory(self::APP_CORE_DIR);
 
             case $type->equals(FileType::controller()):
-                return (new ClassFileReader($this->finder))->setPath(self::APP_CONTROLLER_DIR);
+                return (new ClassFileReader($this->finder))->setFileDirectory(self::APP_CONTROLLER_DIR);
 
             case $type->equals(FileType::model()):
-                return (new ClassFileReader($this->finder))->setPath(self::APP_MODEL_DIR);
+                return (new ClassFileReader($this->finder))->setFileDirectory(self::APP_MODEL_DIR);
 
             default:
                 throw new \InvalidArgumentException("Unsupported file type for {$type->value}");

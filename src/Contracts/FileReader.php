@@ -6,9 +6,9 @@ use Symfony\Component\Finder\SplFileInfo;
 
 interface FileReader
 {
-    public function setDirectory(string $dir): self;
+    public function setRootDirectory(string $rootDirectory): self;
 
-    public function setPath(?string $path): self;
+    public function setFileDirectory(string $fileDirectory): self;
 
     public function setPatterns(array $patterns): self;
 

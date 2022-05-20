@@ -18,7 +18,7 @@ class GenerateHelperFacade
 
     public function withDirectory(string $directory): self
     {
-        $this->reader->setDirectory($directory);
+        $this->reader->setRootDirectory($directory);
 
         return $this;
     }

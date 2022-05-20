@@ -2,7 +2,6 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
-use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\FileType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\FileParserFactory;
 use Symfony\Component\Finder\SplFileInfo;

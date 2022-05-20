@@ -7,17 +7,13 @@ use Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Undocumented class
- */
 abstract class FileReader implements FileReaderContract
 {
-    protected ?string $dir = null;
+    protected ?string $rootDirectory = null;
+
+    protected ?string $fileDirectory = null;
 
     protected array $patterns = [];
-
-    protected ?string $path = null;
-
     /**
      * Undocumented variable
      *
@@ -38,12 +34,19 @@ abstract class FileReader implements FileReaderContract
     /**
      * Undocumented function
      *
-     * @param string $dir
+     * @param string $rootDirectory
      * @return self
      */
-    public function setDirectory(string $dir): self
+    public function setRootDirectory(string $rootDirectory): self
     {
-        $this->dir = $dir;
+        $this->rootDirectory = $rootDirectory;
+
+        return $this;
+    }
+
+    public function setFileDirectory(string $fileDirectory): self
+    {
+        $this->fileDirectory = $fileDirectory;
 
         return $this;
     }
@@ -53,16 +56,9 @@ abstract class FileReader implements FileReaderContract
      *
      * @return string
      */
-    protected function getFullPath(): string
+    protected function getFullDirectory(): string
     {
-        return getcwd() . $this->dir . $this->path;
-    }
-
-    public function setPath(?string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
+        return getcwd() . $this->rootDirectory . $this->fileDirectory;
     }
 
     /**

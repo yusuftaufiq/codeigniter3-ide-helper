@@ -15,7 +15,7 @@ class ClassFileReader extends FileReader
 
         $this->finder
             ->files()
-            ->in($this->getFullPath())
+            ->in($this->getFullDirectory())
             ->name('*.php');
 
         return iterator_to_array($this->finder, false);

@@ -28,12 +28,12 @@ class ReaderFacade
         $this->modelReader = $fileReader->create(FileType::model());
     }
 
-    public function setDirectory(string $dir): self
+    public function setRootDirectory(string $dir): self
     {
-        $this->autoloadReader->setDirectory($dir);
-        $this->coreReader->setDirectory($dir);
-        $this->controllerReader->setDirectory($dir);
-        $this->modelReader->setDirectory($dir);
+        $this->autoloadReader->setRootDirectory($dir);
+        $this->coreReader->setRootDirectory($dir);
+        $this->controllerReader->setRootDirectory($dir);
+        $this->modelReader->setRootDirectory($dir);
 
         return $this;
     }
