@@ -1,8 +1,10 @@
 <?php
 
-namespace Haemanthus\CodeIgniter3IdeHelper\Casts;
+namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
-trait CastLibraryTrait
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileNameMapper;
+
+class LibraryNameMapper implements FileNameMapper
 {
     /**
     * Undocumented variable
@@ -34,7 +36,7 @@ trait CastLibraryTrait
         'zip' => 'CI_Zip',
     ];
 
-    protected function classTypeOf(string $name): string
+    public function concreteFileNameOf(string $name): string
     {
         if (array_key_exists($name, $this->mapLibraries) === true) {
             return $this->mapLibraries[$name];
