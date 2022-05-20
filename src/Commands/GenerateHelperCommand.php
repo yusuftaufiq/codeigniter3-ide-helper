@@ -58,11 +58,12 @@ class GenerateHelperCommand implements Command
     public function __invoke(
         string $dir = '/./',
         array $pattern = [],
-        string $output = '/./ide-helper.php'
+        string $output = '/./_ide_helper.php'
     ) {
         $this->facade
             ->withDirectory($dir)
             ->withPatterns($pattern)
+            ->withOutput($output)
             ->generate();
     }
 }

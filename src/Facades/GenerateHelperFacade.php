@@ -2,18 +2,24 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter;
+
 class GenerateHelperFacade
 {
     protected ReaderFacade $reader;
 
     protected ParserFacade $parser;
 
+    protected FileWriter $writer;
+
     public function __construct(
         ReaderFacade $reader,
-        ParserFacade $parser
+        ParserFacade $parser,
+        FileWriter $writer
     ) {
         $this->reader = $reader;
         $this->parser = $parser;
+        $this->writer = $writer;
     }
 
     public function withDirectory(string $directory): self
@@ -30,6 +36,13 @@ class GenerateHelperFacade
         return $this;
     }
 
+    public function withOutput(string $path): self
+    {
+        $this->writer->setOutputPath($path);
+
+        return $this;
+    }
+
     public function generate(): void
     {
         $structuralElements = array_merge(
@@ -37,6 +50,6 @@ class GenerateHelperFacade
             $this->parser->parseClassFiles($this->reader->getClassFiles()),
         );
 
-        dd($structuralElements);
+        $this->writer->write($structuralElements);
     }
 }
