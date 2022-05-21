@@ -33,7 +33,7 @@ class GenerateHelperCommand implements Command
     protected array $options = [
         '--dir' => 'CodeIgniter 3 root directory',
         '--pattern' => 'Pattern in string or regex to match files',
-        '--output' => 'Output filename'
+        '--output' => 'Output path of generated file',
     ];
 
     protected SillyApplication $app;
@@ -56,14 +56,14 @@ class GenerateHelperCommand implements Command
     }
 
     public function __invoke(
-        string $dir = '/./',
+        string $dir = './',
         array $pattern = [],
-        string $output = '/./_ide_helper.php'
-    ) {
-        $this->facade
-            ->withDirectory($dir)
-            ->withPatterns($pattern)
-            ->withOutput($output)
-            ->generate();
+        string $output = '_ide_helper.php'
+    ): int {
+        $this->facade->withDirectory($dir);
+        $this->facade->withPatterns($pattern);
+        $this->facade->withOutputPath($output);
+
+        return $this->facade->generate();
     }
 }

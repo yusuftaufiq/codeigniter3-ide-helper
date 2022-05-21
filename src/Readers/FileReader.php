@@ -4,6 +4,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader as FileReaderContract;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -21,14 +22,19 @@ abstract class FileReader implements FileReaderContract
      */
     protected Finder $finder;
 
+    protected Filesystem $fs;
+
     /**
      * Undocumented function
      *
      * @param \Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory $finder
      */
-    public function __construct(FileFinderFactory $finder)
-    {
+    public function __construct(
+        FileFinderFactory $finder,
+        Filesystem $fs
+    ) {
         $this->finder = $finder->create();
+        $this->fs = $fs;
     }
 
     /**
@@ -58,7 +64,7 @@ abstract class FileReader implements FileReaderContract
      */
     protected function getFullDirectory(): string
     {
-        return getcwd() . $this->rootDirectory . $this->fileDirectory;
+        return getcwd() . '/' . $this->rootDirectory . $this->fileDirectory;
     }
 
     /**
@@ -72,6 +78,11 @@ abstract class FileReader implements FileReaderContract
         $this->patterns = $patterns;
 
         return $this;
+    }
+
+    public function isDirectoryExists(): bool
+    {
+        return $this->fs->exists($this->getFullDirectory());
     }
 
     public function getFirstFile(): ?SplFileInfo

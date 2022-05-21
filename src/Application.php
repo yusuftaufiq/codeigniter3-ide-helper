@@ -13,6 +13,8 @@ class Application
 
     public const APP_VERSION = '0.1.0';
 
+    public const APP_REPOSITORY = 'https://github.com/yusuftaufiq/codeigniter3-ide-helper';
+
     protected array $commands;
 
     protected \Silly\Application $silly;

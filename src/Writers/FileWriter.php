@@ -8,6 +8,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\PrettyPrinter;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FileWriter implements FileWriterContract
 {
@@ -15,9 +16,14 @@ class FileWriter implements FileWriterContract
 
     protected PrettyPrinter\Standard $printer;
 
-    public function __construct(PrettyPrinter\Standard $printer)
-    {
+    protected Filesystem $fs;
+
+    public function __construct(
+        PrettyPrinter\Standard $printer,
+        Filesystem $fs
+    ) {
         $this->printer = $printer;
+        $this->fs = $fs;
     }
 
     public function setOutputPath(string $outputPath): self
@@ -48,7 +54,7 @@ class FileWriter implements FileWriterContract
 
     protected function getFullPath(): string
     {
-        return getcwd() . $this->outputPath;
+        return getcwd() . '/' . $this->outputPath;
     }
 
     /**
@@ -66,7 +72,7 @@ class FileWriter implements FileWriterContract
 
         $code = $this->printer->prettyPrintFile($classNodes);
 
-        file_put_contents($this->getFullPath(), $code);
+        $this->fs->dumpFile($this->getFullPath(), $code);
 
         return $this;
     }

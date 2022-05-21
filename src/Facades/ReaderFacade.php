@@ -47,6 +47,14 @@ class ReaderFacade
         return $this;
     }
 
+    public function isAllDirectoryExists(): bool
+    {
+        return $this->autoloadReader->isDirectoryExists()
+            && $this->coreReader->isDirectoryExists()
+            && $this->controllerReader->isDirectoryExists()
+            && $this->modelReader->isDirectoryExists();
+    }
+
     public function getAutoloadFile(): ?SplFileInfo
     {
         return $this->autoloadReader->getFirstFile();

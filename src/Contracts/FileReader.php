@@ -14,6 +14,8 @@ interface FileReader
 
     public function getFirstFile(): ?SplFileInfo;
 
+    public function isDirectoryExists(): bool;
+
     /**
      * Undocumented function
      *
