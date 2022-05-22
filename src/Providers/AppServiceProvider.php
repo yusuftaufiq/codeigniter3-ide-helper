@@ -41,11 +41,11 @@ class AppServiceProvider
                 return $silly;
             },
             StartVarDumperCommand::class => function (): StartVarDumperCommand {
-                if (getenv('VAR_DUMPER_HOST') === false) {
+                if (getenv('IDE_HELPER_VAR_DUMPER_HOST') === false) {
                     return new StartVarDumperCommand();
                 }
 
-                return new StartVarDumperCommand(getenv('VAR_DUMPER_HOST'));
+                return new StartVarDumperCommand(getenv('IDE_HELPER_VAR_DUMPER_HOST'));
             },
         ];
     }
