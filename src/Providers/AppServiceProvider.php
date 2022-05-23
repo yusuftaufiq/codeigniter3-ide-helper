@@ -4,7 +4,6 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Providers;
 
 use DI\ContainerBuilder;
 use Haemanthus\CodeIgniter3IdeHelper\Application;
-use Haemanthus\CodeIgniter3IdeHelper\Commands\StartVarDumperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter as FileWriterContract;
 use Haemanthus\CodeIgniter3IdeHelper\Writers\FileWriter;
 use Psr\Container\ContainerInterface;
@@ -40,13 +39,6 @@ class AppServiceProvider
 
                 return $silly;
             },
-            StartVarDumperCommand::class => function (): StartVarDumperCommand {
-                if (getenv('IDE_HELPER_VAR_DUMPER_HOST') === false) {
-                    return new StartVarDumperCommand();
-                }
-
-                return new StartVarDumperCommand(getenv('IDE_HELPER_VAR_DUMPER_HOST'));
-            },
         ];
     }
 
@@ -55,8 +47,11 @@ class AppServiceProvider
         if (static::$container === null) {
             $builder = new ContainerBuilder();
             $builder->addDefinitions(static::definitions());
-            $builder->enableCompilation(__DIR__ . '/../../tmp');
-            $builder->writeProxiesToFile(true, __DIR__ . '/../../tmp/proxies');
+
+            if (ENVIRONMENT === 'production') {
+                $builder->enableCompilation(__DIR__ . '/../../tmp');
+                $builder->writeProxiesToFile(true, __DIR__ . '/../../tmp/proxies');
+            }
 
             static::$container = $builder->build();
         }

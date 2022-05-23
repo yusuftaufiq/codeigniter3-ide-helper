@@ -6,7 +6,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor as NodeVisitorContrac
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 
-class NodeVisitor extends NodeVisitorAbstract implements NodeVisitorContract
+abstract class NodeVisitor extends NodeVisitorAbstract implements NodeVisitorContract
 {
     protected array $nodes = [];
 

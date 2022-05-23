@@ -27,13 +27,10 @@ require_once $autoload;
 
 $container = AppServiceProvider::container();
 
-/** @var SillyApplication */
-$silly = $container->get(SillyApplication::class);
-
 /** @var Application */
 $app = $container->get(Application::class);
 
-if (strtolower(ENVIRONMENT) === 'development') {
+if (ENVIRONMENT !== 'production') {
     $app->addCommand($container->get(StartVarDumperCommand::class));
 }
 

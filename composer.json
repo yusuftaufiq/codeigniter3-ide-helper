@@ -15,7 +15,6 @@
         "bin/ide-helper"
     ],
     "autoload": {
-        "files": ["src/Support/functions.php"],
         "psr-4": {
             "Haemanthus\\CodeIgniter3IdeHelper\\": "src/"
         }
