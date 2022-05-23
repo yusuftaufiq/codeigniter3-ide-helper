@@ -55,6 +55,8 @@ class AppServiceProvider
         if (static::$container === null) {
             $builder = new ContainerBuilder();
             $builder->addDefinitions(static::definitions());
+            $builder->enableCompilation(__DIR__ . '/../../tmp');
+            $builder->writeProxiesToFile(true, __DIR__ . '/../../tmp/proxies');
 
             static::$container = $builder->build();
         }
