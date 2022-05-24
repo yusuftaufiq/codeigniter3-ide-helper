@@ -10,26 +10,14 @@ use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 
 class NodeCasterFactory
 {
-    protected LibraryNameMapper $libraryNameMapper;
-
-    protected ModelNameMapper $modelNameMapper;
-
-    public function __construct(
-        LibraryNameMapper $libraryNameMapper,
-        ModelNameMapper $modelNameMapper
-    ) {
-        $this->libraryNameMapper = $libraryNameMapper;
-        $this->modelNameMapper = $modelNameMapper;
-    }
-
     public function create(NodeVisitorType $type): NodeCaster
     {
         switch (true) {
             case $type->equals(NodeVisitorType::assignAutoloadLibrary()):
-                return new Casters\AssignAutoloadArrayNodeCaster($this->libraryNameMapper);
+                return new Casters\AssignAutoloadArrayNodeCaster(new LibraryNameMapper());
 
             case $type->equals(NodeVisitorType::assignAutoloadModel()):
-                return new Casters\AssignAutoloadArrayNodeCaster($this->modelNameMapper);
+                return new Casters\AssignAutoloadArrayNodeCaster(new ModelNameMapper());
 
             case $type->equals(NodeVisitorType::methodCallLoadLibrary()):
                 $classParameterName = 'library';
@@ -44,7 +32,7 @@ class NodeCasterFactory
                     $aliasParameterPosition,
                 );
 
-                return new Casters\MethodCallNodeCaster($this->libraryNameMapper, $methodCallNodeManager);
+                return new Casters\MethodCallNodeCaster(new LibraryNameMapper(), $methodCallNodeManager);
 
             case $type->equals(NodeVisitorType::methodCallLoadModel()):
                 $classParameterName = 'model';
@@ -59,7 +47,7 @@ class NodeCasterFactory
                     $aliasParameterPosition,
                 );
 
-                return new Casters\MethodCallNodeCaster($this->modelNameMapper, $methodCallNodeManager);
+                return new Casters\MethodCallNodeCaster(new ModelNameMapper(), $methodCallNodeManager);
 
             default:
                 throw new \InvalidArgumentException("Unsupported file type for {$type->value}");

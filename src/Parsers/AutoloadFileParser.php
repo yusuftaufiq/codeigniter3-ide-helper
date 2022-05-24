@@ -7,10 +7,10 @@ use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeTraverserFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeVisitorFactory;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
-use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
 class AutoloadFileParser extends FileParser
@@ -27,7 +27,7 @@ class AutoloadFileParser extends FileParser
 
     public function __construct(
         ParserFactory $parser,
-        NodeTraverser $traverser,
+        NodeTraverserFactory $traverser,
         NodeVisitorFactory $nodeVisitor,
         NodeCasterFactory $nodeCaster,
         BuilderFactory $nodeBuilder

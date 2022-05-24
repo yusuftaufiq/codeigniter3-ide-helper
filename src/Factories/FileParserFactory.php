@@ -17,6 +17,8 @@ class FileParserFactory
 {
     protected ParserFactory $parser;
 
+    protected NodeTraverserFactory $traverser;
+
     protected NodeVisitorFactory $nodeVisitor;
 
     protected NodeCasterFactory $nodeCaster;
@@ -25,11 +27,13 @@ class FileParserFactory
 
     public function __construct(
         ParserFactory $parser,
+        NodeTraverserFactory $traverser,
         NodeVisitorFactory $nodeVisitor,
         NodeCasterFactory $nodeCaster,
         BuilderFactory $nodeBuilder
     ) {
         $this->parser = $parser;
+        $this->traverser = $traverser;
         $this->nodeVisitor = $nodeVisitor;
         $this->nodeCaster = $nodeCaster;
         $this->nodeBuilder = $nodeBuilder;
@@ -41,7 +45,7 @@ class FileParserFactory
             case $type->equals(FileType::autoload()):
                 return new AutoloadFileParser(
                     $this->parser,
-                    new NodeTraverser(),
+                    $this->traverser,
                     $this->nodeVisitor,
                     $this->nodeCaster,
                     $this->nodeBuilder
@@ -52,7 +56,7 @@ class FileParserFactory
             case $type->equals(FileType::model()):
                 return new ClassFileParser(
                     $this->parser,
-                    new NodeTraverser(),
+                    $this->traverser,
                     $this->nodeVisitor,
                     $this->nodeCaster
                 );

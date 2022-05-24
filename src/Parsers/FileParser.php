@@ -3,6 +3,7 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileParser as FileParserContract;
+use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeTraverserFactory;
 use PhpParser\NodeTraverserInterface;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
@@ -15,9 +16,9 @@ abstract class FileParser implements FileParserContract
 
     public function __construct(
         ParserFactory $parser,
-        NodeTraverserInterface $traverser
+        NodeTraverserFactory $traverser
     ) {
         $this->parser = $parser->create(ParserFactory::PREFER_PHP7);
-        $this->traverser = $traverser;
+        $this->traverser = $traverser->create();
     }
 }
