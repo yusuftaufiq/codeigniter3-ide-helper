@@ -2,9 +2,11 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
+use Haemanthus\CodeIgniter3IdeHelper\Casters\LibraryNameMapper;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeCaster;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
+use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeTraverserFactory;
@@ -15,6 +17,18 @@ use PhpParser\ParserFactory;
 
 class AutoloadFileParser extends FileParser
 {
+    protected array $defaultAutoloadLibraries = [
+        'benchmark',
+        'cache',
+        'config',
+        'db',
+        'input',
+        'lang',
+        'output',
+        'security',
+        'uri',
+    ];
+
     protected NodeVisitor $autoloadLibraryNodeVisitor;
 
     protected NodeVisitor $autoloadModelNodeVisitor;
@@ -73,6 +87,15 @@ class AutoloadFileParser extends FileParser
         ), []);
     }
 
+    protected function getDefaultAutoloadLibraries(): array
+    {
+        $mapper = new LibraryNameMapper();
+
+        return array_map(fn (string $library): PropertyStructuralElement => (
+            new PropertyStructuralElement($library, $mapper->concreteFileNameOf($library))
+        ), $this->defaultAutoloadLibraries);
+    }
+
     public function parse(string $contents): array
     {
         $this->traverser->traverse($this->parser->parse($contents));
@@ -85,14 +108,20 @@ class AutoloadFileParser extends FileParser
             $this->autoloadModelNodeVisitor->getFoundNodes()
         );
 
+        $propertyStructuralElements = array_merge(
+            $loadLibraryStructuralElements,
+            $loadModelStructuralElements,
+            $this->getDefaultAutoloadLibraries(),
+        );
+
         $controllerClassStructuralElement = new ClassStructuralElement(
             $this->nodeBuilder->class('CI_Controller')->getNode(),
-            array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
+            $propertyStructuralElements,
         );
 
         $modelClassStructuralElement = new ClassStructuralElement(
             $this->nodeBuilder->class('CI_Model')->getNode(),
-            array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
+            $propertyStructuralElements,
         );
 
         return [$controllerClassStructuralElement, $modelClassStructuralElement];
