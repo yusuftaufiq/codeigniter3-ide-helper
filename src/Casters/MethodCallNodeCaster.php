@@ -2,7 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
-use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileNameMapper;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
 use PhpParser\Node;
 
 class MethodCallNodeCaster extends NodeCaster
@@ -10,10 +10,10 @@ class MethodCallNodeCaster extends NodeCaster
     protected MethodCallNodeManager $nodeManager;
 
     public function __construct(
-        FileNameMapper $fileNameMapper,
+        ClassNameMapper $classNameMapper,
         MethodCallNodeManager $nodeManager
     ) {
-        parent::__construct($fileNameMapper);
+        parent::__construct($classNameMapper);
         $this->nodeManager = $nodeManager;
     }
 

@@ -2,9 +2,9 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
-use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileNameMapper;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
 
-class LibraryNameMapper implements FileNameMapper
+class LibraryNameMapper implements ClassNameMapper
 {
     /**
     * Undocumented variable
@@ -44,12 +44,17 @@ class LibraryNameMapper implements FileNameMapper
         'zip' => 'CI_Zip',
     ];
 
-    public function concreteFileNameOf(string $name): string
+    public function concreteClassOf(string $name): string
     {
         if (array_key_exists($name, $this->mapLibraries) === true) {
             return $this->mapLibraries[$name];
         }
 
+        return $name;
+    }
+
+    public function concreteNameOf(string $name): string
+    {
         return $name;
     }
 }

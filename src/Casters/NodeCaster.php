@@ -2,18 +2,18 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
-use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileNameMapper;
+use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeCaster as NodeCasterContract;
 use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use PhpParser\Node;
 
 abstract class NodeCaster implements NodeCasterContract
 {
-    protected FileNameMapper $fileNameMapper;
+    protected ClassNameMapper $classNameMapper;
 
-    public function __construct(FileNameMapper $fileNameMapper)
+    public function __construct(ClassNameMapper $classNameMapper)
     {
-        $this->fileNameMapper = $fileNameMapper;
+        $this->classNameMapper = $classNameMapper;
     }
 
     /**
@@ -34,8 +34,10 @@ abstract class NodeCaster implements NodeCasterContract
     /**
      * Undocumented function
      *
-     * @param array<Arg> $args
-     * @return ?PropertyStructuralElement
+     * @param array $args
+     * @param integer $classParameterPosition
+     * @param integer $aliasParameterPosition
+     * @return PropertyStructuralElement|null
      */
     protected function castScalarStringArguments(
         array $args,
@@ -50,10 +52,9 @@ abstract class NodeCaster implements NodeCasterContract
         }
 
         $className = $args[$classParameterPosition]->value->value;
-        $hasAlias = array_key_exists($aliasParameterPosition, $args);
-        $propertyAlias = $hasAlias ? $args[$aliasParameterPosition]->value->value : null;
-        $propertyName = $propertyAlias ?? $className;
-        $propertyType = $this->fileNameMapper->concreteFileNameOf($className);
+        $propertyAlias = array_key_exists($aliasParameterPosition, $args) === true ? $args[$aliasParameterPosition]->value->value : null;
+        $propertyName = $this->classNameMapper->concreteNameOf($propertyAlias ?? $className);
+        $propertyType = $this->classNameMapper->concreteClassOf($className);
 
         return new PropertyStructuralElement($propertyName, $propertyType);
     }
@@ -73,9 +74,9 @@ abstract class NodeCaster implements NodeCasterContract
             return null;
         }
 
-        $propertyName = $item->value->value;
+        $propertyName = $this->classNameMapper->concreteNameOf($item->value->value);
         $className = $item->key instanceof Node\Scalar\String_ ? $item->key->value : $propertyName;
-        $propertyType = $this->fileNameMapper->concreteFileNameOf($className);
+        $propertyType = $this->classNameMapper->concreteClassOf($className);
 
         return new PropertyStructuralElement($propertyName, $propertyType);
     }
