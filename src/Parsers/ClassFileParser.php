@@ -84,8 +84,14 @@ class ClassFileParser extends FileParser
             $this->methodCallLoadModelNodeVisitor->getFoundNodes()
         );
 
+        $classNode = $this->classNodeVisitor->getFirstFoundNode();
+
+        if ($classNode === null) {
+            return [];
+        }
+
         $classStructuralElement = new ClassStructuralElement(
-            $this->classNodeVisitor->getFirstFoundNode(),
+            $classNode,
             array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
         );
 
