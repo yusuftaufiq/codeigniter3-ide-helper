@@ -2,9 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
-use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
-
-class LibraryNameMapper implements ClassNameMapper
+class LibraryNameMapper extends ClassNameMapper
 {
     /**
     * Undocumented variable
@@ -55,6 +53,6 @@ class LibraryNameMapper implements ClassNameMapper
 
     public function concreteNameOf(string $name): string
     {
-        return $name;
+        return $this->fileNameOf($name);
     }
 }

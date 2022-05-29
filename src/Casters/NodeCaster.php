@@ -87,7 +87,7 @@ abstract class NodeCaster implements NodeCasterContract
     ): array {
         if (
             array_key_exists($classParameterPosition, $args) === false
-            || $args[$classParameterPosition]->value instanceof Node\Scalar\String_ === false
+            || $args[$classParameterPosition]->value instanceof Node\Expr\Array_ === false
         ) {
             return [];
         }
