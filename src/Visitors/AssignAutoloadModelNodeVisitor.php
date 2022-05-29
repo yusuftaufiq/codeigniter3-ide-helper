@@ -13,7 +13,7 @@ class AssignAutoloadModelNodeVisitor extends NodeVisitor
 
     protected function isAssignArrayAutoloadModel(Node $node): bool
     {
-        return $this->isAssignAutoloadArray($node) && $node->var->dim->value === 'models';
+        return $this->isAssignAutoloadArray($node) && $node->var->dim->value === 'model';
     }
 
     public function enterNode(Node $node)
