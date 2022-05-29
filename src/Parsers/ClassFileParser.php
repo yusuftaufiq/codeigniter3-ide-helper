@@ -10,6 +10,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeTraverserFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeVisitorFactory;
 use PhpParser\Node;
+use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use PhpParser\ParserFactory;
 
 class ClassFileParser extends FileParser
@@ -38,6 +39,8 @@ class ClassFileParser extends FileParser
 
     protected function setNodeVisitor(NodeVisitorFactory $nodeVisitor): self
     {
+        $this->traverser->addVisitor(new ParentConnectingVisitor());
+
         $this->classNodeVisitor = $nodeVisitor->create(NodeVisitorType::class());
         $this->traverser->addVisitor($this->classNodeVisitor);
 
@@ -72,29 +75,49 @@ class ClassFileParser extends FileParser
         ), []);
     }
 
+    protected function getClassName(Node $node): ?string
+    {
+        /** @var Node|null */
+        $parent = $node->getAttribute('parent');
+
+        if ($parent instanceof Node\Stmt\Class_) {
+            return $parent->name->toString();
+        }
+
+        if ($parent !== null) {
+            return $this->getClassName($parent);
+        }
+
+        return null;
+    }
+
+    protected function filterNodesWithSameClass(array $nodes, Node\Stmt\Class_ $classNode): array
+    {
+        return array_filter($nodes, fn (Node $node): bool => (
+            $this->getClassName($node) === $classNode->name->toString()
+        ));
+    }
+
     public function parse(string $contents): array
     {
         $this->traverser->traverse($this->parser->parse($contents));
 
-        $loadLibraryStructuralElements = $this->parseLoadLibraryNodes(
-            $this->methodCallLoadLibraryNodeVisitor->getFoundNodes()
-        );
+        $loadLibraryNodes = $this->methodCallLoadLibraryNodeVisitor->getFoundNodes();
+        $loadModelNodes = $this->methodCallLoadModelNodeVisitor->getFoundNodes();
 
-        $loadModelStructuralElements = $this->parseLoadModelNodes(
-            $this->methodCallLoadModelNodeVisitor->getFoundNodes()
-        );
+        return array_map(function (Node\Stmt\Class_ $classNode) use (
+            $loadLibraryNodes,
+            $loadModelNodes
+        ): ClassStructuralElement {
+            $loadLibraryStructuralElements = $this->parseLoadLibraryNodes(
+                $this->filterNodesWithSameClass($loadLibraryNodes, $classNode)
+            );
+            $loadModelStructuralElements = $this->parseLoadModelNodes(
+                $this->filterNodesWithSameClass($loadModelNodes, $classNode)
+            );
+            $structuralElements = array_merge($loadLibraryStructuralElements, $loadModelStructuralElements);
 
-        $classNode = $this->classNodeVisitor->getFirstFoundNode();
-
-        if ($classNode === null) {
-            return [];
-        }
-
-        $classStructuralElement = new ClassStructuralElement(
-            $classNode,
-            array_merge($loadLibraryStructuralElements, $loadModelStructuralElements),
-        );
-
-        return [$classStructuralElement];
+            return new ClassStructuralElement($classNode, $structuralElements);
+        }, $this->classNodeVisitor->getFoundNodes());
     }
 }

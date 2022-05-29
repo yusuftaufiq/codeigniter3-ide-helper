@@ -2,6 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
+use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\FileType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\FileParserFactory;
 use Symfony\Component\Finder\SplFileInfo;
@@ -25,18 +26,15 @@ class ParserFacade
     public function parseClassFiles(array $files): array
     {
         return array_reduce($files, function (array $carry, SplFileInfo $file): array {
-            $structuralElements = $this->fileParser
+            $classStructuralElements = $this->fileParser
                 ->create(FileType::core())
                 ->parse($file->getContents());
 
-            if (
-                array_key_exists(0, $structuralElements) === false
-                || count($structuralElements[0]->getProperties()) === 0
-            ) {
-                return $carry;
-            }
+            $filteredClassStructuralElements = array_filter($classStructuralElements, fn (ClassStructuralElement $class): bool => (
+                count($class->getProperties()) > 0
+            ));
 
-            return array_merge($carry, $structuralElements);
+            return array_merge($carry, $filteredClassStructuralElements);
         }, []);
     }
 }
