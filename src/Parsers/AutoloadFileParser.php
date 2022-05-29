@@ -92,7 +92,7 @@ class AutoloadFileParser extends FileParser
         $mapper = new LibraryNameMapper();
 
         return array_map(fn (string $library): PropertyStructuralElement => (
-            new PropertyStructuralElement($library, $mapper->concreteFileNameOf($library))
+            new PropertyStructuralElement($library, $mapper->concreteClassOf($library))
         ), $this->defaultAutoloadLibraries);
     }
 
