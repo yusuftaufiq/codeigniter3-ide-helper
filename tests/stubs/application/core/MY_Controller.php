@@ -25,6 +25,7 @@ class MY_Controller extends CI_Controller
     {
         $this->load->library('session');
         $this->load->library('session', null, 'app_session');
+        $this->load->library('session', new stdClass(), 'app_session');
         $this->load->library('session', object_name: 'app_session');
         $this->load->library(library: 'session', object_name: 'app_session');
         $this->load->library(object_name: 'app_session', library: 'session');
