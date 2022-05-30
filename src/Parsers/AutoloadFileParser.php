@@ -21,7 +21,7 @@ class AutoloadFileParser extends FileParser
         'benchmark',
         'cache',
         'config',
-        'database',
+        'db',
         'input',
         'lang',
         'load',

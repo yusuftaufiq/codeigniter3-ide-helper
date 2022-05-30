@@ -15,6 +15,7 @@ class LibraryNameMapper extends ClassNameMapper
         'calendar' => 'CI_Calendar',
         'config' => 'CI_Config',
         'database' => 'CI_DB',
+        'db' => 'CI_DB',
         'driver' => 'CI_Driver',
         'email' => 'CI_Email',
         'encryption' => 'CI_Encryption',
