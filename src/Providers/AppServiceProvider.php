@@ -2,6 +2,7 @@
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Providers;
 
+use DI\Container;
 use DI\ContainerBuilder;
 use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter as FileWriterContract;
@@ -20,7 +21,7 @@ use function DI\autowire;
  */
 class AppServiceProvider
 {
-    protected static ?ContainerInterface $container = null;
+    protected static ?Container $container = null;
 
     /**
      * Undocumented function
@@ -42,7 +43,7 @@ class AppServiceProvider
         ];
     }
 
-    public static function container(): ContainerInterface
+    public static function container(): Container
     {
         if (static::$container === null) {
             $builder = new ContainerBuilder();
