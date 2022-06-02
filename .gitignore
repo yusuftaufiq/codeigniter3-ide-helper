@@ -2,3 +2,4 @@
 /composer.lock
 /dump.html
 /tmp
+.phpunit.result.cache

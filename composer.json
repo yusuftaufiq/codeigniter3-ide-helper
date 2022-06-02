@@ -19,6 +19,11 @@
             "Haemanthus\\CodeIgniter3IdeHelper\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "dumper:start": [
             "Composer\\Config::disableProcessTimeout",
@@ -40,6 +45,8 @@
     },
     "require-dev": {
         "psy/psysh": "@stable",
-        "symfony/var-dumper": "^5.4"
+        "symfony/var-dumper": "^5.4",
+        "phpunit/phpunit": "^9.5",
+        "spatie/phpunit-snapshot-assertions": "^4.2"
     }
 }
