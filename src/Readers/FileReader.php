@@ -37,6 +37,15 @@ abstract class FileReader implements FileReaderContract
         $this->fs = $fs;
     }
 
+    protected function addSuffixDirectoryIfNotExists(string $directory): string
+    {
+        if (substr(strrev($directory), 0, 1) === '/') {
+            return $directory;
+        }
+
+        return $directory . '/';
+    }
+
     /**
      * Undocumented function
      *
@@ -45,14 +54,14 @@ abstract class FileReader implements FileReaderContract
      */
     public function setRootDirectory(string $rootDirectory): self
     {
-        $this->rootDirectory = $rootDirectory;
+        $this->rootDirectory = $this->addSuffixDirectoryIfNotExists($rootDirectory);
 
         return $this;
     }
 
     public function setFileDirectory(string $fileDirectory): self
     {
-        $this->fileDirectory = $fileDirectory;
+        $this->fileDirectory = $this->addSuffixDirectoryIfNotExists($fileDirectory);
 
         return $this;
     }
