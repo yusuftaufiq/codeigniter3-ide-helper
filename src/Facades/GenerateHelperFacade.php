@@ -5,6 +5,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter;
 use Silly\Command\Command as SillyCommand;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GenerateHelperFacade
@@ -15,6 +16,8 @@ class GenerateHelperFacade
 
     protected FileWriter $writer;
 
+    protected InputInterface $input;
+
     protected SymfonyStyle $io;
 
     protected int $availableAskAttempts = 2;
@@ -23,11 +26,13 @@ class GenerateHelperFacade
         ReaderFacade $reader,
         ParserFacade $parser,
         FileWriter $writer,
+        InputInterface $input,
         SymfonyStyle $io
     ) {
         $this->reader = $reader;
         $this->parser = $parser;
         $this->writer = $writer;
+        $this->input = $input;
         $this->io = $io;
     }
 
@@ -52,6 +57,13 @@ class GenerateHelperFacade
         return $this;
     }
 
+    public function setInteractive(bool $interactive): self
+    {
+        $this->input->setInteractive($interactive);
+
+        return $this;
+    }
+
     protected function checkDirectory(): bool
     {
         while (
@@ -60,7 +72,7 @@ class GenerateHelperFacade
         ) {
             $this->availableAskAttempts -= 1;
 
-            $this->io->error("CodeIgniter 3 directory can't be found");
+            $this->io->error("CodeIgniter 3 directory can't be found.");
 
             $this->withDirectory($this->io->ask('Please enter a valid CodeIgniter 3 directory again', './'));
         }
@@ -94,7 +106,7 @@ TXT;
 
         $this->writer->write($structuralElements);
 
-        $this->io->success('Successfully generated IDE Helper file');
+        $this->io->success('Successfully generated IDE helper file');
 
         return SillyCommand::SUCCESS;
     }
