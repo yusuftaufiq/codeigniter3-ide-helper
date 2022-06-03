@@ -5,7 +5,6 @@ use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\StartVarDumperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
-use Silly\Application as SillyApplication;
 
 define('ENVIRONMENT', getenv('IDE_HELPER_ENV') ?: 'production');
 
@@ -30,7 +29,7 @@ $container = AppServiceProvider::container();
 /** @var Application */
 $app = $container->get(Application::class);
 
-if (ENVIRONMENT !== 'production') {
+if (ENVIRONMENT === 'development') {
     $app->addCommand($container->get(StartVarDumperCommand::class));
 }
 
