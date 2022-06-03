@@ -28,7 +28,7 @@ class AppServiceProvider
      *
      * @return array
      */
-    protected static function definitions(): array
+    public static function definitions(): array
     {
         return [
             FileWriterContract::class => autowire(FileWriter::class),
