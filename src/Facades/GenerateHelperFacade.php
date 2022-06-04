@@ -5,8 +5,10 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter;
 use Silly\Command\Command as SillyCommand;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 class GenerateHelperFacade
 {
@@ -18,7 +20,9 @@ class GenerateHelperFacade
 
     protected InputInterface $input;
 
-    protected SymfonyStyle $io;
+    protected OutputInterface $output;
+
+    protected QuestionHelper $question;
 
     protected int $availableAskAttempts = 2;
 
@@ -26,14 +30,26 @@ class GenerateHelperFacade
         ReaderFacade $reader,
         ParserFacade $parser,
         FileWriter $writer,
-        InputInterface $input,
-        SymfonyStyle $io
+        QuestionHelper $question
     ) {
         $this->reader = $reader;
         $this->parser = $parser;
         $this->writer = $writer;
+        $this->question = $question;
+    }
+
+    public function setInput(InputInterface $input): self
+    {
         $this->input = $input;
-        $this->io = $io;
+
+        return $this;
+    }
+
+    public function setOutput(OutputInterface $output): self
+    {
+        $this->output = $output;
+
+        return $this;
     }
 
     public function withDirectory(string $directory): self
@@ -71,21 +87,28 @@ class GenerateHelperFacade
             && $this->reader->isAllDirectoryExists() === false
         ) {
             $this->availableAskAttempts -= 1;
+            $this->output->writeln(
+                "<fg=red>[x]</> CodeIgniter 3 directory can't be found.",
+            );
 
-            $this->io->error("CodeIgniter 3 directory can't be found.");
+            $question = new Question(
+                "<fg=blue>[?]</> Please type the correct CodeIgniter 3 directory </><comment>[{$this->reader->getRootDirectory()}]</>: ",
+                $this->reader->getRootDirectory(),
+            );
+            $newDirectory = $this->question->ask($this->input, $this->output, $question);
 
-            $this->withDirectory($this->io->ask('Please enter a valid CodeIgniter 3 directory again', './'));
+            $this->withDirectory($newDirectory);
         }
 
         if ($this->availableAskAttempts === 0) {
             $repository = Application::APP_REPOSITORY;
 
-            $message = <<<TXT
-Unfortunately, we still can't find your CodeIgniter 3 directory.
-Please try again or submit the issue to our repository at ${repository}.
-TXT;
+            $message = <<<EOT
+            <fg=red>[x]</> Unfortunately, we still can't find your CodeIgniter 3 directory.
+            Please try again or submit the issue to our <href=${repository}>repository</>.
+            EOT;
 
-            $this->io->error(preg_replace('/\s+/', ' ', $message));
+            $this->output->writeln(preg_replace('/\s+/', ' ', $message));
 
             return false;
         }
@@ -106,7 +129,9 @@ TXT;
 
         $this->writer->write($structuralElements);
 
-        $this->io->success('Successfully generated IDE helper file');
+        $this->output->writeln(
+            "<fg=green>[i]</> Successfully generated IDE helper file to {$this->writer->getOutputPath()}",
+        );
 
         return SillyCommand::SUCCESS;
     }

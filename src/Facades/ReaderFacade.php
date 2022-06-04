@@ -20,6 +20,8 @@ class ReaderFacade
 
     protected FileReader $modelReader;
 
+    protected ?string $rootDirectory = null;
+
     public function __construct(FileReaderFactory $fileReader)
     {
         $this->autoloadReader = $fileReader->create(FileType::autoload());
@@ -35,7 +37,14 @@ class ReaderFacade
         $this->controllerReader->setRootDirectory($dir);
         $this->modelReader->setRootDirectory($dir);
 
+        $this->rootDirectory = $dir;
+
         return $this;
+    }
+
+    public function getRootDirectory(): ?string
+    {
+        return $this->rootDirectory;
     }
 
     public function setPatterns(array $patterns): self
