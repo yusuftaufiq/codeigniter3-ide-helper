@@ -26,6 +26,11 @@ class FileWriter implements FileWriterContract
         $this->fs = $fs;
     }
 
+    public function getOutputPath(): string
+    {
+        return $this->outputPath;
+    }
+
     public function setOutputPath(string $outputPath): self
     {
         $this->outputPath = $outputPath;
