@@ -50,7 +50,7 @@ class LibraryNameMapper extends ClassNameMapper
             return $this->mapLibraries[$name];
         }
 
-        return $name;
+        return $this->fileNameOf($name);
     }
 
     public function concreteNameOf(string $name): string
