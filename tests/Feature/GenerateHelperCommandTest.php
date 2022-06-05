@@ -36,32 +36,53 @@ class GenerateHelperCommandTest extends TestCase
         $this->command->execute();
     }
 
-    /**
-     * @test
-     *
-     * @return string
-     */
-    public function it_should_have_a_successful_output_message(): string
+    private function assertSuccessfulCommand(int $statusCode, string $outputFilePath): void
     {
-        $outputFilePath = './tmp/_ide_helper_it_should_have_a_successful_output_message.php';
-
-        $result = $this->silly->run(
-            new StringInput("generate --dir ./tests/stubs/test_files/ --output-path ${outputFilePath}"),
-            $this->spyOutput,
-        );
-
-        $this->assertSame(\Silly\Command\Command::SUCCESS, $result);
-        $this->assertStringContainsString("Successfully generated IDE helper file to ${outputFilePath}", $this->spyOutput->getOutput());
-
-        return $outputFilePath;
+        $this->assertSame(\Silly\Command\Command::SUCCESS, $statusCode);
+        $this->assertStringContainsString("Successfully generated IDE helper file to {$outputFilePath}", $this->spyOutput->getOutput());
+        $this->assertMatchesFileSnapshot($outputFilePath);
     }
 
     /**
      * @test
      *
-     * @return string
+     * @return void
      */
-    public function it_should_ask_for_codeigniter_3_directory_if_not_found(): string
+    public function it_should_generate_all_files(): void
+    {
+        $outputFilePath = './tmp/_ide_helper_it_should_generate_all_files.php';
+
+        $statusCode = $this->silly->run(
+            new StringInput("generate --dir ./tests/stubs/test_files/ --output-path ${outputFilePath}"),
+            $this->spyOutput,
+        );
+
+        $this->assertSuccessfulCommand($statusCode, $outputFilePath);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_should_only_generate_filtered_files(): void
+    {
+        $outputFilePath = './tmp/_ide_helper_it_should_only_generate_filtered_files.php';
+
+        $statusCode = $this->silly->run(
+            new StringInput("generate --dir ./tests/stubs/test_files/ --output-path ${outputFilePath} --pattern AuthController --pattern User"),
+            $this->spyOutput,
+        );
+
+        $this->assertSuccessfulCommand($statusCode, $outputFilePath);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_should_ask_for_codeigniter_3_directory_if_not_found(): void
     {
         $outputFilePath = './tmp/_ide_helper_it_should_ask_for_codeigniter_3_directory_if_not_found.php';
 
@@ -70,27 +91,11 @@ class GenerateHelperCommandTest extends TestCase
             './tests/stubs/test_files/',
         ]));
 
-        $result = $this->silly->run($input, $this->spyOutput);
+        $statusCode = $this->silly->run($input, $this->spyOutput);
 
-        $this->assertSame(\Silly\Command\Command::SUCCESS, $result);
         $this->assertStringContainsString("CodeIgniter 3 directory can't be found.", $this->spyOutput->getOutput());
         $this->assertStringContainsString("Please type the correct CodeIgniter 3 directory", $this->spyOutput->getOutput());
-
-        return $outputFilePath;
-    }
-
-    /**
-     * @test
-     * @depends it_should_have_a_successful_output_message
-     * @depends it_should_ask_for_codeigniter_3_directory_if_not_found
-     *
-     * @return void
-     */
-    public function it_should_have_the_same_output_file_as_the_snapshot_file(string ...$outputFilePaths): void
-    {
-        array_walk($outputFilePaths, function (string $outputFilePath): void {
-            $this->assertMatchesFileSnapshot($outputFilePath);
-        });
+        $this->assertSuccessfulCommand($statusCode, $outputFilePath);
     }
 
     /**
