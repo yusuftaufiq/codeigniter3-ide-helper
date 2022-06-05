@@ -4,8 +4,12 @@
  * @property CI_Session $session
  * @property CI_Email $email
  * @property CI_User_agent $ua
+ * @property CustomLibraryName $CustomLibraryName
+ * @property CustomLibraryName2 $custom_library_name_2
  * @property User $User
  * @property Role $role
+ * @property CustomModelName $CustomModelName
+ * @property CustomModelName2 $custom_model_name2
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
  * @property CI_Config $config
@@ -24,8 +28,12 @@ class CI_Controller
  * @property CI_Session $session
  * @property CI_Email $email
  * @property CI_User_agent $ua
+ * @property CustomLibraryName $CustomLibraryName
+ * @property CustomLibraryName2 $custom_library_name_2
  * @property User $User
  * @property Role $role
+ * @property CustomModelName $CustomModelName
+ * @property CustomModelName2 $custom_model_name2
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
  * @property CI_Config $config

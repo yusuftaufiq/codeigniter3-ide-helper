@@ -58,7 +58,13 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session', 'email', 'user_agent' => 'ua');
+$autoload['libraries'] = array(
+    'session',
+    'email',
+    'user_agent' => 'ua',
+    'CustomLibraryDir/CustomLibraryName',
+    'CustomLibraryDir2/CustomLibraryName2' => 'custom_library_name_2',
+);
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +138,9 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('User', 'Role' => 'role');
+$autoload['model'] = array(
+    'User',
+    'Role' => 'role',
+    'CustomModelDir/CustomModelName',
+    'CustomModelDir2/CustomModelName2' => 'custom_model_name2',
+);

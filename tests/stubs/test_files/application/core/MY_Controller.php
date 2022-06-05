@@ -19,6 +19,8 @@ class MY_Controller extends CI_Controller
         $this->load->model('User', name: 'user');
         $this->load->model(model: 'User', name: 'user');
         $this->load->model(name: 'user', model: 'User');
+        $this->load->model('CustomModelDir/CustomModelName');
+        $this->load->model('CustomModelDir2/CustomModelName2', 'custom_model_name2');
     }
 
     public function loadLibraries(): void
@@ -29,6 +31,8 @@ class MY_Controller extends CI_Controller
         $this->load->library('session', object_name: 'app_session');
         $this->load->library(library: 'session', object_name: 'app_session');
         $this->load->library(object_name: 'app_session', library: 'session');
+        $this->load->library('CustomLibraryDir/CustomLibraryName');
+        $this->load->library('CustomLibraryDir2/CustomLibraryName2', null, 'custom_library_name_2');
     }
 
     public function loadArrayLibraries(): void
