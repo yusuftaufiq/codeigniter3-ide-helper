@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
-use Haemanthus\CodeIgniter3IdeHelper\Facades\GenerateHelperFacade;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Console\Input\StringInput;
@@ -20,8 +19,6 @@ class GenerateHelperCommandTest extends TestCase
     use WithContainer;
     use WithSillyApplication;
 
-    private GenerateHelperCommand $command;
-
     private SpyOutput $spyOutput;
 
     public function setUp(): void
@@ -30,10 +27,13 @@ class GenerateHelperCommandTest extends TestCase
         $this->setUpSillyApplication();
 
         $this->spyOutput = $this->container->get(SpyOutput::class);
-        $this->container->set(OutputInterface::class, $this->spyOutput);
 
-        $this->command = new GenerateHelperCommand($this->silly, $this->container->get(GenerateHelperFacade::class));
-        $this->command->execute();
+        $this->container->set(OutputInterface::class, $this->spyOutput);
+        $this->container->set(\Silly\Application::class, $this->silly);
+
+        /** @var GenerateHelperCommand */
+        $command = $this->container->get(GenerateHelperCommand::class);
+        $command->execute();
     }
 
     private function assertSuccessfulCommand(int $statusCode, string $outputFilePath): void
@@ -105,9 +105,9 @@ class GenerateHelperCommandTest extends TestCase
      */
     public function it_should_give_an_error_message_if_finally_the_codeigniter_3_directory_is_not_found(): void
     {
-        $result = $this->silly->run(new StringInput('generate --no-interaction'), $this->spyOutput);
+        $statusCode = $this->silly->run(new StringInput('generate --no-interaction'), $this->spyOutput);
 
-        $this->assertSame(\Silly\Command\Command::FAILURE, $result);
+        $this->assertSame(\Silly\Command\Command::FAILURE, $statusCode);
         $this->assertStringContainsString("Unfortunately, we still can't find your CodeIgniter 3 directory.", $this->spyOutput->getOutput());
     }
 }
