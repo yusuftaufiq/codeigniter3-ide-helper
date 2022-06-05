@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Readers\Unit;
+namespace Tests\Unit\Readers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Readers\FileReader;
 use PHPUnit\Framework\TestCase;

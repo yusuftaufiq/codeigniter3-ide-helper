@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Feature;
 
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use PHPUnit\Framework\TestCase;
