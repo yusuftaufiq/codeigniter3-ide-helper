@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixture;
+namespace Tests\Fixtures;
 
 use DI\Container;
 use DI\ContainerBuilder;

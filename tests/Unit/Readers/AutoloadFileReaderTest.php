@@ -4,7 +4,7 @@ namespace Tests\Unit\Readers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Readers\AutoloadFileReader;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixture\WithFileReader;
+use Tests\Fixtures\WithFileReader;
 
 class AutoloadFileReaderTest extends TestCase
 {

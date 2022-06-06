@@ -6,11 +6,10 @@ use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\TesterTrait;
-use Tests\Fixture\SpyOutput;
-use Tests\Fixture\WithContainer;
-use Tests\Fixture\WithSillyApplication;
+use Tests\Fixtures\SpyOutput;
+use Tests\Fixtures\WithContainer;
+use Tests\Fixtures\WithSillyApplication;
 
 class GenerateHelperCommandTest extends TestCase
 {

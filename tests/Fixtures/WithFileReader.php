@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixture;
+namespace Tests\Fixtures;
 
 use Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory;
 use PHPUnit\Framework\MockObject\MockObject;

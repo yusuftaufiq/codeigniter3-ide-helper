@@ -9,7 +9,7 @@ use PhpParser\Node;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixture\StructuralElementAssertion;
+use Tests\Fixtures\StructuralElementAssertion;
 
 class LoadLibraryNodeCasterTest extends TestCase
 {
