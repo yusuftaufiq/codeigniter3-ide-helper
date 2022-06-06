@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Tester\TesterTrait;
+use Symfony\Component\Filesystem\Filesystem;
 use Tests\Fixtures\SpyOutput;
 use Tests\Fixtures\WithContainer;
 use Tests\Fixtures\WithSillyApplication;
@@ -31,6 +32,11 @@ class GenerateHelperCommandTest extends TestCase
         /** @var GenerateHelperCommand */
         $command = $this->container->get(GenerateHelperCommand::class);
         $command->execute();
+    }
+
+    public function tearDown(): void
+    {
+        (new Filesystem())->remove('./tmp/');
     }
 
     private function assertSuccessfulCommand(int $statusCode, string $outputFilePath): void
