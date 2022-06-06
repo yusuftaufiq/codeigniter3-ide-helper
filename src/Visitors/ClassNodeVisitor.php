@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
 use PhpParser\Node;

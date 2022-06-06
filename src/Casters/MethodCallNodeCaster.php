@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
@@ -21,8 +23,6 @@ class MethodCallNodeCaster extends NodeCaster
     /**
      * Undocumented function
      *
-     * @param Node $node
-     *
      * @return array<PropertyStructuralElement>
      */
     public function cast(Node $node): array
@@ -31,11 +31,13 @@ class MethodCallNodeCaster extends NodeCaster
 
         switch (true) {
             case $this->isArgumentsTypeScalarString($this->nodeManager->filter($args)):
-                $propertyStructuralElements = [$this->castScalarStringArguments(
-                    $this->nodeManager->sort($args),
-                    $this->nodeManager->getClassParameterPosition(),
-                    $this->nodeManager->getAliasParameterPosition(),
-                )];
+                $propertyStructuralElements = [
+                    $this->castScalarStringArguments(
+                        $this->nodeManager->sort($args),
+                        $this->nodeManager->getClassParameterPosition(),
+                        $this->nodeManager->getAliasParameterPosition(),
+                    ),
+                ];
                 break;
 
             case $this->isArgumentsTypeExpressionArray($this->nodeManager->filter($args)):

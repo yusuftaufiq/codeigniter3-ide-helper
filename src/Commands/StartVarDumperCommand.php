@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Commands;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\Command;
@@ -15,8 +17,18 @@ class StartVarDumperCommand implements Command
 {
     protected string $host;
 
+    /**
+     * Undocumented variable
+     *
+     * @var array<string>
+     */
     protected array $dumpers;
 
+    /**
+     * Undocumented function
+     *
+     * @param array<string> $dumpers
+     */
     public function __construct(
         string $host = 'tcp://127.0.0.1:9912',
         array $dumpers = ['cli', 'phpdbg']

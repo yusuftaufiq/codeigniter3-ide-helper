@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Factories;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileParser;
@@ -7,7 +9,6 @@ use Haemanthus\CodeIgniter3IdeHelper\Enums\FileType;
 use Haemanthus\CodeIgniter3IdeHelper\Parsers\AutoloadFileParser;
 use Haemanthus\CodeIgniter3IdeHelper\Parsers\ClassFileParser;
 use PhpParser\BuilderFactory;
-use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
 /**

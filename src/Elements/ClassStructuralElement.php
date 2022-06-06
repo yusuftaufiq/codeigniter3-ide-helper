@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Elements;
 
 use PhpParser\Node;
@@ -8,8 +10,18 @@ class ClassStructuralElement
 {
     protected Node\Stmt\Class_ $node;
 
+    /**
+     * Undocumented variable
+     *
+     * @var array<PropertyStructuralElement>
+     */
     protected array $properties;
 
+    /**
+     * Undocumented function
+     *
+     * @param array<PropertyStructuralElement> $properties
+     */
     public function __construct(
         Node\Stmt\Class_ $node,
         array $properties = []

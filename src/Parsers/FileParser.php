@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileParser as FileParserContract;

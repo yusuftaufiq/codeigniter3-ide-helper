@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader as FileReaderContract;
@@ -14,11 +16,14 @@ abstract class FileReader implements FileReaderContract
 
     protected ?string $fileDirectory = null;
 
-    protected array $patterns = [];
     /**
      * Undocumented variable
      *
-     * @var \Symfony\Component\Finder\Finder
+     * @var array<string>
+     */
+    protected array $patterns = [];
+    /**
+     * Undocumented variable
      */
     protected Finder $finder;
 
@@ -26,8 +31,6 @@ abstract class FileReader implements FileReaderContract
 
     /**
      * Undocumented function
-     *
-     * @param \Haemanthus\CodeIgniter3IdeHelper\Factories\FileFinderFactory $finder
      */
     public function __construct(
         FileFinderFactory $finder,
@@ -37,20 +40,8 @@ abstract class FileReader implements FileReaderContract
         $this->fs = $fs;
     }
 
-    protected function addSuffixDirectoryIfNotExists(string $directory): string
-    {
-        if (substr(strrev($directory), 0, 1) === '/') {
-            return $directory;
-        }
-
-        return $directory . '/';
-    }
-
     /**
      * Undocumented function
-     *
-     * @param string $rootDirectory
-     * @return self
      */
     public function setRootDirectory(string $rootDirectory): self
     {
@@ -69,18 +60,7 @@ abstract class FileReader implements FileReaderContract
     /**
      * Undocumented function
      *
-     * @return string
-     */
-    protected function getFullDirectory(): string
-    {
-        return getcwd() . '/' . $this->rootDirectory . $this->fileDirectory;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array $patterns
-     * @return self
+     * @param array<string> $patterns
      */
     public function setPatterns(array $patterns): self
     {
@@ -97,5 +77,22 @@ abstract class FileReader implements FileReaderContract
     public function getFirstFile(): ?SplFileInfo
     {
         return $this->getFiles()[0] ?? null;
+    }
+
+    protected function addSuffixDirectoryIfNotExists(string $directory): string
+    {
+        if (substr(strrev($directory), 0, 1) === '/') {
+            return $directory;
+        }
+
+        return $directory . '/';
+    }
+
+    /**
+     * Undocumented function
+     */
+    protected function getFullDirectory(): string
+    {
+        return getcwd() . '/' . $this->rootDirectory . $this->fileDirectory;
     }
 }

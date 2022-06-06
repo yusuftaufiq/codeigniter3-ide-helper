@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Commands;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\Command;
@@ -15,22 +17,18 @@ class GenerateHelperCommand implements Command
 {
     /**
      * Undocumented variable
-     *
-     * @var string $expression
      */
     protected string $expression = 'generate [--dir=] [--pattern=]* [--output-path=]';
 
     /**
      * Undocumented variable
-     *
-     * @var string $expression
      */
     protected string $description = 'Generate IDE helper file';
 
     /**
      * Undocumented variable
      *
-     * @var array<string, string> $options
+     * @var array<string, string>
      */
     protected array $options = [
         '--dir' => 'CodeIgniter 3 root directory',
@@ -50,18 +48,11 @@ class GenerateHelperCommand implements Command
         $this->facade = $facade;
     }
 
-    public function execute(): void
-    {
-        $this->app
-            ->command($this->expression, $this)
-            ->defaults([
-                'dir' => './',
-                'pattern' => [],
-                'output-path' => '_ide_helper.php',
-            ])
-            ->descriptions($this->description, $this->options);
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @param array<string> $pattern
+     */
     public function __invoke(
         string $dir,
         array $pattern,
@@ -76,7 +67,19 @@ class GenerateHelperCommand implements Command
             ->withDirectory($dir)
             ->withPatterns($pattern)
             ->withOutputPath($outputPath)
-            ->setInteractive(!$noInteraction)
+            ->setInteractive(! $noInteraction)
             ->generate();
+    }
+
+    public function execute(): void
+    {
+        $this->app
+            ->command($this->expression, $this)
+            ->defaults([
+                'dir' => './',
+                'pattern' => [],
+                'output-path' => '_ide_helper.php',
+            ])
+            ->descriptions($this->description, $this->options);
     }
 }

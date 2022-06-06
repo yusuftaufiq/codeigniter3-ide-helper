@@ -1,11 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
+
+use Symfony\Component\Finder\SplFileInfo;
 
 class AutoloadFileReader extends FileReader
 {
     protected ?string $fileDirectory = './application/config/';
 
+    /**
+     * Undocumented function
+     *
+     * @return array<SplFileInfo>
+     */
     public function getFiles(): array
     {
         $this->finder

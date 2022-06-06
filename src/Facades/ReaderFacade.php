@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileReader;
@@ -47,6 +49,11 @@ class ReaderFacade
         return $this->rootDirectory;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<string> $patterns
+     */
     public function setPatterns(array $patterns): self
     {
         $this->coreReader->setPatterns($patterns);

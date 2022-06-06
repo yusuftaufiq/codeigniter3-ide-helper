@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
 use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
@@ -16,6 +18,11 @@ class ParserFacade
         $this->fileParser = $fileParser;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array<ClassStructuralElement>
+     */
     public function parseAutoloadFile(SplFileInfo $file): array
     {
         return $this->fileParser
@@ -23,6 +30,13 @@ class ParserFacade
             ->parse($file->getContents());
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<SplFileInfo> $files
+     *
+     * @return array<ClassStructuralElement>
+     */
     public function parseClassFiles(array $files): array
     {
         return array_reduce($files, function (array $carry, SplFileInfo $file): array {
@@ -30,9 +44,10 @@ class ParserFacade
                 ->create(FileType::core())
                 ->parse($file->getContents());
 
-            $filteredClassStructuralElements = array_filter($classStructuralElements, fn (ClassStructuralElement $class): bool => (
-                count($class->getProperties()) > 0
-            ));
+            $filteredClassStructuralElements = array_filter(
+                $classStructuralElements,
+                static fn (ClassStructuralElement $class): bool => count($class->getProperties()) > 0
+            );
 
             return array_merge($carry, $filteredClassStructuralElements);
         }, []);

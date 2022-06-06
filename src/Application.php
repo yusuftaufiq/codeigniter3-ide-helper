@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\Command;
@@ -15,6 +17,11 @@ class Application
 
     public const APP_REPOSITORY = 'https://github.com/yusuftaufiq/codeigniter3-ide-helper';
 
+    /**
+     * Undocumented variable
+     *
+     * @var array<Command>
+     */
     protected array $commands;
 
     protected \Silly\Application $silly;
@@ -38,7 +45,7 @@ class Application
      */
     public function run(): self
     {
-        array_walk($this->commands, function (Command $command): void {
+        array_walk($this->commands, static function (Command $command): void {
             $command->execute();
         });
 

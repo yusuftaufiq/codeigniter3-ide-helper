@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
 use PhpParser\Node;
@@ -36,6 +38,13 @@ class MethodCallNodeManager
         return $this->aliasParameterPosition;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Arg> $nodes
+     *
+     * @return array<Node\Arg>
+     */
     public function sort(array $nodes): array
     {
         $key = 0;
@@ -61,6 +70,13 @@ class MethodCallNodeManager
         }, []);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Arg> $nodes
+     *
+     * @return array<Node\Arg>
+     */
     public function filter(array $nodes): array
     {
         return array_filter($nodes, fn (int $key): bool => (

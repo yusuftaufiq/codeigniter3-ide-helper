@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
 use PhpParser\Node;
@@ -7,15 +9,6 @@ use PhpParser\NodeTraverser;
 
 class AssignAutoloadLibraryNodeVisitor extends NodeVisitor
 {
-    use AssignAutoloadChecker {
-        isAssignAutoloadArray as protected;
-    }
-
-    protected function isAssignArrayAutoloadLibrary(Node $node): bool
-    {
-        return $this->isAssignAutoloadArray($node) && $node->var->dim->value === 'libraries';
-    }
-
     public function enterNode(Node $node)
     {
         if ($this->isAssignArrayAutoloadLibrary($node)) {
@@ -25,5 +18,10 @@ class AssignAutoloadLibraryNodeVisitor extends NodeVisitor
         }
 
         return parent::enterNode($node);
+    }
+
+    protected function isAssignArrayAutoloadLibrary(Node $node): bool
+    {
+        return $this->isAssignAutoloadArray($node) && $node->var->dim->value === 'libraries';
     }
 }

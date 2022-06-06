@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
@@ -19,12 +21,11 @@ abstract class NodeCaster implements NodeCasterContract
     /**
      * Undocumented function
      *
-     * @param array<Arg> $args
-     * @return bool
+     * @param array<Node\Arg> $args
      */
     protected function isArgumentsTypeScalarString(array $args): bool
     {
-        return array_reduce($args, fn (bool $carry, Node\Arg $arg): bool => (
+        return array_reduce($args, static fn (bool $carry, Node\Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Node\Identifier)
             && $arg->value instanceof Node\Scalar\String_
             && $carry
@@ -34,10 +35,7 @@ abstract class NodeCaster implements NodeCasterContract
     /**
      * Undocumented function
      *
-     * @param array $args
-     * @param integer $classParameterPosition
-     * @param integer $aliasParameterPosition
-     * @return PropertyStructuralElement|null
+     * @param array<Node\Arg> $args
      */
     protected function castScalarStringArguments(
         array $args,
@@ -59,9 +57,14 @@ abstract class NodeCaster implements NodeCasterContract
         return new PropertyStructuralElement($propertyName, $propertyType);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Arg> $args
+     */
     protected function isArgumentsTypeExpressionArray(array $args): bool
     {
-        return array_reduce($args, fn (bool $carry, Node\Arg $arg): bool => (
+        return array_reduce($args, static fn (bool $carry, Node\Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Node\Identifier)
             && $arg->value instanceof Node\Expr\Array_
             && $carry
@@ -81,6 +84,13 @@ abstract class NodeCaster implements NodeCasterContract
         return new PropertyStructuralElement($propertyName, $propertyType);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Arg> $args
+     *
+     * @return array<PropertyStructuralElement|null>
+     */
     protected function castExpressionArrayArguments(
         array $args,
         int $classParameterPosition
@@ -93,7 +103,7 @@ abstract class NodeCaster implements NodeCasterContract
         }
 
         return array_map(
-            fn (Node\Expr\ArrayItem $item) => $this->castExpressionArrayItem($item),
+            fn (Node\Expr\ArrayItem $item): ?PropertyStructuralElement => $this->castExpressionArrayItem($item),
             $args[$classParameterPosition]->value->items,
         );
     }

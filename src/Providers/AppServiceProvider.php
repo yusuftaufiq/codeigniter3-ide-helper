@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Providers;
 
 use DI\Container;
@@ -28,7 +30,7 @@ class AppServiceProvider
     {
         return [
             FileWriterContract::class => autowire(FileWriter::class),
-            SillyApplication::class => function (ContainerInterface $container): SillyApplication {
+            SillyApplication::class => static function (ContainerInterface $container): SillyApplication {
                 $silly = new SillyApplication(Application::APP_NAME, Application::APP_VERSION);
                 $silly->useContainer($container);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
 /**
@@ -7,6 +9,11 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
  */
 class ClassFileReader extends FileReader
 {
+    /**
+     * Undocumented function
+     *
+     * @return array<SplFileInfo>
+     */
     public function getFiles(): array
     {
         array_walk($this->patterns, function (string $pattern): void {

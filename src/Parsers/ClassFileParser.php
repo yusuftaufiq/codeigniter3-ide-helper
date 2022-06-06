@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeCaster;
@@ -37,6 +39,34 @@ class ClassFileParser extends FileParser
         $this->setNodeCaster($nodeCaster);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array<ClassStructuralElement>
+     */
+    public function parse(string $contents): array
+    {
+        $this->traverser->traverse($this->parser->parse($contents));
+
+        $loadLibraryNodes = $this->methodCallLoadLibraryNodeVisitor->getFoundNodes();
+        $loadModelNodes = $this->methodCallLoadModelNodeVisitor->getFoundNodes();
+
+        return array_map(function (Node\Stmt\Class_ $classNode) use (
+            $loadLibraryNodes,
+            $loadModelNodes
+        ): ClassStructuralElement {
+            $loadLibraryStructuralElements = $this->parseLoadLibraryNodes(
+                $this->filterNodesWithSameClass($loadLibraryNodes, $classNode)
+            );
+            $loadModelStructuralElements = $this->parseLoadModelNodes(
+                $this->filterNodesWithSameClass($loadModelNodes, $classNode)
+            );
+            $structuralElements = array_merge($loadLibraryStructuralElements, $loadModelStructuralElements);
+
+            return new ClassStructuralElement($classNode, $structuralElements);
+        }, $this->classNodeVisitor->getFoundNodes());
+    }
+
     protected function setNodeVisitor(NodeVisitorFactory $nodeVisitor): self
     {
         $this->traverser->addVisitor(new ParentConnectingVisitor());
@@ -61,6 +91,13 @@ class ClassFileParser extends FileParser
         return $this;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Expr\MethodCall> $nodes
+     *
+     * @return array<PropertyStructuralElement>
+     */
     protected function parseLoadLibraryNodes(array $nodes): array
     {
         return array_reduce($nodes, fn (array $carry, Node\Expr\MethodCall $node): array => (
@@ -68,6 +105,13 @@ class ClassFileParser extends FileParser
         ), []);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node\Expr\MethodCall> $nodes
+     *
+     * @return array<PropertyStructuralElement>
+     */
     protected function parseLoadModelNodes(array $nodes): array
     {
         return array_reduce($nodes, fn (array $carry, Node\Expr\MethodCall $node): array => (
@@ -77,7 +121,7 @@ class ClassFileParser extends FileParser
 
     protected function getClassName(Node $node): ?string
     {
-        /** @var Node|null */
+        /** @var Node|null $parent */
         $parent = $node->getAttribute('parent');
 
         if ($parent instanceof Node\Stmt\Class_) {
@@ -91,33 +135,17 @@ class ClassFileParser extends FileParser
         return null;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<Node> $nodes
+     *
+     * @return array<Node>
+     */
     protected function filterNodesWithSameClass(array $nodes, Node\Stmt\Class_ $classNode): array
     {
         return array_filter($nodes, fn (Node $node): bool => (
             $this->getClassName($node) === $classNode->name->toString()
         ));
-    }
-
-    public function parse(string $contents): array
-    {
-        $this->traverser->traverse($this->parser->parse($contents));
-
-        $loadLibraryNodes = $this->methodCallLoadLibraryNodeVisitor->getFoundNodes();
-        $loadModelNodes = $this->methodCallLoadModelNodeVisitor->getFoundNodes();
-
-        return array_map(function (Node\Stmt\Class_ $classNode) use (
-            $loadLibraryNodes,
-            $loadModelNodes
-        ): ClassStructuralElement {
-            $loadLibraryStructuralElements = $this->parseLoadLibraryNodes(
-                $this->filterNodesWithSameClass($loadLibraryNodes, $classNode)
-            );
-            $loadModelStructuralElements = $this->parseLoadModelNodes(
-                $this->filterNodesWithSameClass($loadModelNodes, $classNode)
-            );
-            $structuralElements = array_merge($loadLibraryStructuralElements, $loadModelStructuralElements);
-
-            return new ClassStructuralElement($classNode, $structuralElements);
-        }, $this->classNodeVisitor->getFoundNodes());
     }
 }

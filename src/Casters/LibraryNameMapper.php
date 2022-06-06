@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
 class LibraryNameMapper extends ClassNameMapper
 {
     /**
-    * Undocumented variable
-    *
-    * @var array<string, string>
-    */
-    protected $mapLibraries = [
+     * Undocumented variable
+     *
+     * @var array<string, string>
+     */
+    protected array $mapLibraries = [
         'benchmark' => 'CI_Benchmark',
         'cache' => 'CI_Cache',
         'calendar' => 'CI_Calendar',

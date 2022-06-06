@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Writers;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter as FileWriterContract;
@@ -38,36 +40,10 @@ class FileWriter implements FileWriterContract
         return $this;
     }
 
-    protected function createClassNodeWithDocumentComment(ClassStructuralElement $classStructuralElement): Node
-    {
-        $documentComment = $this->createPropertiesDocumentComment($classStructuralElement->getProperties());
-        $class = $classStructuralElement->getNode();
-
-        $class->setDocComment(new Comment\Doc($documentComment));
-
-        return $class;
-    }
-
-    protected function createPropertiesDocumentComment(array $properties): string
-    {
-        $tags = array_map(fn (PropertyStructuralElement $property): string => (
-            " * @property {$property->getType()} \${$property->getName()}"
-        ), $properties);
-
-        return "/**\n" . implode("\n", $tags) . "\n */";
-    }
-
-    protected function getFullPath(): string
-    {
-        return getcwd() . '/' . $this->outputPath;
-    }
-
     /**
      * Undocumented function
      *
      * @param array<ClassStructuralElement> $classStructuralElements
-     *
-     * @return self
      */
     public function write(array $classStructuralElements): self
     {
@@ -80,5 +56,34 @@ class FileWriter implements FileWriterContract
         $this->fs->dumpFile($this->getFullPath(), $code);
 
         return $this;
+    }
+
+    protected function createClassNodeWithDocumentComment(ClassStructuralElement $classStructuralElement): Node
+    {
+        $documentComment = $this->createPropertiesDocumentComment($classStructuralElement->getProperties());
+        $class = $classStructuralElement->getNode();
+
+        $class->setDocComment(new Comment\Doc($documentComment));
+
+        return $class;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array<PropertyStructuralElement> $properties
+     */
+    protected function createPropertiesDocumentComment(array $properties): string
+    {
+        $tags = array_map(static fn (PropertyStructuralElement $property): string => (
+            " * @property {$property->getType()} \${$property->getName()}"
+        ), $properties);
+
+        return "/**\n" . implode("\n", $tags) . "\n */";
+    }
+
+    protected function getFullPath(): string
+    {
+        return getcwd() . '/' . $this->outputPath;
     }
 }

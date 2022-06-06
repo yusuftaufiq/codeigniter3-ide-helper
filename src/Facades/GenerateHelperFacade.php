@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Facades;
 
 use Haemanthus\CodeIgniter3IdeHelper\Application;
@@ -59,6 +61,11 @@ class GenerateHelperFacade
         return $this;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array<string> $patterns
+     */
     public function withPatterns(array $patterns): self
     {
         $this->reader->setPatterns($patterns);
@@ -78,6 +85,26 @@ class GenerateHelperFacade
         $this->input->setInteractive($interactive);
 
         return $this;
+    }
+
+    public function generate(): int
+    {
+        if ($this->checkDirectory() === false) {
+            return SillyCommand::FAILURE;
+        }
+
+        $structuralElements = array_merge(
+            $this->parser->parseAutoloadFile($this->reader->getAutoloadFile()),
+            $this->parser->parseClassFiles($this->reader->getClassFiles()),
+        );
+
+        $this->writer->write($structuralElements);
+
+        $this->output->writeln(
+            "<fg=green>[i] Successfully generated IDE helper file to {$this->writer->getOutputPath()}</>",
+        );
+
+        return SillyCommand::SUCCESS;
     }
 
     protected function checkDirectory(): bool
@@ -114,25 +141,5 @@ class GenerateHelperFacade
         }
 
         return true;
-    }
-
-    public function generate(): int
-    {
-        if ($this->checkDirectory() === false) {
-            return SillyCommand::FAILURE;
-        }
-
-        $structuralElements = array_merge(
-            $this->parser->parseAutoloadFile($this->reader->getAutoloadFile()),
-            $this->parser->parseClassFiles($this->reader->getClassFiles()),
-        );
-
-        $this->writer->write($structuralElements);
-
-        $this->output->writeln(
-            "<fg=green>[i] Successfully generated IDE helper file to {$this->writer->getOutputPath()}</>",
-        );
-
-        return SillyCommand::SUCCESS;
     }
 }

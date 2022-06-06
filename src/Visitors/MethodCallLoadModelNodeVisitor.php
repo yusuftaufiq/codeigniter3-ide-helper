@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Visitors;
 
 use PhpParser\Node;
@@ -7,15 +9,6 @@ use PhpParser\NodeTraverser;
 
 class MethodCallLoadModelNodeVisitor extends NodeVisitor
 {
-    use MethodCallChecker {
-        isMethodCallThisLoad as protected;
-    }
-
-    protected function isMethodCallThisLoadModel(Node $node): bool
-    {
-        return $this->isMethodCallThisLoad($node) && $node->name->toString() === 'model';
-    }
-
     public function enterNode(Node $node)
     {
         if ($this->isMethodCallThisLoadModel($node)) {
@@ -25,5 +18,10 @@ class MethodCallLoadModelNodeVisitor extends NodeVisitor
         }
 
         return parent::enterNode($node);
+    }
+
+    protected function isMethodCallThisLoadModel(Node $node): bool
+    {
+        return $this->isMethodCallThisLoad($node) && $node->name->toString() === 'model';
     }
 }

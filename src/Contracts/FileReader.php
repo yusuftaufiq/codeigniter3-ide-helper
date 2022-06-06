@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haemanthus\CodeIgniter3IdeHelper\Contracts;
 
 use Symfony\Component\Finder\SplFileInfo;
@@ -10,6 +12,11 @@ interface FileReader
 
     public function setFileDirectory(string $fileDirectory): self;
 
+    /**
+     * Undocumented function
+     *
+     * @param array<string> $patterns
+     */
     public function setPatterns(array $patterns): self;
 
     public function getFirstFile(): ?SplFileInfo;
@@ -19,7 +26,7 @@ interface FileReader
     /**
      * Undocumented function
      *
-     * @return array<\Symfony\Component\Finder\SplFileInfo>
+     * @return array<SplFileInfo>
      */
     public function getFiles(): array;
 }
