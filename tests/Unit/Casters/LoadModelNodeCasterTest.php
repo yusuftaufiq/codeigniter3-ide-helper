@@ -3,16 +3,18 @@
 namespace Tests\Unit\Casters;
 
 use Haemanthus\CodeIgniter3IdeHelper\Casters\MethodCallNodeCaster;
-use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
 use PhpParser\Node;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
+use Tests\Fixture\StructuralElementAssertion;
 
 class LoadModelNodeCasterTest extends TestCase
 {
+    use StructuralElementAssertion;
+
     private Parser $parser;
 
     private MethodCallNodeCaster $caster;
@@ -21,16 +23,6 @@ class LoadModelNodeCasterTest extends TestCase
     {
         $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $this->caster = (new NodeCasterFactory())->create(NodeVisitorType::methodCallLoadModel());
-    }
-
-    private function assertPropertyStructuralElement(
-        PropertyStructuralElement $element,
-        string $type,
-        string $name
-    ): void {
-        $this->assertInstanceOf(PropertyStructuralElement::class, $element);
-        $this->assertEquals($type, $element->getType());
-        $this->assertEquals($name, $element->getName());
     }
 
     /**
