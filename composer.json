@@ -47,6 +47,12 @@
         "psy/psysh": "@stable",
         "symfony/var-dumper": "^5.4",
         "phpunit/phpunit": "^9.5",
-        "spatie/phpunit-snapshot-assertions": "^4.2"
+        "spatie/phpunit-snapshot-assertions": "^4.2",
+        "nunomaduro/phpinsights": "^2.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
