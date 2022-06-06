@@ -59,7 +59,7 @@ abstract class NodeCaster implements NodeCasterContract
         return new PropertyStructuralElement($propertyName, $propertyType);
     }
 
-    public function isArgumentsTypeExpressionArray(array $args): bool
+    protected function isArgumentsTypeExpressionArray(array $args): bool
     {
         return array_reduce($args, fn (bool $carry, Node\Arg $arg): bool => (
             ($arg->name === null || $arg->name instanceof Node\Identifier)

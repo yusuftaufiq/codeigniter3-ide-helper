@@ -26,16 +26,6 @@ class MethodCallNodeManager
         $this->aliasParameterPosition = $aliasParameterPosition;
     }
 
-    public function getClassParameterName(): string
-    {
-        return $this->classParameterName;
-    }
-
-    public function getAliasParameterName(): string
-    {
-        return $this->aliasParameterName;
-    }
-
     public function getClassParameterPosition(): int
     {
         return $this->classParameterPosition;

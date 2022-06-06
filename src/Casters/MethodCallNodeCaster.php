@@ -3,6 +3,7 @@
 namespace Haemanthus\CodeIgniter3IdeHelper\Casters;
 
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\ClassNameMapper;
+use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use PhpParser\Node;
 
 class MethodCallNodeCaster extends NodeCaster
@@ -17,6 +18,13 @@ class MethodCallNodeCaster extends NodeCaster
         $this->nodeManager = $nodeManager;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Node $node
+     *
+     * @return array<PropertyStructuralElement>
+     */
     public function cast(Node $node): array
     {
         $args = $node instanceof Node\Expr\MethodCall ? $node->getArgs() : [];
@@ -42,6 +50,6 @@ class MethodCallNodeCaster extends NodeCaster
                 break;
         }
 
-        return $propertyStructuralElements;
+        return array_filter($propertyStructuralElements);
     }
 }

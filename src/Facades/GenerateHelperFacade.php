@@ -130,7 +130,7 @@ class GenerateHelperFacade
         $this->writer->write($structuralElements);
 
         $this->output->writeln(
-            "<fg=green>[i]</> Successfully generated IDE helper file to {$this->writer->getOutputPath()}",
+            "<fg=green>[i] Successfully generated IDE helper file to {$this->writer->getOutputPath()}</>",
         );
 
         return SillyCommand::SUCCESS;

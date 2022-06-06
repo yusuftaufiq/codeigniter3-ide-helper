@@ -70,14 +70,13 @@ class GenerateHelperCommand implements Command
         InputInterface $input,
         OutputInterface $output
     ): int {
-        $this->facade
+        return $this->facade
             ->setInput($input)
             ->setOutput($output)
             ->withDirectory($dir)
             ->withPatterns($pattern)
             ->withOutputPath($outputPath)
-            ->setInteractive(!$noInteraction);
-
-        return $this->facade->generate();
+            ->setInteractive(!$noInteraction)
+            ->generate();
     }
 }

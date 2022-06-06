@@ -10,11 +10,6 @@ abstract class NodeVisitor extends NodeVisitorAbstract implements NodeVisitorCon
 {
     protected array $nodes = [];
 
-    public function getFirstFoundNode(): ?Node
-    {
-        return $this->nodes[0] ?? null;
-    }
-
     public function getFoundNodes(): array
     {
         return $this->nodes;
