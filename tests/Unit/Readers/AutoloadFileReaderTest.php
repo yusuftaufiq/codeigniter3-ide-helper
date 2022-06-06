@@ -31,6 +31,6 @@ class AutoloadFileReaderTest extends TestCase
         $this->finder->expects($this->once())->method('name')->with('autoload.php');
         $this->finder->expects($this->once())->method('getIterator')->willReturn(new \ArrayObject());
 
-        $this->reader->getFiles();
+        $this->assertSame([], $this->reader->getFiles());
     }
 }

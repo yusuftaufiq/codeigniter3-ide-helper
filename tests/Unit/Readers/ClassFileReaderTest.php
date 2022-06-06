@@ -41,6 +41,6 @@ class ClassFileReaderTest extends TestCase
         $this->finder->expects($this->once())->method('getIterator')->willReturn(new \ArrayObject());
 
         $this->reader->setPatterns($patterns);
-        $this->reader->getFiles();
+        $this->assertSame([], $this->reader->getFiles());
     }
 }

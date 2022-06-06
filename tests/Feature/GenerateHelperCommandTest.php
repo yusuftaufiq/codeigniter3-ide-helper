@@ -27,8 +27,6 @@ class GenerateHelperCommandTest extends TestCase
         $this->setUpSillyApplication();
 
         $this->spyOutput = $this->container->get(SpyOutput::class);
-
-        $this->container->set(OutputInterface::class, $this->spyOutput);
         $this->container->set(\Silly\Application::class, $this->silly);
 
         /** @var GenerateHelperCommand */

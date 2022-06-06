@@ -15,7 +15,7 @@ trait WithFileReader
 
     private MockObject $fs;
 
-    public function setUpFileReader(): void
+    private function setUpFileReader(): void
     {
         $this->finderFactory = $this->createStub(FileFinderFactory::class);
         $this->finder = $this->createMock(Finder::class);

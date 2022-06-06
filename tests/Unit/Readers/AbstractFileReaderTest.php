@@ -38,6 +38,6 @@ class AbstractFileReaderTest extends TestCase
             ->with($this->stringEndsWith('./tests/stubs/test_files/./application/core/'))
             ->willReturn(true);
 
-        $this->reader->isDirectoryExists();
+        $this->assertTrue($this->reader->isDirectoryExists());
     }
 }
