@@ -6,6 +6,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Providers;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use DI\Definition\Helper\AutowireDefinitionHelper;
 use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\FileWriter as FileWriterContract;
 use Haemanthus\CodeIgniter3IdeHelper\Writers\FileWriter;
@@ -24,7 +25,7 @@ class AppServiceProvider
     /**
      * Undocumented function
      *
-     * @return array
+     * @return array<string, callable|AutowireDefinitionHelper>
      */
     public static function definitions(): array
     {

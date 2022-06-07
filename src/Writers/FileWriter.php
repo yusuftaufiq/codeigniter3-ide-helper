@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FileWriter implements FileWriterContract
 {
-    protected ?string $outputPath = null;
+    protected string $outputPath = '_ide_helper.php';
 
     protected PrettyPrinter\Standard $printer;
 

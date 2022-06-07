@@ -120,13 +120,13 @@ class AutoloadFileParser extends FileParser
     /**
      * Undocumented function
      *
-     * @param array<Node\Expr\Assign> $nodes
+     * @param array<Node> $nodes
      *
      * @return array<PropertyStructuralElement>
      */
     protected function parseAutoloadLibraryNodes(array $nodes): array
     {
-        return array_reduce($nodes, fn (array $carry, Node\Expr\Assign $node): array => (
+        return array_reduce($nodes, fn (array $carry, Node $node): array => (
             array_merge($carry, $this->assignAutoloadLibraryNodeCaster->cast($node))
         ), []);
     }
@@ -134,13 +134,13 @@ class AutoloadFileParser extends FileParser
     /**
      * Undocumented function
      *
-     * @param array<Node\Expr\Assign> $nodes
+     * @param array<Node> $nodes
      *
      * @return array<PropertyStructuralElement>
      */
     protected function parseAutoloadModelNodes(array $nodes): array
     {
-        return array_reduce($nodes, fn (array $carry, Node\Expr\Assign $node): array => (
+        return array_reduce($nodes, fn (array $carry, Node $node): array => (
             array_merge($carry, $this->assignAutoloadModelNodeCaster->cast($node))
         ), []);
     }

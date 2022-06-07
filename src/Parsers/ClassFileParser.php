@@ -7,6 +7,7 @@ namespace Haemanthus\CodeIgniter3IdeHelper\Parsers;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeCaster;
 use Haemanthus\CodeIgniter3IdeHelper\Contracts\NodeVisitor;
 use Haemanthus\CodeIgniter3IdeHelper\Elements\ClassStructuralElement;
+use Haemanthus\CodeIgniter3IdeHelper\Elements\PropertyStructuralElement;
 use Haemanthus\CodeIgniter3IdeHelper\Enums\NodeVisitorType;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeCasterFactory;
 use Haemanthus\CodeIgniter3IdeHelper\Factories\NodeTraverserFactory;
@@ -51,20 +52,27 @@ class ClassFileParser extends FileParser
         $loadLibraryNodes = $this->methodCallLoadLibraryNodeVisitor->getFoundNodes();
         $loadModelNodes = $this->methodCallLoadModelNodeVisitor->getFoundNodes();
 
-        return array_map(function (Node\Stmt\Class_ $classNode) use (
+        return array_reduce($this->classNodeVisitor->getFoundNodes(), function (
+            array $carry,
+            Node $node
+        ) use (
             $loadLibraryNodes,
             $loadModelNodes
-        ): ClassStructuralElement {
+        ): array {
+            if ($node instanceof Node\Stmt\Class_ === false) {
+                return $carry;
+            }
+
             $loadLibraryStructuralElements = $this->parseLoadLibraryNodes(
-                $this->filterNodesWithSameClass($loadLibraryNodes, $classNode)
+                $this->filterNodesWithSameClass($loadLibraryNodes, $node)
             );
             $loadModelStructuralElements = $this->parseLoadModelNodes(
-                $this->filterNodesWithSameClass($loadModelNodes, $classNode)
+                $this->filterNodesWithSameClass($loadModelNodes, $node)
             );
             $structuralElements = array_merge($loadLibraryStructuralElements, $loadModelStructuralElements);
 
-            return new ClassStructuralElement($classNode, $structuralElements);
-        }, $this->classNodeVisitor->getFoundNodes());
+            return array_merge($carry, [new ClassStructuralElement($node, $structuralElements)]);
+        }, []);
     }
 
     protected function setNodeVisitor(NodeVisitorFactory $nodeVisitor): self
@@ -94,13 +102,13 @@ class ClassFileParser extends FileParser
     /**
      * Undocumented function
      *
-     * @param array<Node\Expr\MethodCall> $nodes
+     * @param array<Node> $nodes
      *
      * @return array<PropertyStructuralElement>
      */
     protected function parseLoadLibraryNodes(array $nodes): array
     {
-        return array_reduce($nodes, fn (array $carry, Node\Expr\MethodCall $node): array => (
+        return array_reduce($nodes, fn (array $carry, Node $node): array => (
             array_merge($carry, $this->loadLibraryNodeCaster->cast($node))
         ), []);
     }
@@ -108,13 +116,13 @@ class ClassFileParser extends FileParser
     /**
      * Undocumented function
      *
-     * @param array<Node\Expr\MethodCall> $nodes
+     * @param array<Node> $nodes
      *
      * @return array<PropertyStructuralElement>
      */
     protected function parseLoadModelNodes(array $nodes): array
     {
-        return array_reduce($nodes, fn (array $carry, Node\Expr\MethodCall $node): array => (
+        return array_reduce($nodes, fn (array $carry, Node $node): array => (
             array_merge($carry, $this->loadModelNodeCaster->cast($node))
         ), []);
     }

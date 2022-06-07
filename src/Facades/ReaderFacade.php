@@ -76,6 +76,11 @@ class ReaderFacade
         return $this->autoloadReader->getFirstFile();
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array<SplFileInfo>
+     */
     public function getClassFiles(): array
     {
         return array_merge(

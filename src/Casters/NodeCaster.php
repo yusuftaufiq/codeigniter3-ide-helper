@@ -26,9 +26,7 @@ abstract class NodeCaster implements NodeCasterContract
     protected function isArgumentsTypeScalarString(array $args): bool
     {
         return array_reduce($args, static fn (bool $carry, Node\Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Node\Identifier)
-            && $arg->value instanceof Node\Scalar\String_
-            && $carry
+            $arg->value instanceof Node\Scalar\String_ && $carry
         ), true);
     }
 
@@ -65,9 +63,7 @@ abstract class NodeCaster implements NodeCasterContract
     protected function isArgumentsTypeExpressionArray(array $args): bool
     {
         return array_reduce($args, static fn (bool $carry, Node\Arg $arg): bool => (
-            ($arg->name === null || $arg->name instanceof Node\Identifier)
-            && $arg->value instanceof Node\Expr\Array_
-            && $carry
+            $arg->value instanceof Node\Expr\Array_ && $carry
         ), true);
     }
 
@@ -103,7 +99,9 @@ abstract class NodeCaster implements NodeCasterContract
         }
 
         return array_map(
-            fn (Node\Expr\ArrayItem $item): ?PropertyStructuralElement => $this->castExpressionArrayItem($item),
+            fn (?Node\Expr\ArrayItem $item): ?PropertyStructuralElement => (
+                $item !== null ? $this->castExpressionArrayItem($item) : null
+            ),
             $args[$classParameterPosition]->value->items,
         );
     }

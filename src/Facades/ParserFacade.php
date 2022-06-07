@@ -23,8 +23,12 @@ class ParserFacade
      *
      * @return array<ClassStructuralElement>
      */
-    public function parseAutoloadFile(SplFileInfo $file): array
+    public function parseAutoloadFile(?SplFileInfo $file): array
     {
+        if ($file === null) {
+            return [];
+        }
+
         return $this->fileParser
             ->create(FileType::autoload())
             ->parse($file->getContents());

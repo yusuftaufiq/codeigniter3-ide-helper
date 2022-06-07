@@ -120,8 +120,8 @@ class GenerateHelperFacade
 
             $question = new Question(
                 $this->removeNewLines(<<<EOT
-                <fg=blue>[?]</> Please type the correct CodeIgniter 3 directory </>
-                <comment>[{$this->reader->getRootDirectory()}]</>:
+                <fg=blue>[?]</> Please type the correct CodeIgniter 3 directory</>
+                <comment>[{$this->reader->getRootDirectory()}]</>: 
                 EOT),
                 $this->reader->getRootDirectory(),
             );
@@ -148,6 +148,6 @@ class GenerateHelperFacade
 
     protected function removeNewLines(string $text): string
     {
-        return preg_replace('/\s+/', ' ', $text);
+        return (string) preg_replace('/\s+/', ' ', $text);
     }
 }

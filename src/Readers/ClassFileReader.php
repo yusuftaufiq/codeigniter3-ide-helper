@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haemanthus\CodeIgniter3IdeHelper\Readers;
 
+use Symfony\Component\Finder\SplFileInfo;
+
 /**
  * Undocumented class
  */
