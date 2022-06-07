@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 use Haemanthus\CodeIgniter3IdeHelper\Application;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\StartVarDumperCommand;

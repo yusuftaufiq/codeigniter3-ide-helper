@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fixtures;
 
 use Symfony\Component\Console\Output\Output;
