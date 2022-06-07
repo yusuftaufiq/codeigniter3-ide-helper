@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  laravel-tests:
+  phpunit-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
         uses: ./.github/actions/composer-install
 
       - name: Execute unit and feature tests via PHP Unit
-        run: php artisan test --coverage-clover=./coverage.xml
+        run: ./vendor/bin/phpunit --coverage-clover=./coverage.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
