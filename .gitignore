@@ -1,5 +1,5 @@
 /vendor/
-/composer.lock
 /dump.html
-/tmp
+/tmp/
+/cov/
 .phpunit.result.cache
