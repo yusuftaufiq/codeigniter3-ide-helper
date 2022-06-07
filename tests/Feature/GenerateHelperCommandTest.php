@@ -48,11 +48,6 @@ class GenerateHelperCommandTest extends TestCase
             "Successfully generated IDE helper file to {$outputFilePath}",
             $this->spyOutput->getOutput(),
         );
-
-        echo 'ACTUAL ' . $outputFilePath . PHP_EOL . PHP_EOL;
-        var_dump(file_get_contents($outputFilePath));
-        echo PHP_EOL . PHP_EOL;
-
         $this->assertMatchesFileSnapshot($outputFilePath);
     }
 
