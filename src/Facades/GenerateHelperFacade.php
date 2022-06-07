@@ -119,7 +119,10 @@ class GenerateHelperFacade
             );
 
             $question = new Question(
-                "<fg=blue>[?]</> Please type the correct CodeIgniter 3 directory </><comment>[{$this->reader->getRootDirectory()}]</>: ",
+                $this->removeNewLines(<<<EOT
+                <fg=blue>[?]</> Please type the correct CodeIgniter 3 directory </>
+                <comment>[{$this->reader->getRootDirectory()}]</>:
+                EOT),
                 $this->reader->getRootDirectory(),
             );
             $newDirectory = $this->question->ask($this->input, $this->output, $question);
@@ -135,11 +138,16 @@ class GenerateHelperFacade
             Please try again or submit the issue to our <href=${repository}>repository</>.
             EOT;
 
-            $this->output->writeln(preg_replace('/\s+/', ' ', $message));
+            $this->output->writeln($this->removeNewLines($message));
 
             return false;
         }
 
         return true;
+    }
+
+    protected function removeNewLines(string $text): string
+    {
+        return preg_replace('/\s+/', ' ', $text);
     }
 }

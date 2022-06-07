@@ -44,7 +44,10 @@ class GenerateHelperCommandTest extends TestCase
     private function assertSuccessfulCommand(int $statusCode, string $outputFilePath): void
     {
         $this->assertSame(\Silly\Command\Command::SUCCESS, $statusCode);
-        $this->assertStringContainsString("Successfully generated IDE helper file to {$outputFilePath}", $this->spyOutput->getOutput());
+        $this->assertStringContainsString(
+            "Successfully generated IDE helper file to {$outputFilePath}",
+            $this->spyOutput->getOutput(),
+        );
         $this->assertMatchesFileSnapshot($outputFilePath);
     }
 
@@ -75,7 +78,13 @@ class GenerateHelperCommandTest extends TestCase
         $outputFilePath = './tmp/_ide_helper_it_should_only_generate_filtered_files.php';
 
         $statusCode = $this->silly->run(
-            new StringInput("generate --dir ./tests/stubs/test_files/ --output-path ${outputFilePath} --pattern AuthController --pattern User"),
+            new StringInput(<<<EOT
+            generate
+                --dir ./tests/stubs/test_files/
+                --output-path ${outputFilePath}
+                --pattern AuthController
+                --pattern User
+            EOT),
             $this->spyOutput,
         );
 
@@ -99,7 +108,10 @@ class GenerateHelperCommandTest extends TestCase
         $statusCode = $this->silly->run($input, $this->spyOutput);
 
         $this->assertStringContainsString("CodeIgniter 3 directory can't be found.", $this->spyOutput->getOutput());
-        $this->assertStringContainsString("Please type the correct CodeIgniter 3 directory", $this->spyOutput->getOutput());
+        $this->assertStringContainsString(
+            "Please type the correct CodeIgniter 3 directory",
+            $this->spyOutput->getOutput(),
+        );
         $this->assertSuccessfulCommand($statusCode, $outputFilePath);
     }
 
@@ -113,6 +125,9 @@ class GenerateHelperCommandTest extends TestCase
         $statusCode = $this->silly->run(new StringInput('generate --no-interaction'), $this->spyOutput);
 
         $this->assertSame(\Silly\Command\Command::FAILURE, $statusCode);
-        $this->assertStringContainsString("Unfortunately, we still can't find your CodeIgniter 3 directory.", $this->spyOutput->getOutput());
+        $this->assertStringContainsString(
+            "Unfortunately, we still can't find your CodeIgniter 3 directory.",
+            $this->spyOutput->getOutput(),
+        );
     }
 }

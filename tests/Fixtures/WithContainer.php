@@ -13,7 +13,7 @@ trait WithContainer
     private Container $container;
 
     private function setUpContainer(): void
-    {        
+    {
         $builder = new ContainerBuilder();
         $builder->addDefinitions(AppServiceProvider::definitions());
 

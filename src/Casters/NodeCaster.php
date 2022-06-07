@@ -50,7 +50,7 @@ abstract class NodeCaster implements NodeCasterContract
         }
 
         $className = $args[$classParameterPosition]->value->value;
-        $propertyAlias = array_key_exists($aliasParameterPosition, $args) === true ? $args[$aliasParameterPosition]->value->value : null;
+        $propertyAlias = $args[$aliasParameterPosition]->value->value ?? null;
         $propertyName = $this->classNameMapper->concreteNameOf($propertyAlias ?? $className);
         $propertyType = $this->classNameMapper->concreteClassOf($className);
 
