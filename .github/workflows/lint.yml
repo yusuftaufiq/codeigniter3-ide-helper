@@ -1,0 +1,58 @@
+name: Lint Codebase
+
+on:
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: phpstan
+
+      - uses: actions/checkout@v3
+
+      - name: Install composer dependencies
+        uses: ./.github/actions/composer-install
+
+      - name: Run PHP Stan
+        run: phpstan analyze --configuration=phpstan.neon
+
+  phpcs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: cs2pr, phpcs
+
+      - uses: actions/checkout@v3
+
+      - name: Install composer dependencies
+        uses: ./.github/actions/composer-install
+
+      - name: Run PHP Code Sniffer
+        run: phpcs -q --standard=phpcs.xml --report=checkstyle | cs2pr
+
+  phpinsights:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+
+      - uses: actions/checkout@v3
+
+      - name: Install composer dependencies
+        uses: ./.github/actions/composer-install
+
+      - name: Run PHP Insights
+        run: vendor/bin/phpinsights -n --ansi --format=github-action

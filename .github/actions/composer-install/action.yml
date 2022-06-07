@@ -1,0 +1,21 @@
+name: Install Composer Dependencies
+
+runs:
+  using: composite
+
+  steps:
+    - name: Validate composer configuration
+      shell: bash
+      run: composer validate
+
+    - uses: actions/cache@v3
+      id: composer-cache
+      with:
+        path: ./vendor/
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: composer install --quiet --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
