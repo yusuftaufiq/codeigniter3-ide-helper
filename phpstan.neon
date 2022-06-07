@@ -1,0 +1,17 @@
+parameters:
+    scanFiles:
+        - ./bin/ide-helper
+    paths:
+        - ./src
+    level: 7
+    ignoreErrors:
+        -
+            message: '#Access to an undefined property PhpParser\\Node\:\:\$var\.#'
+            paths:
+                - ./src/Visitors/AssignAutoloadLibraryNodeVisitor.php
+                - ./src/Visitors/AssignAutoloadModelNodeVisitor.php
+        -
+            message: '#Access to an undefined property PhpParser\\Node\:\:\$name\.#'
+            paths:
+                - ./src/Visitors/MethodCallLoadLibraryNodeVisitor.php
+                - ./src/Visitors/MethodCallLoadModelNodeVisitor.php
