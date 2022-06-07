@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+		"ikappas.phpcs",
+		"bmewburn.vscode-intelephense-client"
+    ]
+}
