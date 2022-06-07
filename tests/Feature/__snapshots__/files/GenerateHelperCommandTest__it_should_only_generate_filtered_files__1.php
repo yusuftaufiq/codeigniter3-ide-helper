@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @property CI_Encryption $encrypt
+ */
+class AuthController extends MY_Controller
+{
+}
+/**
  * @property CI_Session $session
  * @property CI_Email $email
  * @property CI_User_agent $ua
@@ -46,12 +52,6 @@ class CI_Controller
  * @property CI_URI $uri
  */
 class CI_Model
-{
-}
-/**
- * @property CI_Encryption $encrypt
- */
-class AuthController extends MY_Controller
 {
 }
 /**
