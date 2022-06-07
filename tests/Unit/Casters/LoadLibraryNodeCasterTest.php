@@ -80,7 +80,11 @@ class LoadLibraryNodeCasterTest extends TestCase
         $gateLibraryPropertyStructuralElements = $this->caster->cast($nodes[1]->expr);
 
         $this->assertArrayHasKey(0, $formValidationLibraryPropertyStructuralElements);
-        $this->assertPropertyStructuralElement($formValidationLibraryPropertyStructuralElements[0], 'CI_Form_validation', 'formValidation');
+        $this->assertPropertyStructuralElement(
+            $formValidationLibraryPropertyStructuralElements[0],
+            'CI_Form_validation',
+            'formValidation',
+        );
         $this->assertArrayHasKey(0, $gateLibraryPropertyStructuralElements);
         $this->assertPropertyStructuralElement($gateLibraryPropertyStructuralElements[0], 'Gate', 'gate');
     }

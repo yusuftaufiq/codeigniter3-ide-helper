@@ -29,7 +29,11 @@ class AutoloadFileReaderTest extends TestCase
     public function it_should_find_files_with_correct_directory(): void
     {
         $this->finder->expects($this->once())->method('files')->willReturnSelf();
-        $this->finder->expects($this->once())->method('in')->with($this->stringEndsWith('./application/config/'))->willReturnSelf();
+        $this->finder
+            ->expects($this->once())
+            ->method('in')
+            ->with($this->stringEndsWith('./application/config/'))
+            ->willReturnSelf();
         $this->finder->expects($this->once())->method('name')->with('autoload.php');
         $this->finder->expects($this->once())->method('getIterator')->willReturn(new \ArrayObject());
 
