@@ -8,12 +8,17 @@ on:
 
 jobs:
   phpunit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        php-versions: ["7.4", "8.0", "8.1"]
 
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: ${{ matrix.php-versions }}
           coverage: xdebug
 
       - uses: actions/checkout@v3
@@ -27,7 +32,6 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
           flags: unittests, featuretests
           fail_ci_if_error: true
