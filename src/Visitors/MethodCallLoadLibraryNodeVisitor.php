@@ -9,6 +9,11 @@ use PhpParser\NodeTraverser;
 
 class MethodCallLoadLibraryNodeVisitor extends NodeVisitor
 {
+    /**
+     * Undocumented function
+     *
+     * @return int|Node|null
+     */
     public function enterNode(Node $node)
     {
         if ($this->isMethodCallThisLoadLibrary($node)) {

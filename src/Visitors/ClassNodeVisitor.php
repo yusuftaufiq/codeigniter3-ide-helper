@@ -9,6 +9,11 @@ use PhpParser\Node\Stmt\Class_;
 
 class ClassNodeVisitor extends NodeVisitor
 {
+    /**
+     * Undocumented function
+     *
+     * @return int|Node|null
+     */
     public function enterNode(Node $node)
     {
         if ($node instanceof Class_) {

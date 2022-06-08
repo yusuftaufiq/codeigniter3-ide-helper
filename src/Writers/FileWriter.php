@@ -47,9 +47,9 @@ class FileWriter implements FileWriterContract
      */
     public function write(array $classStructuralElements): self
     {
-        usort($classStructuralElements, function (ClassStructuralElement $a, ClassStructuralElement $b) {
-            return $a->getNode()->name->name <=> $b->getNode()->name->name;
-        });
+        usort($classStructuralElements, static fn (ClassStructuralElement $a, ClassStructuralElement $b) => (
+            $a->getNode()->name->name <=> $b->getNode()->name->name
+        ));
 
         $classNodes = array_map(fn (ClassStructuralElement $classStructuralElement): Node => (
             $this->createClassNodeWithDocumentComment($classStructuralElement)
