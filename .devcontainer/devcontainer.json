@@ -4,7 +4,7 @@
         "dockerfile": "Dockerfile",
         "args": {
             "VARIANT": "7.4-bullseye",
-            "NODE_VERSION": "none"
+			"NODE_VERSION": "16"	
         }
     },
     "settings": {
@@ -21,6 +21,7 @@
         "source=vscode-insiders-extensions,target=/home/vscode/.vscode-server-insiders/extensions,type=volume"
 	],
 	"extensions": [
+		"xdebug.php-debug",
 		"ikappas.phpcs",
 		"bmewburn.vscode-intelephense-client"
 	]
