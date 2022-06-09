@@ -1,0 +1,17 @@
+plugins:
+  - - "@semantic-release/commit-analyzer"
+  - - "@semantic-release/release-notes-generator"
+  - - "@semantic-release/github"
+  - - "@semantic-release/changelog"
+    - changelogFile: CHANGELOG.md
+  - - "@semantic-release/exec"
+    - prepareCmd: "npx replace-in-file \
+        \"/public const APP_VERSION = '(.*?)';/i\" \
+        \"public const APP_VERSION = '${nextRelease.version}';\" \
+        ./src/Application.php \
+        --isRegex"
+  - - "@semantic-release/git"
+    - assets:
+        - CHANGELOG.md
+        - ./src/Application.php
+      message: "chore(release): new release ${nextRelease.version}"
