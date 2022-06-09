@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.2...v1.0.3) (2022-06-09)
+
+
+### Bug Fixes
+
+* **release:** revert ci and update secret token ([e12096d](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/e12096d6d9754ca69a7c31a70bf1c50489e89f08))
+
 ## [1.0.2](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.1...v1.0.2) (2022-06-09)
 
 
