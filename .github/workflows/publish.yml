@@ -1,8 +1,10 @@
 name: Publish Package
 
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ['Release Package']
+    types:
+      - completed
 
   workflow_dispatch:
 
@@ -10,6 +12,7 @@ jobs:
   push-to-registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v3
