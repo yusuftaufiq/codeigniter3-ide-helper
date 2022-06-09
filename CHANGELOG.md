@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.1...v1.0.2) (2022-06-09)
+
+
+### Bug Fixes
+
+* **tmp:** add empty temporary folder ([652680e](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/652680ed0bb3035bcf951978484babdd797e8c2e))
+
 ## [1.0.1](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.0...v1.0.1) (2022-06-09)
 
 
