@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.3...v1.0.4) (2022-06-09)
+
+
+### Bug Fixes
+
+* **release:** change workflow events and released tags ([3d7741d](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/3d7741d8f5c19fbe065d9645cfe71fafb89e58fe))
+
 ## [1.0.3](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.2...v1.0.3) (2022-06-09)
 
 
