@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.4...v1.0.5) (2022-06-09)
+
+
+### Bug Fixes
+
+* **release:** revert workflow event ([8d11f66](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/8d11f6608f4eb6856e95cc7555d967bfe9a75599))
+
 ## [1.0.4](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.3...v1.0.4) (2022-06-09)
 
 
