@@ -1,8 +1,11 @@
 name: Publish Package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+    tags:
+      - v*
 
   workflow_dispatch:
 
@@ -25,6 +28,11 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: haemanthus/codeigniter3-ide-helper
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
