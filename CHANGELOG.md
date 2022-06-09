@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.0...v1.0.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* **binary:** fix wrong parent composer autoload directory ([62912b0](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/62912b010e62e598573d7cf7ba2dc1dc9aa8056e))
+
 # 1.0.0 (2022-06-09)
 
 
