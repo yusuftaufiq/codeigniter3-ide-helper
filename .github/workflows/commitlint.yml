@@ -1,4 +1,4 @@
-name: Lint Last Commit Message
+name: Lint Commit Messages
 
 on:
   pull_request:
