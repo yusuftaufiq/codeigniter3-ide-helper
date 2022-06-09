@@ -21,12 +21,16 @@ class GenerateHelperCommandTest extends TestCase
     use WithContainer;
     use WithSillyApplication;
 
+    private Filesystem $fs;
+
     private SpyOutput $spyOutput;
 
     public function setUp(): void
     {
         $this->setUpContainer();
         $this->setUpSillyApplication();
+
+        $this->fs = new Filesystem();
 
         $this->spyOutput = $this->container->get(SpyOutput::class);
         $this->container->set(\Silly\Application::class, $this->silly);
@@ -38,7 +42,14 @@ class GenerateHelperCommandTest extends TestCase
 
     public function tearDown(): void
     {
-        (new Filesystem())->remove('./tmp/');
+        $this->fs->remove('./tmp/');
+    }
+
+    private function replaceEndOfLineSequence(string $outputPath): void
+    {
+        $content = file_get_contents($outputPath);
+
+        $this->fs->dumpFile($outputPath, preg_replace('~\R~u', "\n", $content));
     }
 
     private function assertSuccessfulCommand(int $statusCode, string $outputFilePath): void
@@ -48,11 +59,7 @@ class GenerateHelperCommandTest extends TestCase
             "Successfully generated IDE helper file to {$outputFilePath}",
             $this->spyOutput->getOutput(),
         );
-
-        echo 'ACTUAL ' . $outputFilePath . PHP_EOL . PHP_EOL;
-        var_dump(file_get_contents($outputFilePath));
-        echo PHP_EOL . PHP_EOL;
-
+        $this->replaceEndOfLineSequence($outputFilePath);
         $this->assertMatchesFileSnapshot($outputFilePath);
     }
 
