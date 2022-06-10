@@ -11,7 +11,7 @@ use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
 switch (true) {
     case file_exists(__DIR__ . '/../vendor/autoload.php'):
         $autoload = __DIR__ . '/../vendor/autoload.php';
-        $environment = 'development';
+        $environment = getenv('CI_3_IDE_HELPER') ?: 'development';
         break;
 
     default:
