@@ -13,7 +13,7 @@ class Application
 {
     public const APP_NAME = 'CodeIgniter 3 IDE Helper';
 
-    public const APP_VERSION = '1.0.6';
+    public const APP_VERSION = '1.0.7';
 
     public const APP_REPOSITORY = 'https://github.com/yusuftaufiq/codeigniter3-ide-helper';
 

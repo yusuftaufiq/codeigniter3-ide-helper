@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.6...v1.0.7) (2022-06-10)
+
+
+### Bug Fixes
+
+* **binary:** change condition to set environment ([a67f142](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/a67f14293de502c89b0f7b241db7f5d33c74b7d1))
+
 ## [1.0.6](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.5...v1.0.6) (2022-06-10)
 
 
