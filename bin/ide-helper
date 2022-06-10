@@ -8,21 +8,19 @@ use Haemanthus\CodeIgniter3IdeHelper\Commands\GenerateHelperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Commands\StartVarDumperCommand;
 use Haemanthus\CodeIgniter3IdeHelper\Providers\AppServiceProvider;
 
-define('ENVIRONMENT', getenv('IDE_HELPER_ENV') ?: 'production');
-
 switch (true) {
-    case isset($_composer_autoload_path):
-        $autoload = $_composer_autoload_path;
-        break;
-
     case file_exists(__DIR__ . '/../vendor/autoload.php'):
         $autoload = __DIR__ . '/../vendor/autoload.php';
+        $environment = 'development';
         break;
 
     default:
         $autoload = __DIR__ . '/../../../autoload.php';
+        $environment = 'production';
         break;
 }
+
+define('ENVIRONMENT', $environment);
 
 require_once $autoload;
 

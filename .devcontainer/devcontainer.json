@@ -15,7 +15,6 @@
     "features": {
         "git": "latest"
     },
-    "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
     "mounts": [
         "source=vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
         "source=vscode-insiders-extensions,target=/home/vscode/.vscode-server-insiders/extensions,type=volume"
