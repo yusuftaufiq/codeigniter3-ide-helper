@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.7...v1.0.8) (2022-06-10)
+
+
+### Bug Fixes
+
+* **binary:** add option to override development environment via getenv ([eac50ce](https://github.com/yusuftaufiq/codeigniter3-ide-helper/commit/eac50ce0a01fc6a8f8114c8befa52f1705106c17))
+
 ## [1.0.7](https://github.com/yusuftaufiq/codeigniter3-ide-helper/compare/v1.0.6...v1.0.7) (2022-06-10)
 
 
