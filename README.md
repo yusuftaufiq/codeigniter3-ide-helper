@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper"><img src="./images/ci3-ide-helper-logo.svg"
+  <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper"><img src="https://raw.githubusercontent.com/yusuftaufiq/codeigniter3-ide-helper/main/images/ci3-ide-helper-logo.svg"
       width="300"></a>
 </h1>
 
@@ -51,7 +51,7 @@ Alternatively, you can install this package via Docker if for whatever reason yo
 ## Usage Example
 
 <p align="center">
-  <img width="600" src="./images/ci3-ide-helper-usage.gif">
+  <img width="600" src="https://raw.githubusercontent.com/yusuftaufiq/codeigniter3-ide-helper/main/images/ci3-ide-helper-usage.gif">
 </p>
 
 
