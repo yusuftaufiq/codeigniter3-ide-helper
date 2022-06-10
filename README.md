@@ -30,7 +30,7 @@
 
 CodeIgniter 3 IDE Helper is a CLI application for generating a helper file to provide automatic code completion for your IDE.
 
-IDE helper output is generated based on all the libraries and models you loaded in the [config/autoload.php](https://github.com/bcit-ci/CodeIgniter/blob/master/application/config/autoload), [core](https://github.com/bcit-ci/CodeIgniter/blob/master/application/core), [controllers](https://github.com/bcit-ci/CodeIgniter/blob/master/application/controllers), and [models](https://github.com/bcit-ci/CodeIgniter/blob/master/application/models) folders.
+IDE helper output is generated based on all the libraries and models you loaded in the [`config/autoload.php`](https://github.com/bcit-ci/CodeIgniter/blob/master/application/config/autoload.php), [`core`](https://github.com/bcit-ci/CodeIgniter/blob/master/application/core), [`controllers`](https://github.com/bcit-ci/CodeIgniter/blob/master/application/controllers), and [`models`](https://github.com/bcit-ci/CodeIgniter/blob/master/application/models) folders.
 
 ## Usage
 
@@ -84,7 +84,7 @@ Feel free to contribute, but as this repository release cycle is fully automated
 
   - First, you can run `composer dumper:start`
   - Open a new terminal then run `composer dumper:serve`
-  - Then anywhere inside [src](./src/) folder (except [Application.php](./src/Application.php), [Commands/GenerateHelperCommand.php](./src/Commands/GenerateHelperCommand.php) & [Providers/AppServiceProvider.php](./src/Providers/AppServiceProvider.php) files), you can write `dump($something)` or `dd($something)`
+  - Then anywhere inside [`src`](./src/) folder (except [`Application.php`](./src/Application.php), [`Commands/GenerateHelperCommand.php`](./src/Commands/GenerateHelperCommand.php) & [`Providers/AppServiceProvider.php`](./src/Providers/AppServiceProvider.php) files), you can write `dump($something)` or `dd($something)`
   - See the result by opening [http://localhost:8000](http://localhost:8000) in your browser
 
 - Developing inside a Container with [Visual Studio Code Remote Container](https://code.visualstudio.com/docs/remote/containers).
