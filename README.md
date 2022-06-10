@@ -20,9 +20,6 @@
     <img alt="Packagist Version"
       src="https://img.shields.io/packagist/v/haemanthus/codeigniter3-ide-helper?logo=packagist&style=flat-square">
   </a>
-  <a href="https://hub.docker.com/repository/docker/haemanthus/codeigniter3-ide-helper">
-    <img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/haemanthus/codeigniter3-ide-helper?label=docker%20hub&sort=semver&style=flat-square">
-  </a>
   <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper/blob/main/LICENSE">
     <img alt="License"
       src="https://img.shields.io/github/license/yusuftaufiq/codeigniter3-ide-helper?style=flat-square">
@@ -37,10 +34,6 @@ IDE helper output is generated based on all the libraries and models you loaded 
 
 ## Usage
 
-<p align="center">
-  <img width="600" src="./images/ci3-ide-helper-usage.gif">
-</p>
-
 ### Via Composer
 
 Installation via Composer (require PHP >= 7.4)
@@ -54,6 +47,13 @@ Alternatively, you can install this package via Docker if for whatever reason yo
 
 - Pull latest Docker image with `docker pull haemanthus/codeigniter3-ide-helper`
 - Then, you can use it with `docker run -it --rm -v "$(pwd):/app" haemanthus/codeigniter3-ide-helper generate`
+
+## Usage Example
+
+<p align="center">
+  <img width="600" src="./images/ci3-ide-helper-usage.gif">
+</p>
+
 
 ## Options
 

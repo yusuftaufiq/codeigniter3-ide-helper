@@ -1,6 +1,6 @@
 {
     "name": "haemanthus/codeigniter3-ide-helper",
-    "description": "Dynamically add type hints to your CodeIgniter 3 controllers and models",
+    "description": "CodeIgniter 3 IDE helper generator",
     "type": "library",
     "homepage": "https://github.com/yusuftaufiq/codeigniter3-ide-helper",
     "license": "MIT",
