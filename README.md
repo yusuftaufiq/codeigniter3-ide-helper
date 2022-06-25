@@ -20,6 +20,8 @@
     <img alt="Packagist Version"
       src="https://img.shields.io/packagist/v/haemanthus/codeigniter3-ide-helper?logo=packagist&style=flat-square">
   </a>
+  <a href="https://hub.docker.com/repository/docker/haemanthus/codeigniter3-ide-helper">
+    <img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/haemanthus/codeigniter3-ide-helper?logo=docker&label=docker%20hub&sort=semver&style=flat-square">
   <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper/blob/main/LICENSE">
     <img alt="License"
       src="https://img.shields.io/github/license/yusuftaufiq/codeigniter3-ide-helper?style=flat-square">
