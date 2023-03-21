@@ -6,11 +6,11 @@
 <p align="center">
   <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper/actions/workflows/lint.yml">
     <img alt="Lint Codebase Workflow Status"
-      src="https://img.shields.io/github/workflow/status/yusuftaufiq/codeigniter3-ide-helper/Lint%20Codebase?label=lint&logo=github&style=flat-square">
+      src="https://img.shields.io/github/actions/workflow/status/yusuftaufiq/codeigniter3-ide-helper/lint.yml?branch=main&label=lint&logo=github&style=flat-square">
   </a>
   <a href="https://github.com/yusuftaufiq/codeigniter3-ide-helper/actions/workflows/test.yml">
     <img alt="Test Workflow Status"
-      src="https://img.shields.io/github/workflow/status/yusuftaufiq/codeigniter3-ide-helper/Run%20Tests?label=test&logo=github&style=flat-square">
+      src="https://img.shields.io/github/actions/workflow/status/yusuftaufiq/codeigniter3-ide-helper/test.yml?branch=main&label=test&logo=github&style=flat-square">
   </a>
   <a href="https://codecov.io/gh/yusuftaufiq/codeigniter3-ide-helper">
     <img alt="Code Coverage"
